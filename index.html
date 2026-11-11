@@ -209,14 +209,14 @@
     .tiktok-heading .sec-desc{margin-bottom:0}}
   /* O cartão do TikTok fica nítido desde a abertura, sem depender do reveal por scroll. */
   .tiktok-card.reveal{opacity:1;transform:none;filter:none;transition:box-shadow .3s ease}
-  .tiktok-card{position:relative;max-width:590px;margin:0 auto;padding:3px;border-radius:24px;overflow:hidden;
+  .tiktok-card{position:relative;max-width:520px;margin:0 auto;padding:3px;border-radius:22px;overflow:hidden;
     background:conic-gradient(from var(--tt-angle,0deg),#00f2ea,#111 22%,#ff0050 48%,#00f2ea 72%,#111 86%,#ff0050);
     animation:tiktok-spin 5s linear infinite;box-shadow:0 0 24px rgba(0,242,234,.18),0 0 34px rgba(255,0,80,.16)}
   @property --tt-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
   @keyframes tiktok-spin{to{--tt-angle:360deg}}
-  .tiktok-inner{border-radius:21px;background:linear-gradient(145deg,#08090d,#111018 65%,#08090d);
-    padding:28px;display:flex;align-items:center;gap:22px;text-align:left;position:relative}
-  .tiktok-avatar-wrap{flex:0 0 112px;width:112px;height:112px;border-radius:50%;padding:3px;overflow:hidden;isolation:isolate;
+  .tiktok-inner{border-radius:19px;background:linear-gradient(145deg,#08090d,#111018 65%,#08090d);
+    padding:20px;display:flex;align-items:center;gap:18px;text-align:left;position:relative}
+  .tiktok-avatar-wrap{flex:0 0 96px;width:96px;height:96px;border-radius:50%;padding:3px;overflow:hidden;isolation:isolate;
     background:linear-gradient(135deg,#00f2ea,#111 42%,#ff0050 72%,#00f2ea);
     box-shadow:0 0 18px rgba(0,242,234,.4),0 0 20px rgba(255,0,80,.3)}
   .tiktok-avatar{display:block;width:100%;height:100%;aspect-ratio:1/1;object-fit:cover;object-position:center;border-radius:50%;border:0;outline:2px solid #08090d;outline-offset:-2px;background:#08090d;image-rendering:auto;transform:translateZ(0);backface-visibility:hidden;}
@@ -226,7 +226,7 @@
   .tiktok-metrics{display:flex;gap:26px;flex-wrap:wrap}
   .tiktok-metric strong{display:block;color:#fff;font-family:'Orbitron',sans-serif;font-size:1.15rem}
   .tiktok-metric span{display:block;color:#aaa;font-size:.75rem;text-transform:uppercase;letter-spacing:1.3px}
-  .tiktok-footer{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:14px;margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.09);text-align:center}
+  .tiktok-footer{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:0;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.09);text-align:center}
   .tiktok-status{font-size:.78rem;color:#9b9ba5}
   .tiktok-status::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:#00f2ea;margin-right:7px;box-shadow:0 0 9px #00f2ea}
   @property --tt-button-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
@@ -236,10 +236,10 @@
     background:conic-gradient(from var(--tt-button-angle),#00f2ea,#101014 24%,#ff0050 50%,#00f2ea 76%,#101014);
     animation:tiktok-button-spin 3.5s linear infinite;
     box-shadow:0 0 18px rgba(0,242,234,.2),0 0 22px rgba(255,0,80,.18);transition:transform .2s,box-shadow .2s}
-  .tiktok-link span{display:block;padding:12px 24px;border-radius:10px;background:#050507}
+  .tiktok-link span{display:block;padding:9px 20px;border-radius:10px;background:#050507}
   .tiktok-link:hover{transform:translateY(-3px);box-shadow:0 0 25px rgba(0,242,234,.38),0 0 30px rgba(255,0,80,.3)}
-  @media(max-width:540px){.tiktok-inner{padding:22px 16px;gap:15px;flex-direction:column;text-align:center}
-    .tiktok-avatar-wrap{width:100px;height:100px;flex-basis:100px}.tiktok-metrics{justify-content:center;gap:18px}
+  @media(max-width:540px){.tiktok-inner{padding:18px 14px;gap:12px;flex-direction:column;text-align:center}
+    .tiktok-avatar-wrap{width:88px;height:88px;flex-basis:88px}.tiktok-metrics{justify-content:center;gap:16px}
     .tiktok-handle{font-size:1rem}}
 
 
@@ -248,7 +248,7 @@
   .tiktok-display-name{font-size:1.35rem;font-weight:850;color:#fff}
   .tiktok-name-divider{color:#555}
   .tiktok-name-line .tiktok-handle{font-family:inherit;font-size:1rem;font-weight:500;color:#b8b8c2;margin:0}
-  .tiktok-profile-metrics{gap:22px;margin-bottom:16px}
+  .tiktok-profile-metrics{gap:18px;margin-bottom:12px}
   .tiktok-profile-metrics .tiktok-metric strong{font-family:inherit;font-size:1.12rem}
   .tiktok-profile-metrics .tiktok-metric span{text-transform:none;letter-spacing:0;font-size:.84rem}
   .tiktok-bio{display:grid;gap:5px;color:#e8e8ed;font-size:.92rem;line-height:1.35}
@@ -422,7 +422,6 @@
       </div>
     </div>
     <div class="tiktok-footer">
-      <span class="tiktok-status" id="tt-status">Valores de referência do perfil</span>
       <a class="tiktok-link" href="https://www.tiktok.com/@alanstly" target="_blank" rel="noopener noreferrer"><span>ABRIR TIKTOK ↗</span></a>
     </div>
     </div>
@@ -593,16 +592,14 @@
   // Estatísticas públicas do TikTok via API de terceiros (atualização a cada 5 minutos)
   const formatTikTokNumber = value => new Intl.NumberFormat('pt-BR', { notation:'compact', maximumFractionDigits:1 }).format(value);
   async function updateTikTokStats(){
-    const status = document.getElementById('tt-status');
     try {
       const response = await fetch('/api/tiktok', { cache:'no-store' });
       if (!response.ok) throw new Error('stats unavailable');
       const stats = await response.json();
       document.getElementById('tt-followers').textContent = formatTikTokNumber(stats.followers);
       document.getElementById('tt-likes').textContent = formatTikTokNumber(stats.likes);
-      status.textContent = 'Atualizado em ' + new Date(stats.fetchedAt).toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
     } catch (error) {
-      status.textContent = 'Estatísticas temporariamente indisponíveis';
+      // Mantém os valores de referência exibidos no perfil quando a API estiver indisponível.
     }
   }
   updateTikTokStats();
