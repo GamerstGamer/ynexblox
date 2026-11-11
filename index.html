@@ -440,6 +440,60 @@
   body[data-theme="pink-white"] footer{border-color:#f3c8dc}
   @media(max-width:420px){.theme-menu{width:178px}}
 
+
+  /* ===== MENU DE PÁGINAS ===== */
+  .pages-nav-item{position:relative}
+  .pages-nav-trigger{display:inline-flex;align-items:center;gap:7px;color:var(--muted);text-decoration:none;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-size:.85rem;background:none;border:0;cursor:pointer;font-family:inherit}
+  .pages-nav-trigger:hover,.pages-nav-trigger[aria-expanded="true"]{color:var(--purple-soft)}
+  .pages-nav-menu{position:absolute;top:calc(100% + 18px);left:0;min-width:180px;padding:8px;border:1px solid rgba(168,85,247,.35);border-radius:12px;background:rgba(9,5,18,.97);box-shadow:0 12px 35px rgba(0,0,0,.4),0 0 20px rgba(168,85,247,.12);backdrop-filter:blur(16px);z-index:80}
+  .pages-nav-menu[hidden]{display:none}
+  .pages-nav-menu a{display:block;padding:10px 12px;border-radius:8px;color:var(--text);text-decoration:none;letter-spacing:1px}
+  .pages-nav-menu a:hover{background:rgba(168,85,247,.15);color:var(--purple-soft)}
+  body[data-theme="hacker"] .pages-nav-menu{background:rgba(0,15,6,.98);border-color:rgba(0,255,90,.4)}
+  body[data-theme="pink-white"] .pages-nav-menu{background:rgba(255,250,253,.98);border-color:#efb2ce}
+  body[data-theme="pink-white"] .pages-nav-menu a{color:#75485e}
+  body[data-theme="pink-white"] .pages-nav-menu a:hover{background:#ffe1ee;color:#c42b75}
+
+  /* ===== PÁGINA ROBLOX E LOADING ===== */
+  #home-page-content[hidden],#roblox-page[hidden]{display:none!important}
+  .roblox-page{min-height:calc(100vh - 76px);padding:120px 6vw 80px;max-width:1250px;margin:0 auto}
+  .roblox-page-heading{text-align:center;margin-bottom:38px}
+  .roblox-page-heading h1{font-size:clamp(2.5rem,8vw,5rem);margin-bottom:14px}
+  .roblox-page-heading p{color:var(--muted);font-size:1.1rem}
+  .roblox-placeholder{max-width:850px;margin:0 auto;padding:46px 28px;text-align:center;border:1px solid rgba(168,85,247,.3);border-radius:20px;background:linear-gradient(145deg,rgba(24,12,44,.72),rgba(9,5,18,.9));box-shadow:0 0 35px rgba(168,85,247,.1)}
+  .roblox-placeholder strong{display:block;font:700 1.2rem 'Orbitron',sans-serif;letter-spacing:2px;margin-bottom:12px}
+  .roblox-placeholder p{color:var(--muted);font-size:1rem}
+  .roblox-loading{position:fixed;inset:0;z-index:500;background:rgba(3,3,10,.97);display:grid;place-items:center;opacity:1;visibility:visible;transition:opacity .45s ease,visibility .45s ease}
+  .roblox-loading.done{opacity:0;visibility:hidden;pointer-events:none}
+  .loader{--main-size:4em;--text-color:#fff;--shine-color:#ffffff40;--shadow-color:#aaa;display:flex;justify-content:center;align-items:center;overflow:hidden;user-select:none;position:relative;font-size:var(--main-size);font-weight:900;text-transform:uppercase;color:var(--text-color);width:7.3em;height:1em;filter:drop-shadow(0 0 .05em var(--shine-color))}
+  .loader .text{display:flex;align-items:center;justify-content:center;text-align:center;white-space:nowrap;overflow:hidden;position:absolute}
+  .loader .text:nth-child(1){clip-path:polygon(0% 0%,11.11% 0%,11.11% 100%,0% 100%);font-size:calc(var(--main-size)/20);margin-left:-2.1em;opacity:.6}
+  .loader .text:nth-child(2){clip-path:polygon(11.11% 0%,22.22% 0%,22.22% 100%,11.11% 100%);font-size:calc(var(--main-size)/16);margin-left:-.98em;opacity:.7}
+  .loader .text:nth-child(3){clip-path:polygon(22.22% 0%,33.33% 0%,33.33% 100%,22.22% 100%);font-size:calc(var(--main-size)/13);margin-left:-.33em;opacity:.8}
+  .loader .text:nth-child(4){clip-path:polygon(33.33% 0%,44.44% 0%,44.44% 100%,33.33% 100%);font-size:calc(var(--main-size)/11);margin-left:-.05em;opacity:.9}
+  .loader .text:nth-child(5){clip-path:polygon(44.44% 0%,55.55% 0%,55.55% 100%,44.44% 100%);font-size:calc(var(--main-size)/10);margin-left:0;opacity:1}
+  .loader .text:nth-child(6){clip-path:polygon(55.55% 0%,66.66% 0%,66.66% 100%,55.55% 100%);font-size:calc(var(--main-size)/11);margin-left:.05em;opacity:.9}
+  .loader .text:nth-child(7){clip-path:polygon(66.66% 0%,77.77% 0%,77.77% 100%,66.66% 100%);font-size:calc(var(--main-size)/13);margin-left:.33em;opacity:.8}
+  .loader .text:nth-child(8){clip-path:polygon(77.77% 0%,88.88% 0%,88.88% 100%,77.77% 100%);font-size:calc(var(--main-size)/16);margin-left:.98em;opacity:.7}
+  .loader .text:nth-child(9){clip-path:polygon(88.88% 0%,100% 0%,100% 100%,88.88% 100%);font-size:calc(var(--main-size)/20);margin-left:2.1em;opacity:.6}
+  .loader .text span{animation:scrolling 2s cubic-bezier(.1,.6,.9,.4) infinite,shadow 2s cubic-bezier(.1,.6,.9,.4) infinite}
+  .loader .text:nth-child(1) span{background:linear-gradient(to right,var(--text-color) 4%,var(--shadow-color) 7%);background-size:200% auto;background-clip:text;color:transparent}
+  .loader .text:nth-child(2) span{background:linear-gradient(to right,var(--text-color) 9%,var(--shadow-color) 13%);background-size:200% auto;background-clip:text;color:transparent}
+  .loader .text:nth-child(3) span{background:linear-gradient(to right,var(--text-color) 15%,var(--shadow-color) 18%);background-size:200% auto;background-clip:text;color:transparent}
+  .loader .text:nth-child(4) span{background:linear-gradient(to right,var(--text-color) 20%,var(--shadow-color) 23%);background-size:200% auto;background-clip:text;color:transparent}
+  .loader .text:nth-child(6) span{background:linear-gradient(to right,var(--shadow-color) 29%,var(--text-color) 32%);background-size:200% auto;background-clip:text;color:transparent}
+  .loader .text:nth-child(7) span{background:linear-gradient(to right,var(--shadow-color) 34%,var(--text-color) 37%);background-size:200% auto;background-clip:text;color:transparent}
+  .loader .text:nth-child(8) span{background:linear-gradient(to right,var(--shadow-color) 39%,var(--text-color) 42%);background-size:200% auto;background-clip:text;color:transparent}
+  .loader .text:nth-child(9) span{background:linear-gradient(to right,var(--shadow-color) 45%,var(--text-color) 48%);background-size:200% auto;background-clip:text;color:transparent}
+  .loader .line{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;height:.05em;width:calc(var(--main-size)/2);margin-top:.9em;border-radius:.05em}
+  .loader .line::before{content:"";position:absolute;height:100%;width:100%;background:var(--text-color);opacity:.3}
+  .loader .line::after{content:"";position:absolute;height:100%;width:100%;background:var(--text-color);border-radius:.05em;transform:translateX(-90%);animation:wobble 2s cubic-bezier(.5,.8,.5,.2) infinite}
+  @keyframes wobble{0%{transform:translateX(-90%)}50%{transform:translateX(90%)}100%{transform:translateX(-90%)}}
+  @keyframes scrolling{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+  @keyframes shadow{0%{background-position:-98% 0}100%{background-position:102% 0}}
+  @media(max-width:600px){.loader{--main-size:2.8em}.roblox-page{padding-top:100px}.roblox-placeholder{padding:34px 18px}}
+  @media(prefers-reduced-motion:reduce){.loader .text span,.loader .line::after{animation:none!important}}
+
   @media(prefers-reduced-motion:reduce){.entry-panel,.track-line,.thumb-inner,.thumb-scan,.thumb-particles i,.status-indicator,.entry-hint,.energy-rings i{animation:none!important}}
 </style>
 </head>
@@ -485,12 +539,19 @@
 <nav>
   <div class="logo">YNeX <span>Blox</span></div>
   <ul>
-    <li><a href="#recursos">Recursos</a></li>
-    <li><a href="#stats">Status</a></li>
-    <li><a href="#comecar">Começar</a></li>
+    <li><a href="#recursos" data-home-link>Recursos</a></li>
+    <li><a href="#stats" data-home-link>Status</a></li>
+    <li><a href="#comecar" data-home-link>Começar</a></li>
+    <li class="pages-nav-item">
+      <button type="button" class="pages-nav-trigger" id="pages-nav-trigger" aria-expanded="false" aria-controls="pages-nav-menu">Páginas ▾</button>
+      <div class="pages-nav-menu" id="pages-nav-menu" hidden>
+        <a href="#pagina-roblox" id="open-roblox-page">Roblox</a>
+      </div>
+    </li>
   </ul>
 </nav>
 
+<div id="home-page-content">
 <section class="tiktok-section" id="tiktok">
   <button type="button" class="music-mute" id="music-mute" aria-label="Silenciar música" aria-pressed="false">
     <svg class="sound-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
@@ -608,8 +669,79 @@
   <div class="logo">YNeX <span>Blox</span></div>
   <p style="margin-top:10px">© 2025 YNeX Blox — Todos os direitos reservados.</p>
 </footer>
+</div>
+
+<main class="roblox-page" id="roblox-page" hidden>
+  <div class="roblox-page-heading">
+    <h1>ROBLOX</h1>
+    <p>Bem-vindo à página Roblox do YNeX Blox.</p>
+  </div>
+  <div class="roblox-placeholder">
+    <strong>ROBLOX // EM CONSTRUÇÃO</strong>
+    <p>Esta página será o espaço dedicado ao Roblox. Novos recursos serão adicionados aqui.</p>
+  </div>
+</main>
+<div class="roblox-loading" id="roblox-loading" hidden aria-live="polite" aria-label="Carregando página Roblox">
+  <div class="loader" aria-label="Loading">
+    <div class="text"><span>LOADING...</span></div><div class="text"><span>LOADING...</span></div><div class="text"><span>LOADING...</span></div>
+    <div class="text"><span>LOADING...</span></div><div class="text"><span>LOADING...</span></div><div class="text"><span>LOADING...</span></div>
+    <div class="text"><span>LOADING...</span></div><div class="text"><span>LOADING...</span></div><div class="text"><span>LOADING...</span></div>
+    <div class="line"></div>
+  </div>
+</div>
 
 <script>
+
+  // Navegação entre a página inicial e as páginas internas.
+  const pagesNavTrigger = document.getElementById('pages-nav-trigger');
+  const pagesNavMenu = document.getElementById('pages-nav-menu');
+  const homePageContent = document.getElementById('home-page-content');
+  const robloxPage = document.getElementById('roblox-page');
+  const robloxLoading = document.getElementById('roblox-loading');
+  let robloxLoadTimer = null;
+  function closePagesMenu() {
+    pagesNavMenu.hidden = true;
+    pagesNavTrigger.setAttribute('aria-expanded', 'false');
+  }
+  pagesNavTrigger.addEventListener('click', () => {
+    const opening = pagesNavTrigger.getAttribute('aria-expanded') !== 'true';
+    pagesNavTrigger.setAttribute('aria-expanded', String(opening));
+    pagesNavMenu.hidden = !opening;
+  });
+  document.getElementById('open-roblox-page').addEventListener('click', event => {
+    event.preventDefault();
+    closePagesMenu();
+    homePageContent.hidden = true;
+    robloxPage.hidden = false;
+    robloxLoading.hidden = false;
+    robloxLoading.classList.remove('done');
+    window.scrollTo({top:0,behavior:'instant'});
+    if (robloxLoadTimer) window.clearTimeout(robloxLoadTimer);
+    robloxLoadTimer = window.setTimeout(() => {
+      robloxLoading.classList.add('done');
+      window.setTimeout(() => { robloxLoading.hidden = true; }, 500);
+    }, 2400);
+    history.replaceState(null, '', '#pagina-roblox');
+  });
+  document.querySelectorAll('[data-home-link], .logo').forEach(link => {
+    link.addEventListener('click', event => {
+      if (homePageContent.hidden) {
+        event.preventDefault();
+        homePageContent.hidden = false;
+        robloxPage.hidden = true;
+        robloxLoading.hidden = true;
+        if (robloxLoadTimer) window.clearTimeout(robloxLoadTimer);
+        history.replaceState(null, '', location.pathname + location.search);
+        window.scrollTo({top:0,behavior:'smooth'});
+      }
+    });
+  });
+  document.addEventListener('click', event => {
+    if (!document.querySelector('.pages-nav-item').contains(event.target)) closePagesMenu();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closePagesMenu();
+  });
 
   // Player de áudio: o YouTube é carregado sem interface e só começa após o clique em OFF.
   const youtubeVideoId = '6YMhcO1RGyo';
