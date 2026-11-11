@@ -307,6 +307,17 @@
   .holo-glow{position:absolute;inset:0;border-radius:30px;background:radial-gradient(ellipse,rgba(0,150,255,.2),transparent 70%);filter:blur(10px);opacity:.5}
   .toggle-label{margin-top:20px;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(0,150,255,.8);text-shadow:0 0 10px rgba(0,100,255,.5);transition:.5s}
   .entry-hint{margin-top:32px;font-size:.65rem;letter-spacing:2px;color:#58718e;animation:entry-blink 1.8s infinite alternate}
+  .entry-music{display:flex;align-items:center;justify-content:center;gap:12px;margin:28px auto 0;color:#b9d9f5;font-size:.83rem;letter-spacing:.7px}
+  .music-note{font-size:1.35rem;color:#00c8ff;text-shadow:0 0 12px #008cff;animation:music-note-pulse 1.2s ease-in-out infinite alternate}
+  @keyframes music-note-pulse{to{transform:translateY(-3px);text-shadow:0 0 18px #00c8ff}}
+  .music-mute{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:9px;border:1px solid rgba(0,160,255,.3);background:rgba(0,50,90,.35);color:#9bcdf0;font:700 .65rem 'Rajdhani',sans-serif;letter-spacing:1px;cursor:pointer}
+  .music-mute:hover{border-color:#00c8ff;color:#fff;box-shadow:0 0 12px rgba(0,150,255,.2)}
+  .sound-icon{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .music-mute[aria-pressed="true"] .sound-icon path:nth-child(n+2){display:none}
+  .music-title{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .youtube-audio-frame{position:fixed;width:1px;height:1px;left:-10px;bottom:0;opacity:.001;pointer-events:none;border:0}
+  @media(max-width:420px){.entry-music{gap:8px}.music-title{max-width:135px}}
+
   .toggle-input:checked+.toggle-track{background:rgba(0,60,30,.5);border-color:rgba(0,255,150,.5);box-shadow:0 0 20px rgba(0,255,150,.25),inset 0 0 10px #000}
   .toggle-input:checked+.toggle-track .toggle-thumb{left:calc(100% - 57px);border-color:rgba(0,255,150,.7);background:radial-gradient(circle,rgba(10,90,40,.95),rgba(0,50,20,.9));box-shadow:0 2px 15px #000,inset 0 0 15px rgba(0,255,150,.6)}
   .toggle-input:checked+.toggle-track .thumb-core{background:radial-gradient(circle,rgba(0,255,150,.7),rgba(0,120,50,.2));box-shadow:0 0 20px rgba(0,255,150,.6)}
@@ -352,6 +363,14 @@
       <div class="toggle-label" id="toggle-label">SYSTEM OFF</div>
     </div>
     <div class="entry-hint">CLIQUE PARA CONTINUAR</div>
+    <div class="entry-music" id="entry-music" aria-live="polite">
+      <span class="music-note" aria-hidden="true">♫</span>
+      <span class="music-title">Trilha sonora</span>
+      <button type="button" class="music-mute" id="music-mute" aria-label="Silenciar música" aria-pressed="false">
+        <svg class="sound-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        <span id="music-mute-label">MUTAR</span>
+      </button>
+    </div>
   </div>
 </div>
 <div id="site-content" aria-hidden="true">
@@ -471,7 +490,74 @@
 
 <script>
 
-  // Tela de entrada: o site só aparece após ativar o toggle.
+  // Player de áudio: o YouTube é carregado sem interface e só começa após o clique em OFF.
+  const youtubeVideoId = '6YMhcO1RGyo';
+  const musicMute = document.getElementById('music-mute');
+  const musicMuteLabel = document.getElementById('music-mute-label');
+  let youtubePlayer = null;
+  let youtubeReady = false;
+  let musicStarted = false;
+  let musicMuted = false;
+  let pendingStart = false;
+
+  function updateMuteControl() {
+    musicMute.setAttribute('aria-pressed', String(musicMuted));
+    musicMute.setAttribute('aria-label', musicMuted ? 'Ativar som' : 'Silenciar música');
+    musicMuteLabel.textContent = musicMuted ? 'ATIVAR SOM' : 'MUTAR';
+  }
+  function startMusic() {
+    musicStarted = true;
+    pendingStart = true;
+    if (youtubePlayer && youtubeReady) {
+      if (musicMuted) youtubePlayer.mute();
+      else youtubePlayer.unMute();
+      youtubePlayer.playVideo();
+      pendingStart = false;
+    }
+  }
+  function initializeYouTubePlayer() {
+    if (youtubePlayer) return;
+    const frame = document.createElement('div');
+    frame.id = 'youtube-audio-player';
+    frame.className = 'youtube-audio-frame';
+    frame.setAttribute('aria-hidden', 'true');
+    document.getElementById('entry-gate').appendChild(frame);
+    youtubePlayer = new YT.Player('youtube-audio-player', {
+      width: '1', height: '1', videoId: youtubeVideoId,
+      playerVars: {autoplay: 0, controls: 0, disablekb: 1, fs: 0, rel: 0, playsinline: 1},
+      events: {
+        onReady: function(event) {
+          youtubeReady = true;
+          if (pendingStart) {
+            if (musicMuted) event.target.mute();
+            else event.target.unMute();
+            event.target.playVideo();
+            pendingStart = false;
+          }
+        },
+        onError: function() {
+          musicMuteLabel.textContent = 'ÁUDIO INDISPONÍVEL';
+          musicMute.disabled = true;
+        }
+      }
+    });
+  }
+  window.onYouTubeIframeAPIReady = initializeYouTubePlayer;
+  const youtubeApiScript = document.createElement('script');
+  youtubeApiScript.src = 'https://www.youtube.com/iframe_api';
+  youtubeApiScript.async = true;
+  document.head.appendChild(youtubeApiScript);
+
+  musicMute.addEventListener('click', function() {
+    musicMuted = !musicMuted;
+    updateMuteControl();
+    if (youtubePlayer && youtubeReady) {
+      if (musicMuted) youtubePlayer.mute();
+      else if (musicStarted) youtubePlayer.unMute();
+    }
+  });
+
+  // A página só é revelada após o usuário ativar o toggle.
   document.body.classList.add('site-locked');
   const systemToggle = document.getElementById('system-toggle');
   const entryGate = document.getElementById('entry-gate');
@@ -479,6 +565,7 @@
   const toggleLabel = document.getElementById('toggle-label');
   systemToggle.addEventListener('change', () => {
     if (!systemToggle.checked) return;
+    startMusic();
     toggleLabel.textContent = 'SYSTEM ONLINE';
     systemToggle.disabled = true;
     window.setTimeout(() => {
