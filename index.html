@@ -501,6 +501,16 @@
   .roblox-player-status[data-state="online"]::before{background:#42b8ff;color:#42b8ff}
   .roblox-player-status[data-state="studio"]::before{background:#b58cff;color:#b58cff}
   .roblox-player-game{margin-top:10px;color:#b8c9dc;font-size:.9rem;line-height:1.45}
+  .roblox-player-bio{margin:16px 0 2px;padding:14px 16px;border:1px solid rgba(125,180,255,.17);border-radius:13px;background:linear-gradient(135deg,rgba(35,65,105,.18),rgba(10,20,38,.34))}
+  .roblox-player-bio-label{display:flex;align-items:center;gap:8px;margin-bottom:7px;color:#8fcaff;font:700 .7rem 'Orbitron',sans-serif;letter-spacing:1.1px}
+  .roblox-player-bio-text{margin:0;color:#c6d5e8;font-size:.9rem;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
+  .roblox-player-bio-empty{color:#91a3b9;font-style:italic}
+  body[data-theme="hacker"] .roblox-player-bio{border-color:rgba(0,255,90,.2);background:rgba(0,35,12,.32)}
+  body[data-theme="hacker"] .roblox-player-bio-label{color:#8dffa7}
+  body[data-theme="hacker"] .roblox-player-bio-text{color:#c1f2ca}
+  body[data-theme="pink-white"] .roblox-player-bio{border-color:#f0c8d9;background:linear-gradient(135deg,#fff,#fff2f8)}
+  body[data-theme="pink-white"] .roblox-player-bio-label{color:#a92c68}
+  body[data-theme="pink-white"] .roblox-player-bio-text{color:#795568}
   .roblox-outfit-heading{margin:20px 0 12px;font:700 .9rem 'Orbitron',sans-serif;letter-spacing:1px;color:#c8e9ff}
   .roblox-outfit-filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 16px}
   .roblox-outfit-filter{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:9px;min-width:0;padding:12px 13px;border:1px solid rgba(125,180,255,.18);border-radius:13px;background:linear-gradient(145deg,rgba(35,65,105,.24),rgba(10,20,38,.48));color:#c8d8ec;text-align:left;cursor:pointer;transition:transform .2s,border-color .2s,background .2s,box-shadow .2s}
@@ -847,6 +857,10 @@
           <div class="roblox-player-game" id="roblox-player-game"></div>
         </div>
       </div>
+      <section class="roblox-player-bio" id="roblox-player-bio" hidden aria-label="Biografia do jogador">
+        <div class="roblox-player-bio-label">📝 SOBRE MIM</div>
+        <p class="roblox-player-bio-text" id="roblox-player-bio-text"></p>
+      </section>
       <h3 class="roblox-outfit-heading">ITENS QUE ESTÁ VESTINDO</h3>
       <div class="roblox-outfit-filters" id="roblox-outfit-filters" role="group" aria-label="Filtrar itens do avatar">
         <button class="roblox-outfit-filter" type="button" data-outfit-filter="clothing" aria-pressed="true"><span class="roblox-outfit-filter-icon" aria-hidden="true">👕</span><span class="roblox-outfit-filter-label">ROUPAS</span><span class="roblox-outfit-filter-count" id="outfit-count-clothing">0</span></button>
@@ -1294,9 +1308,19 @@
         avatar.removeAttribute('src');
         avatar.hidden = true;
       }
+      const bioSection = document.getElementById('roblox-player-bio');
+      const bioText = document.getElementById('roblox-player-bio-text');
+      const bio = typeof details.bio === 'string' ? details.bio.trim() : '';
+      if (bio) {
+        bioText.textContent = bio;
+        bioSection.hidden = false;
+      } else {
+        bioText.textContent = '';
+        bioSection.hidden = true;
+      }
       renderRobloxItems(details.items);
       setRobloxPresence(details.presence, Boolean(details.partial?.presence));
-      loading.textContent = details.partial?.avatar || details.partial?.items || details.partial?.presence
+      loading.textContent = details.partial?.avatar || details.partial?.items || details.partial?.presence || details.partial?.profile
         ? 'Algumas informações podem estar temporariamente indisponíveis na API pública do Roblox.'
         : 'Informações públicas atualizadas.';
     } catch (error) {
