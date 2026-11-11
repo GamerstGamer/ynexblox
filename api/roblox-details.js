@@ -31,6 +31,38 @@ module.exports = async (req, res) => {
     body: JSON.stringify(body)
   });
 
+  const classifyAsset = assetType => {
+    const typeId = Number(
+      assetType && typeof assetType === "object"
+        ? (assetType.id ?? assetType.assetTypeId)
+        : assetType
+    );
+    const typeName = String(
+      assetType && typeof assetType === "object"
+        ? (assetType.name ?? assetType.type ?? "")
+        : ""
+    ).toLowerCase().replace(/[^a-z]/g, "");
+
+    if (typeName.includes("emote") || typeId === 61) return "emotes";
+
+    const clothingIds = new Set([2, 11, 12, 64, 65, 66, 67, 68, 69, 70, 71, 72]);
+    const accessoryIds = new Set([8, 41, 42, 43, 44, 45, 46, 47, 76, 77]);
+
+    if (
+      clothingIds.has(typeId) ||
+      /^(tshirt|shirt|pants|jacket|sweater|shorts|dressskirt|leftshoe|rightshoe).*accessory$/.test(typeName) ||
+      ["tshirt", "shirt", "pants", "jacket", "sweater", "shorts"].includes(typeName)
+    ) return "clothing";
+
+    if (
+      accessoryIds.has(typeId) ||
+      typeName.includes("accessory") ||
+      ["hat", "hair", "face", "neck", "shoulder", "front", "back", "waist"].includes(typeName)
+    ) return "accessories";
+
+    return "items";
+  };
+
   try {
     const [avatarResult, wearingResult, presenceResult] = await Promise.allSettled([
       fetchJson("https://thumbnails.roblox.com/v1/users/avatar?userIds=" + userId + "&size=420x420&format=Png&isCircular=false"),
@@ -102,6 +134,7 @@ module.exports = async (req, res) => {
         id,
         name: detail.name || "Nome não disponível",
         assetType: detail.assetType || null,
+        category: classifyAsset(detail.assetType),
         imageUrl: imageById.get(id) || null,
         url: "https://www.roblox.com/catalog/" + id
       };
