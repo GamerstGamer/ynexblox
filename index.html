@@ -869,6 +869,47 @@
   updateTikTokStats();
   setInterval(updateTikTokStats, 30 * 60 * 1000);
 
+  // Efeito sonoro ASMR suave em cada clique dentro do site (independente da música).
+  let clickAudioContext = null;
+  function playSoftClick(event) {
+    if (!event.target.closest('#site-content, #entry-gate')) return;
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    try {
+      if (!clickAudioContext) clickAudioContext = new AudioContextClass();
+      if (clickAudioContext.state === 'suspended') clickAudioContext.resume();
+      const now = clickAudioContext.currentTime;
+      const tone = clickAudioContext.createOscillator();
+      const toneGain = clickAudioContext.createGain();
+      tone.type = 'sine';
+      tone.frequency.setValueAtTime(690, now);
+      tone.frequency.exponentialRampToValueAtTime(470, now + 0.13);
+      toneGain.gain.setValueAtTime(0.0001, now);
+      toneGain.gain.exponentialRampToValueAtTime(0.026, now + 0.012);
+      toneGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
+      tone.connect(toneGain);
+      toneGain.connect(clickAudioContext.destination);
+      tone.start(now);
+      tone.stop(now + 0.16);
+
+      const shimmer = clickAudioContext.createOscillator();
+      const shimmerGain = clickAudioContext.createGain();
+      shimmer.type = 'sine';
+      shimmer.frequency.setValueAtTime(1380, now);
+      shimmer.frequency.exponentialRampToValueAtTime(940, now + 0.09);
+      shimmerGain.gain.setValueAtTime(0.0001, now);
+      shimmerGain.gain.exponentialRampToValueAtTime(0.006, now + 0.01);
+      shimmerGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.105);
+      shimmer.connect(shimmerGain);
+      shimmerGain.connect(clickAudioContext.destination);
+      shimmer.start(now);
+      shimmer.stop(now + 0.11);
+    } catch (error) {
+      // O site continua funcionando normalmente se o navegador bloquear o áudio.
+    }
+  }
+  document.addEventListener('click', playSoftClick, true);
+
   // reveal ao rolar
   const obs = new IntersectionObserver(es=>{
     es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show') });
