@@ -1077,22 +1077,23 @@
       message.textContent = 'Buscando jogador...';
       message.style.color = '';
       try {
-        const response = await fetch('https://users.roblox.com/v1/usernames/users', {
+        const response = await fetch('/api/roblox-user', {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({usernames: [username], excludeBannedUsers: false})
+          headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+          body: JSON.stringify({username})
         });
-        if (!response.ok) throw new Error('Não foi possível consultar o Roblox agora.');
-        const result = await response.json();
-        const player = result.data && result.data[0];
-        if (!player) {
-          message.textContent = 'Usuário não encontrado. Confira o nome e tente novamente.';
+        const result = await response.json().catch(() => ({}));
+        if (response.status === 404) {
+          message.textContent = result.error || 'Usuário não encontrado. Confira o nome e tente novamente.';
           message.style.color = '#ff8b8b';
           return;
         }
+        if (!response.ok || !result.id) {
+          throw new Error(result.error || 'Não foi possível consultar o Roblox agora.');
+        }
         message.textContent = 'Jogador encontrado! Abrindo perfil...';
         message.style.color = '#72e6a0';
-        window.location.href = 'https://www.roblox.com/users/' + encodeURIComponent(player.id) + '/profile';
+        window.location.href = 'https://www.roblox.com/users/' + encodeURIComponent(result.id) + '/profile';
       } catch (error) {
         message.textContent = 'Não foi possível buscar o usuário. Tente novamente em instantes.';
         message.style.color = '#ff8b8b';
