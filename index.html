@@ -218,15 +218,21 @@
   .tiktok-metrics{display:flex;gap:26px;flex-wrap:wrap}
   .tiktok-metric strong{display:block;color:#fff;font-family:'Orbitron',sans-serif;font-size:1.15rem}
   .tiktok-metric span{display:block;color:#aaa;font-size:.75rem;text-transform:uppercase;letter-spacing:1.3px}
-  .tiktok-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px;padding-top:14px;border-top:1px solid rgba(255,255,255,.09)}
+  .tiktok-footer{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:14px;margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.09);text-align:center}
   .tiktok-status{font-size:.78rem;color:#9b9ba5}
   .tiktok-status::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:#00f2ea;margin-right:7px;box-shadow:0 0 9px #00f2ea}
-  .tiktok-link{color:#fff;text-decoration:none;font-weight:800;letter-spacing:1px;font-size:.8rem;
-    padding:9px 15px;border:1px solid rgba(255,0,80,.55);border-radius:9px;background:rgba(255,0,80,.12);transition:.2s}
-  .tiktok-link:hover{box-shadow:0 0 18px rgba(255,0,80,.4);transform:translateY(-2px)}
+  @property --tt-button-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+  @keyframes tiktok-button-spin{to{--tt-button-angle:360deg}}
+  .tiktok-link{display:inline-flex;align-items:center;justify-content:center;padding:2px;border-radius:12px;
+    color:#fff;text-decoration:none;font-weight:900;letter-spacing:1.4px;font-size:.84rem;
+    background:conic-gradient(from var(--tt-button-angle),#00f2ea,#101014 24%,#ff0050 50%,#00f2ea 76%,#101014);
+    animation:tiktok-button-spin 3.5s linear infinite;
+    box-shadow:0 0 18px rgba(0,242,234,.2),0 0 22px rgba(255,0,80,.18);transition:transform .2s,box-shadow .2s}
+  .tiktok-link span{display:block;padding:12px 24px;border-radius:10px;background:#050507}
+  .tiktok-link:hover{transform:translateY(-3px);box-shadow:0 0 25px rgba(0,242,234,.38),0 0 30px rgba(255,0,80,.3)}
   @media(max-width:540px){.tiktok-inner{padding:22px 16px;gap:15px;flex-direction:column;text-align:center}
     .tiktok-avatar-wrap{width:100px;height:100px;flex-basis:100px}.tiktok-metrics{justify-content:center;gap:18px}
-    .tiktok-footer{flex-direction:column}.tiktok-handle{font-size:1rem}}
+    .tiktok-handle{font-size:1rem}}
 
 
   .tiktok-profile-inner{align-items:flex-start}
@@ -346,7 +352,7 @@
     </div>
     <div class="tiktok-footer">
       <span class="tiktok-status" id="tt-status">Valores de referência do perfil</span>
-      <a class="tiktok-link" href="https://www.tiktok.com/@alanstly" target="_blank" rel="noopener noreferrer">ABRIR TIKTOK ↗</a>
+      <a class="tiktok-link" href="https://www.tiktok.com/@alanstly" target="_blank" rel="noopener noreferrer"><span>ABRIR TIKTOK ↗</span></a>
     </div>
   </div>
 </section>
