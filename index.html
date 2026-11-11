@@ -461,6 +461,26 @@
   .roblox-page-heading h1{font-size:clamp(2.5rem,8vw,5rem);margin-bottom:14px}
   .roblox-page-heading p{color:var(--muted);font-size:1.1rem}
   .roblox-extensions{max-width:1000px;margin:34px auto 0}
+  .roblox-profile-finder{max-width:760px;margin:0 auto 42px;padding:26px;border:1px solid rgba(50,145,255,.3);border-radius:18px;background:linear-gradient(145deg,rgba(10,28,50,.88),rgba(3,8,17,.96));box-shadow:0 0 24px rgba(0,110,255,.1);text-align:center}
+  .roblox-profile-finder h2{margin:0 0 10px;font:700 clamp(1.1rem,3vw,1.5rem) 'Orbitron',sans-serif;letter-spacing:1.5px;color:#b9e5ff}
+  .roblox-profile-finder p{margin:0 0 18px;color:#9baec5;line-height:1.6}
+  .roblox-profile-form{display:flex;gap:10px;max-width:570px;margin:0 auto}
+  .roblox-profile-input{flex:1;min-width:0;padding:13px 15px;border:1px solid rgba(70,160,255,.45);border-radius:10px;outline:none;background:rgba(0,0,0,.35);color:#fff;font:500 .95rem 'Rajdhani',sans-serif}
+  .roblox-profile-input:focus{border-color:#38aaff;box-shadow:0 0 14px rgba(0,145,255,.2)}
+  .roblox-profile-button{padding:12px 18px;border:1px solid #299bff;border-radius:10px;background:linear-gradient(135deg,#0875d8,#123d83);color:#fff;font:700 .82rem 'Rajdhani',sans-serif;letter-spacing:1px;cursor:pointer;transition:filter .2s,transform .2s}
+  .roblox-profile-button:hover{filter:brightness(1.2);transform:translateY(-2px)}
+  .roblox-profile-button:disabled{opacity:.6;cursor:wait;transform:none}
+  .roblox-profile-message{min-height:20px;margin:12px 0 0!important;font-size:.88rem}
+  body[data-theme="hacker"] .roblox-profile-finder{border-color:rgba(0,255,90,.35);background:linear-gradient(145deg,rgba(0,35,12,.9),rgba(0,10,4,.96))}
+  body[data-theme="hacker"] .roblox-profile-finder h2{color:#a2ffb8}
+  body[data-theme="hacker"] .roblox-profile-input{border-color:rgba(0,255,90,.4)}
+  body[data-theme="hacker"] .roblox-profile-button{border-color:#00ff5a;background:linear-gradient(135deg,#087d31,#06451d)}
+  body[data-theme="pink-white"] .roblox-profile-finder{border-color:#efb2ce;background:linear-gradient(145deg,#fff7fb,#fff)}
+  body[data-theme="pink-white"] .roblox-profile-finder h2{color:#a92c68}
+  body[data-theme="pink-white"] .roblox-profile-finder p{color:#795568}
+  body[data-theme="pink-white"] .roblox-profile-input{background:#fff;color:#543447;border-color:#efb2ce}
+  body[data-theme="pink-white"] .roblox-profile-button{border-color:#d94b91;background:linear-gradient(135deg,#e65b9e,#ad3474)}
+  @media(max-width:560px){.roblox-profile-finder{padding:20px 15px}.roblox-profile-form{flex-direction:column}.roblox-profile-button{width:100%}}
   .roblox-extensions-title{text-align:center;font:700 clamp(1.4rem,4vw,2rem) 'Orbitron',sans-serif;letter-spacing:4px;margin:0 0 22px;color:var(--text);text-shadow:0 0 14px rgba(0,145,255,.45)}
   .extensions-frame{position:relative;isolation:isolate;padding:2px;border-radius:20px;overflow:hidden;background:#050b16;box-shadow:0 0 28px rgba(0,120,255,.15)}
   .extensions-frame::before{content:"";position:absolute;z-index:-1;inset:-150%;background:conic-gradient(from 0deg,transparent 0 27%,#006aff 36%,#55d8ff 42%,#050b16 49%,transparent 58%,#006aff 68%,#55d8ff 74%,transparent 82%);animation:extensions-border-spin 5s linear infinite}
@@ -732,6 +752,15 @@
     <h1>ROBLOX</h1>
     <p>Bem-vindo à página Roblox do YNeX Blox.</p>
   </div>
+  <section class="roblox-profile-finder" aria-labelledby="roblox-profile-title">
+    <h2 id="roblox-profile-title">ENCONTRE UM PERFIL ROBLOX</h2>
+    <p>Digite o nome de usuário do jogador para abrir o perfil dele diretamente no Roblox.</p>
+    <form class="roblox-profile-form" id="roblox-profile-form">
+      <input class="roblox-profile-input" id="roblox-username" type="text" placeholder="Nome de usuário do Roblox" autocomplete="off" maxlength="20" required aria-label="Nome de usuário do Roblox">
+      <button class="roblox-profile-button" id="roblox-profile-submit" type="submit">VER PERFIL ↗</button>
+    </form>
+    <p class="roblox-profile-message" id="roblox-profile-message" role="status" aria-live="polite"></p>
+  </section>
   <section class="roblox-extensions" aria-labelledby="roblox-extensions-title">
     <h2 class="roblox-extensions-title" id="roblox-extensions-title">EXTENSÕES</h2>
     <div class="extensions-frame">
@@ -1032,6 +1061,47 @@
     }
   }
   document.addEventListener('click', playSoftClick, true);
+
+  // Busca o ID pelo nome de usuário e abre o perfil oficial do Roblox.
+  const robloxProfileForm = document.getElementById('roblox-profile-form');
+  if (robloxProfileForm) {
+    robloxProfileForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const input = document.getElementById('roblox-username');
+      const button = document.getElementById('roblox-profile-submit');
+      const message = document.getElementById('roblox-profile-message');
+      const username = input.value.trim();
+      if (!username) return;
+      button.disabled = true;
+      button.textContent = 'PROCURANDO...';
+      message.textContent = 'Buscando jogador...';
+      message.style.color = '';
+      try {
+        const response = await fetch('https://users.roblox.com/v1/usernames/users', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({usernames: [username], excludeBannedUsers: false})
+        });
+        if (!response.ok) throw new Error('Não foi possível consultar o Roblox agora.');
+        const result = await response.json();
+        const player = result.data && result.data[0];
+        if (!player) {
+          message.textContent = 'Usuário não encontrado. Confira o nome e tente novamente.';
+          message.style.color = '#ff8b8b';
+          return;
+        }
+        message.textContent = 'Jogador encontrado! Abrindo perfil...';
+        message.style.color = '#72e6a0';
+        window.location.href = 'https://www.roblox.com/users/' + encodeURIComponent(player.id) + '/profile';
+      } catch (error) {
+        message.textContent = 'Não foi possível buscar o usuário. Tente novamente em instantes.';
+        message.style.color = '#ff8b8b';
+      } finally {
+        button.disabled = false;
+        button.textContent = 'VER PERFIL ↗';
+      }
+    });
+  }
 
   // reveal ao rolar
   const obs = new IntersectionObserver(es=>{
