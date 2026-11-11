@@ -460,6 +460,21 @@
   .roblox-page-heading{text-align:center;margin-bottom:38px}
   .roblox-page-heading h1{font-size:clamp(2.5rem,8vw,5rem);margin-bottom:14px}
   .roblox-page-heading p{color:var(--muted);font-size:1.1rem}
+  .roblox-extensions{max-width:1000px;margin:34px auto 0}
+  .roblox-extensions-title{text-align:center;font:700 clamp(1.4rem,4vw,2rem) 'Orbitron',sans-serif;letter-spacing:4px;margin:0 0 22px;color:var(--text);text-shadow:0 0 14px rgba(0,145,255,.45)}
+  .extensions-frame{position:relative;isolation:isolate;padding:2px;border-radius:20px;overflow:hidden;background:#050b16;box-shadow:0 0 28px rgba(0,120,255,.15)}
+  .extensions-frame::before{content:"";position:absolute;z-index:-1;inset:-150%;background:conic-gradient(from 0deg,transparent 0 27%,#006aff 36%,#55d8ff 42%,#050b16 49%,transparent 58%,#006aff 68%,#55d8ff 74%,transparent 82%);animation:extensions-border-spin 5s linear infinite}
+  .extensions-inner{position:relative;min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:34px 24px;border-radius:18px;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(0,105,220,.16),transparent 65%),linear-gradient(145deg,#080f1d,#03060d 75%);border:1px solid rgba(60,155,255,.14)}
+  .extensions-inner strong{font:700 1.05rem 'Orbitron',sans-serif;letter-spacing:2px;color:#9bdcff;text-shadow:0 0 12px rgba(0,145,255,.65)}
+  .extensions-inner p{max-width:560px;margin:0;color:#9baec5;line-height:1.7}
+  @keyframes extensions-border-spin{to{transform:rotate(360deg)}}
+  body[data-theme="hacker"] .extensions-frame::before{background:conic-gradient(from 0deg,transparent 0 27%,#00ff5a 36%,#a2ffb8 42%,#001b09 49%,transparent 58%,#00ff5a 68%,#a2ffb8 74%,transparent 82%)}
+  body[data-theme="pink-white"] .extensions-frame{background:#fff0f7;box-shadow:0 0 25px rgba(220,70,145,.14)}
+  body[data-theme="pink-white"] .extensions-frame::before{background:conic-gradient(from 0deg,transparent 0 27%,#df438f 36%,#ffc2df 42%,#fff 49%,transparent 58%,#df438f 68%,#ffc2df 74%,transparent 82%)}
+  body[data-theme="pink-white"] .extensions-inner{background:linear-gradient(145deg,#fff8fc,#fff);border-color:#f5c5dc}
+  body[data-theme="pink-white"] .extensions-inner strong{color:#c42b75;text-shadow:0 0 10px rgba(220,70,145,.25)}
+  body[data-theme="pink-white"] .extensions-inner p{color:#795568}
+  @media(prefers-reduced-motion:reduce){.extensions-frame::before{animation:none;background:#168fff}}
   .roblox-placeholder{max-width:850px;margin:0 auto;padding:46px 28px;text-align:center;border:1px solid rgba(168,85,247,.3);border-radius:20px;background:linear-gradient(145deg,rgba(24,12,44,.72),rgba(9,5,18,.9));box-shadow:0 0 35px rgba(168,85,247,.1)}
   .roblox-placeholder strong{display:block;font:700 1.2rem 'Orbitron',sans-serif;letter-spacing:2px;margin-bottom:12px}
   .roblox-placeholder p{color:var(--muted);font-size:1rem}
@@ -688,6 +703,15 @@
     <h1>ROBLOX</h1>
     <p>Bem-vindo à página Roblox do YNeX Blox.</p>
   </div>
+  <section class="roblox-extensions" aria-labelledby="roblox-extensions-title">
+    <h2 class="roblox-extensions-title" id="roblox-extensions-title">EXTENSÕES</h2>
+    <div class="extensions-frame">
+      <div class="extensions-inner">
+        <strong>YNeX Blox // EXTENSIONS</strong>
+        <p>Em breve, novas extensões e ferramentas para Roblox estarão disponíveis aqui.</p>
+      </div>
+    </div>
+  </section>
   <div class="roblox-placeholder">
     <strong>ROBLOX // EM CONSTRUÇÃO</strong>
     <p>Esta página será o espaço dedicado ao Roblox. Novos recursos serão adicionados aqui.</p>
