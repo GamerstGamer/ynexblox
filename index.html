@@ -502,6 +502,25 @@
   .roblox-player-status[data-state="studio"]::before{background:#b58cff;color:#b58cff}
   .roblox-player-game{margin-top:10px;color:#b8c9dc;font-size:.9rem;line-height:1.45}
   .roblox-outfit-heading{margin:20px 0 12px;font:700 .9rem 'Orbitron',sans-serif;letter-spacing:1px;color:#c8e9ff}
+  .roblox-outfit-filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 16px}
+  .roblox-outfit-filter{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:9px;min-width:0;padding:12px 13px;border:1px solid rgba(125,180,255,.18);border-radius:13px;background:linear-gradient(145deg,rgba(35,65,105,.24),rgba(10,20,38,.48));color:#c8d8ec;text-align:left;cursor:pointer;transition:transform .2s,border-color .2s,background .2s,box-shadow .2s}
+  .roblox-outfit-filter:hover{transform:translateY(-2px);border-color:rgba(80,175,255,.5)}
+  .roblox-outfit-filter[aria-pressed="true"]{border-color:#45b8ff;background:linear-gradient(135deg,rgba(15,117,216,.3),rgba(82,51,255,.22));box-shadow:0 0 18px rgba(45,150,255,.16),inset 0 0 14px rgba(45,150,255,.08);color:#fff}
+  .roblox-outfit-filter-icon{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(75,160,255,.12);font-size:1.1rem}
+  .roblox-outfit-filter-label{font:700 .76rem 'Orbitron',sans-serif;letter-spacing:.35px;overflow:hidden;text-overflow:ellipsis}
+  .roblox-outfit-filter-count{display:grid;place-items:center;min-width:24px;height:24px;padding:0 6px;border-radius:8px;background:rgba(255,255,255,.09);font:700 .75rem 'Rajdhani',sans-serif}
+  .roblox-outfit-filter[aria-pressed="true"] .roblox-outfit-filter-count{background:rgba(69,184,255,.24);color:#fff}
+  .roblox-outfit-category-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 10px;color:#a9c9e8;font:700 .72rem 'Orbitron',sans-serif;letter-spacing:1.2px;text-transform:uppercase}
+  .roblox-outfit-category-title span:last-child{color:#83bfff;font:600 .8rem 'Rajdhani',sans-serif;letter-spacing:0}
+  body[data-theme="hacker"] .roblox-outfit-filter{border-color:rgba(0,255,90,.18);background:rgba(0,35,12,.45);color:#b8edc3}
+  body[data-theme="hacker"] .roblox-outfit-filter[aria-pressed="true"]{border-color:#00ff5a;background:rgba(0,120,45,.25);box-shadow:0 0 16px rgba(0,255,90,.14);color:#fff}
+  body[data-theme="hacker"] .roblox-outfit-filter-icon{background:rgba(0,255,90,.1)}
+  body[data-theme="hacker"] .roblox-outfit-category-title{color:#a2ffb8}
+  body[data-theme="pink-white"] .roblox-outfit-filter{border-color:#f0c8d9;background:linear-gradient(145deg,#fff,#fff2f8);color:#795568}
+  body[data-theme="pink-white"] .roblox-outfit-filter[aria-pressed="true"]{border-color:#d94b91;background:linear-gradient(135deg,#ffe0ef,#f8d9ff);box-shadow:0 0 15px rgba(217,75,145,.13);color:#54243b}
+  body[data-theme="pink-white"] .roblox-outfit-filter-icon{background:#ffe5f0}
+  body[data-theme="pink-white"] .roblox-outfit-filter-count{background:#fce0ec;color:#8c3b61}
+  body[data-theme="pink-white"] .roblox-outfit-category-title{color:#a92c68}
   .roblox-outfit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px}
   .roblox-outfit-item{min-width:0;padding:10px;border:1px solid rgba(255,255,255,.09);border-radius:12px;background:rgba(255,255,255,.045);text-decoration:none;color:#eaf4ff;transition:transform .2s,border-color .2s}
   .roblox-outfit-item:hover{transform:translateY(-3px);border-color:rgba(80,175,255,.55)}
@@ -519,6 +538,7 @@
   body[data-theme="pink-white"] .roblox-outfit-item{color:#543447;background:#fff;border-color:#f0c8d9}
   body[data-theme="pink-white"] .roblox-player-status{color:#654256;background:#ffeaf2}
   @media(max-width:560px){.roblox-player-preview{padding:16px}.roblox-player-top{align-items:flex-start;gap:13px}.roblox-player-avatar-wrap{width:82px;height:82px;flex-basis:82px;border-radius:17px}.roblox-player-avatar{border-radius:14px}.roblox-player-display{font-size:1rem}.roblox-outfit-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media(max-width:560px){.roblox-outfit-filters{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.roblox-outfit-filter{padding:10px 9px;gap:7px}.roblox-outfit-filter-icon{width:30px;height:30px}.roblox-outfit-filter-label{font-size:.68rem}}
   body[data-theme="hacker"] .roblox-profile-finder{border-color:rgba(0,255,90,.35);background:linear-gradient(145deg,rgba(0,35,12,.9),rgba(0,10,4,.96))}
   body[data-theme="hacker"] .roblox-profile-finder h2{color:#a2ffb8}
   body[data-theme="hacker"] .roblox-profile-input{border-color:rgba(0,255,90,.4)}
@@ -828,6 +848,13 @@
         </div>
       </div>
       <h3 class="roblox-outfit-heading">ITENS QUE ESTÁ VESTINDO</h3>
+      <div class="roblox-outfit-filters" id="roblox-outfit-filters" role="group" aria-label="Filtrar itens do avatar">
+        <button class="roblox-outfit-filter" type="button" data-outfit-filter="clothing" aria-pressed="true"><span class="roblox-outfit-filter-icon" aria-hidden="true">👕</span><span class="roblox-outfit-filter-label">ROUPAS</span><span class="roblox-outfit-filter-count" id="outfit-count-clothing">0</span></button>
+        <button class="roblox-outfit-filter" type="button" data-outfit-filter="items" aria-pressed="false"><span class="roblox-outfit-filter-icon" aria-hidden="true">📦</span><span class="roblox-outfit-filter-label">ITENS</span><span class="roblox-outfit-filter-count" id="outfit-count-items">0</span></button>
+        <button class="roblox-outfit-filter" type="button" data-outfit-filter="emotes" aria-pressed="false"><span class="roblox-outfit-filter-icon" aria-hidden="true">✨</span><span class="roblox-outfit-filter-label">EMOTES</span><span class="roblox-outfit-filter-count" id="outfit-count-emotes">0</span></button>
+        <button class="roblox-outfit-filter" type="button" data-outfit-filter="accessories" aria-pressed="false"><span class="roblox-outfit-filter-icon" aria-hidden="true">🧢</span><span class="roblox-outfit-filter-label">ACESSÓRIOS</span><span class="roblox-outfit-filter-count" id="outfit-count-accessories">0</span></button>
+      </div>
+      <div class="roblox-outfit-category-title"><span id="roblox-outfit-category-name">ROUPAS</span><span id="roblox-outfit-category-total">0 itens</span></div>
       <div class="roblox-outfit-grid" id="roblox-outfit-grid"><div class="roblox-outfit-empty">Carregando itens do avatar...</div></div>
       <p class="roblox-player-loading" id="roblox-player-loading"></p>
       <div class="roblox-preview-actions">
@@ -1172,17 +1199,55 @@
     }
   }
 
+  const robloxOutfitCategories = {
+    clothing: {label:'ROUPAS', empty:'Nenhuma roupa foi encontrada neste avatar.'},
+    items: {label:'ITENS', empty:'Nenhum item adicional foi encontrado neste avatar.'},
+    emotes: {label:'EMOTES', empty:'Nenhum emote foi encontrado neste avatar.'},
+    accessories: {label:'ACESSÓRIOS', empty:'Nenhum acessório foi encontrado neste avatar.'}
+  };
+  let activeRobloxOutfitFilter = 'clothing';
+  let currentRobloxOutfitItems = [];
+
   function renderRobloxItems(items) {
+    currentRobloxOutfitItems = Array.isArray(items) ? items : [];
     const grid = document.getElementById('roblox-outfit-grid');
+    const category = robloxOutfitCategories[activeRobloxOutfitFilter];
+    const filteredItems = currentRobloxOutfitItems.filter(item =>
+      (item.category || 'items') === activeRobloxOutfitFilter
+    );
+
+    Object.keys(robloxOutfitCategories).forEach(key => {
+      const count = currentRobloxOutfitItems.filter(item =>
+        (item.category || 'items') === key
+      ).length;
+      const countElement = document.getElementById('outfit-count-' + key);
+      if (countElement) countElement.textContent = String(count);
+    });
+
+    document.querySelectorAll('[data-outfit-filter]').forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.outfitFilter === activeRobloxOutfitFilter));
+    });
+    document.getElementById('roblox-outfit-category-name').textContent = category.label;
+    document.getElementById('roblox-outfit-category-total').textContent =
+      filteredItems.length + (filteredItems.length === 1 ? ' item' : ' itens');
     grid.replaceChildren();
-    if (!Array.isArray(items) || !items.length) {
+
+    if (!currentRobloxOutfitItems.length) {
       const empty = document.createElement('div');
       empty.className = 'roblox-outfit-empty';
       empty.textContent = 'Não foi possível obter os itens equipados deste avatar.';
       grid.appendChild(empty);
       return;
     }
-    items.forEach(item => {
+    if (!filteredItems.length) {
+      const empty = document.createElement('div');
+      empty.className = 'roblox-outfit-empty';
+      empty.textContent = category.empty;
+      grid.appendChild(empty);
+      return;
+    }
+
+    filteredItems.forEach(item => {
       const link = document.createElement('a');
       link.className = 'roblox-outfit-item';
       link.href = item.url || ('https://www.roblox.com/catalog/' + encodeURIComponent(item.id));
@@ -1196,11 +1261,18 @@
         link.appendChild(image);
       }
       const name = document.createElement('span');
-      name.textContent = item.name || ('Item Roblox #' + item.id);
+      name.textContent = item.name || 'Nome não disponível';
       link.appendChild(name);
       grid.appendChild(link);
     });
   }
+
+  document.querySelectorAll('[data-outfit-filter]').forEach(button => {
+    button.addEventListener('click', () => {
+      activeRobloxOutfitFilter = button.dataset.outfitFilter;
+      renderRobloxItems(currentRobloxOutfitItems);
+    });
+  });
 
   async function loadRobloxDetails(userId, quiet = false) {
     const loading = document.getElementById('roblox-player-loading');
