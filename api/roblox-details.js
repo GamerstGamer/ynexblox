@@ -64,10 +64,11 @@ module.exports = async (req, res) => {
   };
 
   try {
-    const [avatarResult, wearingResult, presenceResult] = await Promise.allSettled([
+    const [avatarResult, wearingResult, presenceResult, profileResult] = await Promise.allSettled([
       fetchJson("https://thumbnails.roblox.com/v1/users/avatar?userIds=" + userId + "&size=420x420&format=Png&isCircular=false"),
       fetchJson("https://avatar.roblox.com/v1/users/" + userId + "/currently-wearing"),
-      postJson("https://presence.roblox.com/v1/presence/users", { userIds: [userId] })
+      postJson("https://presence.roblox.com/v1/presence/users", { userIds: [userId] }),
+      fetchJson("https://users.roblox.com/v1/users/" + userId)
     ]);
 
     const avatarData = avatarResult.status === "fulfilled" ? avatarResult.value?.data?.[0] : null;
@@ -154,6 +155,7 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       avatarUrl: avatarData?.imageUrl || null,
       avatarState: avatarData?.state || null,
+      bio: profileResult.status === "fulfilled" ? (profileResult.value?.description || "") : null,
       items,
       presence: {
         type: presenceType,
@@ -165,7 +167,8 @@ module.exports = async (req, res) => {
       partial: {
         avatar: avatarResult.status !== "fulfilled",
         items: wearingResult.status !== "fulfilled",
-        presence: presenceResult.status !== "fulfilled"
+        presence: presenceResult.status !== "fulfilled",
+        profile: profileResult.status !== "fulfilled"
       }
     });
   } catch (error) {
