@@ -228,6 +228,19 @@
     .tiktok-avatar-wrap{width:100px;height:100px;flex-basis:100px}.tiktok-metrics{justify-content:center;gap:18px}
     .tiktok-footer{flex-direction:column}.tiktok-handle{font-size:1rem}}
 
+
+  .tiktok-profile-inner{align-items:flex-start}
+  .tiktok-name-line{display:flex;align-items:baseline;gap:13px;flex-wrap:wrap;margin:0 0 14px}
+  .tiktok-display-name{font-size:1.35rem;font-weight:850;color:#fff}
+  .tiktok-name-divider{color:#555}
+  .tiktok-name-line .tiktok-handle{font-family:inherit;font-size:1rem;font-weight:500;color:#b8b8c2;margin:0}
+  .tiktok-profile-metrics{gap:22px;margin-bottom:16px}
+  .tiktok-profile-metrics .tiktok-metric strong{font-family:inherit;font-size:1.12rem}
+  .tiktok-profile-metrics .tiktok-metric span{text-transform:none;letter-spacing:0;font-size:.84rem}
+  .tiktok-bio{display:grid;gap:5px;color:#e8e8ed;font-size:.92rem;line-height:1.35}
+  .tiktok-bio strong{color:#fff}
+  @media(max-width:540px){.tiktok-profile-inner{align-items:center}.tiktok-name-line{justify-content:center}.tiktok-profile-metrics{gap:15px}}
+
 </style>
 </head>
 <body>
@@ -311,23 +324,28 @@
 
 <section class="tiktok-section" id="tiktok">
   <h2 class="sec-title">Meu <em>TikTok</em></h2>
-  <p class="sec-desc">Acompanhe meu perfil e minhas estatísticas.</p>
+  <p class="sec-desc">Meu perfil, bio e estatísticas.</p>
   <div class="tiktok-card reveal">
-    <div class="tiktok-inner">
+    <div class="tiktok-inner tiktok-profile-inner">
       <div class="tiktok-avatar-wrap">
-        <img class="tiktok-avatar" src="/assets/tiktok-alanstly.jpg?v=2" alt="Foto de perfil do TikTok @alanstly" />
+        <img class="tiktok-avatar" src="/assets/tiktok-alanstly.jpg?v=2" alt="Foto de perfil do TikTok alanstly" />
       </div>
       <div class="tiktok-info">
-        <div class="tiktok-kicker">TikTok • Perfil oficial</div>
-        <div class="tiktok-handle">@alanstly</div>
-        <div class="tiktok-metrics">
-          <div class="tiktok-metric"><strong id="tt-followers">—</strong><span>Seguidores</span></div>
-          <div class="tiktok-metric"><strong id="tt-likes">—</strong><span>Curtidas</span></div>
+        <div class="tiktok-name-line"><span class="tiktok-display-name">alanstly</span><span class="tiktok-name-divider">|</span><span class="tiktok-handle">alanstly</span></div>
+        <div class="tiktok-metrics tiktok-profile-metrics">
+          <div class="tiktok-metric"><strong>42</strong><span>A seguir</span></div>
+          <div class="tiktok-metric"><strong id="tt-followers">10</strong><span>Seguidores</span></div>
+          <div class="tiktok-metric"><strong id="tt-likes">110</strong><span>Curtidas</span></div>
+        </div>
+        <div class="tiktok-bio">
+          <div>evade player</div>
+          <div>👤 roblox: <strong>8ynex</strong></div>
+          <div>🌐 goal streak: <strong>3100+ / 10000</strong></div>
         </div>
       </div>
     </div>
     <div class="tiktok-footer">
-      <span class="tiktok-status" id="tt-status">Carregando estatísticas…</span>
+      <span class="tiktok-status" id="tt-status">Valores de referência do perfil</span>
       <a class="tiktok-link" href="https://www.tiktok.com/@alanstly" target="_blank" rel="noopener noreferrer">ABRIR TIKTOK ↗</a>
     </div>
   </div>
