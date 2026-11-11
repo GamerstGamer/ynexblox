@@ -491,6 +491,21 @@
   @keyframes wobble{0%{transform:translateX(-90%)}50%{transform:translateX(90%)}100%{transform:translateX(-90%)}}
   @keyframes scrolling{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
   @keyframes shadow{0%{background-position:-98% 0}100%{background-position:102% 0}}
+  /* Cursor personalizado neon azul e preto */
+  @media (hover:hover) and (pointer:fine) {
+    body.custom-cursor-active #site-content,
+    body.custom-cursor-active #site-content * {cursor:none!important}
+    .neon-cursor{position:fixed;left:0;top:0;width:30px;height:30px;z-index:99999;pointer-events:none;opacity:0;transform:translate3d(-60px,-60px,0);transition:opacity .2s ease,width .2s ease,height .2s ease;mix-blend-mode:screen}
+    .neon-cursor.visible{opacity:1}
+    .neon-cursor::before{content:"";position:absolute;inset:1px;border:2px solid #16a8ff;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(31,160,255,.28),rgba(0,0,0,.88) 68%);box-shadow:0 0 7px #008cff,0 0 17px rgba(0,130,255,.85),inset 0 0 10px rgba(0,130,255,.65);animation:cursor-neon-pulse 1.8s ease-in-out infinite, cursor-neon-spin 5s linear infinite}
+    .neon-cursor::after{content:"";position:absolute;width:5px;height:5px;left:50%;top:50%;border-radius:50%;background:#b9eaff;box-shadow:0 0 7px 2px #168fff,0 0 15px #0077ff;transform:translate(-50%,-50%)}
+    .neon-cursor.hovering{width:42px;height:42px}
+    .neon-cursor.hovering::before{border-color:#8bd8ff;box-shadow:0 0 10px #008cff,0 0 25px #007bff,inset 0 0 14px rgba(0,140,255,.85)}
+    .neon-cursor.clicking{width:23px;height:23px}
+    @keyframes cursor-neon-pulse{0%,100%{filter:brightness(.85)}50%{filter:brightness(1.5)}}
+    @keyframes cursor-neon-spin{to{rotate:360deg}}
+  }
+  @media(prefers-reduced-motion:reduce){.neon-cursor::before{animation:none!important}}
   .roblox-loading[hidden]{display:none!important}
   @media(max-width:720px){nav ul{display:flex;gap:0}nav ul li:not(:nth-child(2)){display:none}}
   @media(max-width:600px){.loader{--main-size:2.8em}.roblox-page{padding-top:100px}.roblox-placeholder{padding:34px 18px}}
@@ -535,6 +550,7 @@
   </div>
 </div>
 <div id="site-content" aria-hidden="true">
+<div class="neon-cursor" id="neon-cursor" aria-hidden="true"></div>
 <div class="bg-glow"></div>
 <div class="grid-lines"></div>
 
@@ -868,6 +884,23 @@
   }
   updateTikTokStats();
   setInterval(updateTikTokStats, 30 * 60 * 1000);
+
+  // Cursor animado neon azul/preto para mouse e trackpad.
+  const neonCursor = document.getElementById('neon-cursor');
+  if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    document.body.classList.add('custom-cursor-active');
+    document.addEventListener('mousemove', event => {
+      neonCursor.style.transform = `translate3d(${event.clientX - neonCursor.offsetWidth / 2}px,${event.clientY - neonCursor.offsetHeight / 2}px,0)`;
+      neonCursor.classList.add('visible');
+    });
+    document.addEventListener('mouseleave', () => neonCursor.classList.remove('visible'));
+    document.addEventListener('mouseenter', () => neonCursor.classList.add('visible'));
+    document.addEventListener('mouseover', event => {
+      neonCursor.classList.toggle('hovering', Boolean(event.target.closest('a,button,input,select,textarea,label,[role="button"],.logo')));
+    });
+    document.addEventListener('mousedown', () => neonCursor.classList.add('clicking'));
+    document.addEventListener('mouseup', () => neonCursor.classList.remove('clicking'));
+  }
 
   // Efeito sonoro ASMR suave em cada clique dentro do site (independente da música).
   let clickAudioContext = null;
