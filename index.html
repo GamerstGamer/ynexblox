@@ -491,6 +491,8 @@
   @keyframes wobble{0%{transform:translateX(-90%)}50%{transform:translateX(90%)}100%{transform:translateX(-90%)}}
   @keyframes scrolling{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
   @keyframes shadow{0%{background-position:-98% 0}100%{background-position:102% 0}}
+  .roblox-loading[hidden]{display:none!important}
+  @media(max-width:720px){nav ul{display:flex;gap:0}nav ul li:not(.pages-nav-item){display:none}.pages-nav-menu{left:auto;right:0}}
   @media(max-width:600px){.loader{--main-size:2.8em}.roblox-page{padding-top:100px}.roblox-placeholder{padding:34px 18px}}
   @media(prefers-reduced-motion:reduce){.loader .text span,.loader .line::after{animation:none!important}}
 
