@@ -486,6 +486,39 @@
   .roblox-profile-button:hover{filter:brightness(1.2);transform:translateY(-2px)}
   .roblox-profile-button:disabled{opacity:.6;cursor:wait;transform:none}
   .roblox-profile-message{min-height:20px;margin:12px 0 0!important;font-size:.88rem}
+  .roblox-player-preview{display:none;margin:24px auto 0;max-width:680px;padding:22px;border:1px solid rgba(75,165,255,.32);border-radius:18px;background:rgba(3,10,22,.78);text-align:left;box-shadow:0 12px 38px rgba(0,0,0,.22);backdrop-filter:blur(12px)}
+  .roblox-player-preview.visible{display:block;animation:roblox-preview-in .35s ease both}
+  @keyframes roblox-preview-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .roblox-player-top{display:flex;align-items:center;gap:18px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .roblox-player-avatar-wrap{width:104px;height:104px;flex:0 0 104px;padding:3px;border-radius:22px;background:linear-gradient(135deg,#ff3a82,#5233ff,#00b7ff);box-shadow:0 0 24px rgba(82,51,255,.25)}
+  .roblox-player-avatar{display:block;width:100%;height:100%;object-fit:cover;border-radius:19px;background:#101522}
+  .roblox-player-identity{min-width:0}
+  .roblox-player-display{font:700 1.18rem 'Orbitron',sans-serif;color:#fff;overflow-wrap:anywhere}
+  .roblox-player-username{color:#a9b6c9;margin-top:6px;font-size:.95rem}
+  .roblox-player-status{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.07);font-size:.82rem;font-weight:700;color:#dcecff}
+  .roblox-player-status::before{content:"";width:8px;height:8px;border-radius:50%;background:#8b95a5;box-shadow:0 0 8px currentColor}
+  .roblox-player-status[data-state="playing"]::before{background:#42e58b;color:#42e58b}
+  .roblox-player-status[data-state="online"]::before{background:#42b8ff;color:#42b8ff}
+  .roblox-player-status[data-state="studio"]::before{background:#b58cff;color:#b58cff}
+  .roblox-player-game{margin-top:10px;color:#b8c9dc;font-size:.9rem;line-height:1.45}
+  .roblox-outfit-heading{margin:20px 0 12px;font:700 .9rem 'Orbitron',sans-serif;letter-spacing:1px;color:#c8e9ff}
+  .roblox-outfit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px}
+  .roblox-outfit-item{min-width:0;padding:10px;border:1px solid rgba(255,255,255,.09);border-radius:12px;background:rgba(255,255,255,.045);text-decoration:none;color:#eaf4ff;transition:transform .2s,border-color .2s}
+  .roblox-outfit-item:hover{transform:translateY(-3px);border-color:rgba(80,175,255,.55)}
+  .roblox-outfit-item img{display:block;width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:8px;background:rgba(0,0,0,.2);margin-bottom:7px}
+  .roblox-outfit-item span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:.78rem;line-height:1.25}
+  .roblox-outfit-empty{grid-column:1/-1;color:#9baec5;font-size:.88rem;padding:8px 0}
+  .roblox-preview-actions{display:flex;justify-content:center;margin-top:20px}
+  .roblox-open-profile{min-width:190px}
+  .roblox-player-loading{color:#9baec5;font-size:.88rem;margin-top:15px;text-align:center}
+  body[data-theme="hacker"] .roblox-player-preview{border-color:rgba(0,255,90,.3);background:rgba(0,18,7,.86)}
+  body[data-theme="hacker"] .roblox-outfit-heading{color:#a2ffb8}
+  body[data-theme="pink-white"] .roblox-player-preview{background:rgba(255,250,253,.94);border-color:#efb2ce}
+  body[data-theme="pink-white"] .roblox-player-display{color:#54243b}
+  body[data-theme="pink-white"] .roblox-player-username,body[data-theme="pink-white"] .roblox-player-game,body[data-theme="pink-white"] .roblox-outfit-empty{color:#795568}
+  body[data-theme="pink-white"] .roblox-outfit-item{color:#543447;background:#fff;border-color:#f0c8d9}
+  body[data-theme="pink-white"] .roblox-player-status{color:#654256;background:#ffeaf2}
+  @media(max-width:560px){.roblox-player-preview{padding:16px}.roblox-player-top{align-items:flex-start;gap:13px}.roblox-player-avatar-wrap{width:82px;height:82px;flex-basis:82px;border-radius:17px}.roblox-player-avatar{border-radius:14px}.roblox-player-display{font-size:1rem}.roblox-outfit-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
   body[data-theme="hacker"] .roblox-profile-finder{border-color:rgba(0,255,90,.35);background:linear-gradient(145deg,rgba(0,35,12,.9),rgba(0,10,4,.96))}
   body[data-theme="hacker"] .roblox-profile-finder h2{color:#a2ffb8}
   body[data-theme="hacker"] .roblox-profile-input{border-color:rgba(0,255,90,.4)}
@@ -781,9 +814,26 @@
     <p>Digite o nome de usuário do jogador para abrir o perfil dele diretamente no Roblox.</p>
     <form class="roblox-profile-form" id="roblox-profile-form">
       <input class="roblox-profile-input" id="roblox-username" type="text" placeholder="Nome de usuário do Roblox" autocomplete="off" maxlength="20" required aria-label="Nome de usuário do Roblox">
-      <button class="roblox-profile-button" id="roblox-profile-submit" type="submit">VER PERFIL ↗</button>
+      <button class="roblox-profile-button" id="roblox-profile-submit" type="submit">BUSCAR JOGADOR</button>
     </form>
     <p class="roblox-profile-message" id="roblox-profile-message" role="status" aria-live="polite"></p>
+    <article class="roblox-player-preview" id="roblox-player-preview" aria-live="polite">
+      <div class="roblox-player-top">
+        <div class="roblox-player-avatar-wrap"><img class="roblox-player-avatar" id="roblox-player-avatar" alt="Avatar do jogador Roblox"></div>
+        <div class="roblox-player-identity">
+          <div class="roblox-player-display" id="roblox-player-display"></div>
+          <div class="roblox-player-username" id="roblox-player-username"></div>
+          <div class="roblox-player-status" id="roblox-player-status" data-state="offline">Consultando status...</div>
+          <div class="roblox-player-game" id="roblox-player-game"></div>
+        </div>
+      </div>
+      <h3 class="roblox-outfit-heading">ITENS QUE ESTÁ VESTINDO</h3>
+      <div class="roblox-outfit-grid" id="roblox-outfit-grid"><div class="roblox-outfit-empty">Carregando itens do avatar...</div></div>
+      <p class="roblox-player-loading" id="roblox-player-loading"></p>
+      <div class="roblox-preview-actions">
+        <button class="roblox-profile-button roblox-open-profile" id="roblox-open-profile" type="button">VER PERFIL ↗</button>
+      </div>
+    </article>
   </section>
   <section class="roblox-extensions" aria-labelledby="roblox-extensions-title">
     <h2 class="roblox-extensions-title" id="roblox-extensions-title">EXTENSÕES</h2>
@@ -1086,22 +1136,107 @@
   }
   document.addEventListener('click', playSoftClick, true);
 
-  // Busca o ID pelo nome de usuário e abre o perfil oficial do Roblox.
+  // Busca o jogador e monta uma prévia pública do avatar, itens e presença.
   const robloxProfileForm = document.getElementById('roblox-profile-form');
+  const robloxPreview = document.getElementById('roblox-player-preview');
+  const robloxOpenProfile = document.getElementById('roblox-open-profile');
+  let currentRobloxPlayer = null;
+  let robloxPresenceTimer = null;
+
+  function setRobloxPresence(presence) {
+    const status = document.getElementById('roblox-player-status');
+    const game = document.getElementById('roblox-player-game');
+    const type = Number(presence?.type ?? 0);
+    const states = {
+      0: {label:'OFFLINE', state:'offline'},
+      1: {label:'ONLINE', state:'online'},
+      2: {label:'JOGANDO AGORA', state:'playing'},
+      3: {label:'NO ROBLOX STUDIO', state:'studio'}
+    };
+    const current = states[type] || {label:'STATUS INDISPONÍVEL',state:'offline'};
+    status.textContent = current.label;
+    status.dataset.state = current.state;
+    if (type === 2 && presence.lastLocation) {
+      game.textContent = 'Experiência: ' + presence.lastLocation;
+    } else if (type === 3 && presence.lastLocation) {
+      game.textContent = 'Local: ' + presence.lastLocation;
+    } else {
+      game.textContent = type === 0 ? 'O jogador não está online no momento.' :
+        type === 1 ? 'O jogador está online, mas não está em uma experiência.' : '';
+    }
+  }
+
+  function renderRobloxItems(items) {
+    const grid = document.getElementById('roblox-outfit-grid');
+    grid.replaceChildren();
+    if (!Array.isArray(items) || !items.length) {
+      const empty = document.createElement('div');
+      empty.className = 'roblox-outfit-empty';
+      empty.textContent = 'Não foi possível obter os itens equipados deste avatar.';
+      grid.appendChild(empty);
+      return;
+    }
+    items.forEach(item => {
+      const link = document.createElement('a');
+      link.className = 'roblox-outfit-item';
+      link.href = item.url || ('https://www.roblox.com/catalog/' + encodeURIComponent(item.id));
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      if (item.imageUrl) {
+        const image = document.createElement('img');
+        image.src = item.imageUrl;
+        image.alt = item.name || 'Item do Roblox';
+        image.loading = 'lazy';
+        link.appendChild(image);
+      }
+      const name = document.createElement('span');
+      name.textContent = item.name || ('Item Roblox #' + item.id);
+      link.appendChild(name);
+      grid.appendChild(link);
+    });
+  }
+
+  async function loadRobloxDetails(userId, quiet = false) {
+    const loading = document.getElementById('roblox-player-loading');
+    if (!quiet) loading.textContent = 'Carregando avatar, itens e status...';
+    try {
+      const response = await fetch('/api/roblox-details', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify({userId})
+      });
+      const details = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(details.error || 'Não foi possível carregar os detalhes do jogador.');
+      if (!currentRobloxPlayer || Number(currentRobloxPlayer.id) !== Number(userId)) return;
+      const avatar = document.getElementById('roblox-player-avatar');
+      if (details.avatarUrl) {
+        avatar.src = details.avatarUrl;
+        avatar.hidden = false;
+      } else {
+        avatar.removeAttribute('src');
+        avatar.hidden = true;
+      }
+      renderRobloxItems(details.items);
+      setRobloxPresence(details.presence);
+      loading.textContent = details.partial?.avatar || details.partial?.items || details.partial?.presence
+        ? 'Algumas informações podem estar temporariamente indisponíveis na API pública do Roblox.'
+        : 'Informações públicas atualizadas.';
+    } catch (error) {
+      if (!quiet) loading.textContent = error.message || 'Não foi possível carregar os detalhes agora.';
+    }
+  }
+
   if (robloxProfileForm) {
-    robloxProfileForm.addEventListener('submit', async (event) => {
+    robloxProfileForm.addEventListener('submit', async event => {
       event.preventDefault();
       const input = document.getElementById('roblox-username');
       const button = document.getElementById('roblox-profile-submit');
       const message = document.getElementById('roblox-profile-message');
       const username = input.value.trim();
       if (!username) return;
-      // Abre uma aba durante o clique para evitar bloqueio de pop-ups após a consulta assíncrona.
-      const profileTab = window.open('about:blank', '_blank');
-      if (profileTab) {
-        profileTab.opener = null;
-        try { profileTab.document.title = 'YNeX Blox — Buscando jogador...'; } catch (error) {}
-      }
+      currentRobloxPlayer = null;
+      robloxPreview.classList.remove('visible');
+      if (robloxPresenceTimer) window.clearInterval(robloxPresenceTimer);
       button.disabled = true;
       button.textContent = 'PROCURANDO...';
       message.textContent = 'Buscando jogador...';
@@ -1109,46 +1244,44 @@
       try {
         const response = await fetch('/api/roblox-user', {
           method: 'POST',
-          headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+          headers: {'Content-Type':'application/json','Accept':'application/json'},
           body: JSON.stringify({username})
         });
         const result = await response.json().catch(() => ({}));
-        if (response.status === 404) {
-          if (profileTab && !profileTab.closed) profileTab.close();
-          message.textContent = result.error || 'Usuário não encontrado. Confira o nome e tente novamente.';
-          message.style.color = '#ff8b8b';
-          return;
-        }
-        if (!response.ok || !result.id) {
-          throw new Error(result.error || 'Não foi possível consultar o Roblox agora.');
-        }
-        message.textContent = 'Jogador encontrado! Abrindo o perfil em uma nova aba...';
+        if (response.status === 404) throw new Error(result.error || 'Usuário não encontrado. Confira o nome e tente novamente.');
+        if (!response.ok || !result.id) throw new Error(result.error || 'Não foi possível consultar o Roblox agora.');
+
+        currentRobloxPlayer = result;
+        document.getElementById('roblox-player-display').textContent = result.displayName || result.name || username;
+        document.getElementById('roblox-player-username').textContent = '@' + (result.name || username);
+        document.getElementById('roblox-player-avatar').src = '';
+        document.getElementById('roblox-player-status').textContent = 'CONSULTANDO STATUS...';
+        document.getElementById('roblox-player-status').dataset.state = 'offline';
+        document.getElementById('roblox-player-game').textContent = '';
+        document.getElementById('roblox-outfit-grid').innerHTML = '<div class="roblox-outfit-empty">Carregando itens do avatar...</div>';
+        document.getElementById('roblox-player-loading').textContent = '';
+        robloxOpenProfile.dataset.profileUrl = 'https://www.roblox.com/users/' + encodeURIComponent(result.id) + '/profile';
+        robloxPreview.classList.add('visible');
+        message.textContent = 'Jogador encontrado! Confira a prévia abaixo.';
         message.style.color = '#72e6a0';
-        const profileUrl = 'https://www.roblox.com/users/' + encodeURIComponent(result.id) + '/profile';
-        if (profileTab && !profileTab.closed) {
-          profileTab.location.replace(profileUrl);
-        } else {
-          const fallbackLink = document.createElement('a');
-          fallbackLink.href = profileUrl;
-          fallbackLink.target = '_blank';
-          fallbackLink.rel = 'noopener noreferrer';
-          fallbackLink.textContent = 'CLIQUE AQUI PARA ABRIR O PERFIL';
-          fallbackLink.className = 'roblox-profile-button';
-          fallbackLink.style.display = 'inline-block';
-          fallbackLink.style.marginTop = '10px';
-          message.appendChild(document.createElement('br'));
-          message.appendChild(fallbackLink);
+        await loadRobloxDetails(result.id);
+        if (currentRobloxPlayer && Number(currentRobloxPlayer.id) === Number(result.id)) {
+          robloxPresenceTimer = window.setInterval(() => loadRobloxDetails(result.id, true), 60000);
         }
       } catch (error) {
-        if (profileTab && !profileTab.closed) profileTab.close();
         message.textContent = error.message || 'Não foi possível buscar o usuário. Tente novamente em instantes.';
         message.style.color = '#ff8b8b';
       } finally {
         button.disabled = false;
-        button.textContent = 'VER PERFIL ↗';
+        button.textContent = 'BUSCAR JOGADOR';
       }
     });
   }
+
+  robloxOpenProfile?.addEventListener('click', () => {
+    const profileUrl = robloxOpenProfile.dataset.profileUrl;
+    if (profileUrl) window.open(profileUrl, '_blank', 'noopener,noreferrer');
+  });
 
   // reveal ao rolar
   const obs = new IntersectionObserver(es=>{
