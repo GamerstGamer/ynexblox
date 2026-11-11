@@ -318,7 +318,7 @@
   .entry-music{display:flex;align-items:center;justify-content:center;gap:12px;margin:28px auto 0;color:#b9d9f5;font-size:.83rem;letter-spacing:.7px}
   .music-note{font-size:1.35rem;color:#00c8ff;text-shadow:0 0 12px #008cff;animation:music-note-pulse 1.2s ease-in-out infinite alternate}
   @keyframes music-note-pulse{to{transform:translateY(-3px);text-shadow:0 0 18px #00c8ff}}
-  .music-mute{position:fixed;top:18px;left:18px;z-index:10001;width:44px;height:44px;display:grid;place-items:center;padding:0;border-radius:12px;border:1px solid rgba(0,160,255,.42);background:rgba(3,18,35,.88);backdrop-filter:blur(12px);color:#9bcdf0;cursor:pointer;box-shadow:0 0 18px rgba(0,120,255,.18);transition:all .2s}
+  .music-mute{position:fixed;top:108px;right: max(24px, calc((100vw - 1180px)/2 + 8px));z-index:60;width:44px;height:44px;display:grid;place-items:center;padding:0;border-radius:12px;border:1px solid rgba(0,160,255,.42);background:rgba(3,18,35,.92);backdrop-filter:blur(12px);color:#9bcdf0;cursor:pointer;box-shadow:0 0 18px rgba(0,120,255,.18);transition:all .2s}
   .music-mute:hover{border-color:#00c8ff;color:#fff;box-shadow:0 0 18px rgba(0,150,255,.38);transform:translateY(-1px)}
   .music-mute:focus-visible{outline:2px solid #fff;outline-offset:3px}
   .music-mute span{display:none}
@@ -376,10 +376,6 @@
     <div class="entry-music" id="entry-music" aria-live="polite">
       <span class="music-note" aria-hidden="true">♫</span>
       <span class="music-title">Trilha sonora</span>
-      <button type="button" class="music-mute" id="music-mute" aria-label="Silenciar música" aria-pressed="false">
-        <svg class="sound-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
-        <span id="music-mute-label">MUTAR</span>
-      </button>
     </div>
   </div>
 </div>
@@ -397,6 +393,10 @@
 </nav>
 
 <section class="tiktok-section" id="tiktok">
+  <button type="button" class="music-mute" id="music-mute" aria-label="Silenciar música" aria-pressed="false">
+    <svg class="sound-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+    <span id="music-mute-label">MUTAR</span>
+  </button>
   <div class="tiktok-layout">
     <div class="tiktok-heading">
       <h2 class="sec-title">Meu <em>TikTok</em></h2>
