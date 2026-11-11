@@ -456,7 +456,22 @@
 
   /* ===== PÁGINA ROBLOX E LOADING ===== */
   #home-page-content[hidden],#roblox-page[hidden]{display:none!important}
-  .roblox-page{min-height:calc(100vh - 76px);padding:120px 6vw 80px;max-width:1250px;margin:0 auto}
+  .roblox-page{position:relative;isolation:isolate;overflow:hidden;min-height:calc(100vh - 76px);padding:120px 6vw 80px;max-width:none;margin:0 auto;background:#050505;color:#fff}
+  .roblox-page > :not(.roblox-background){position:relative;z-index:1}
+  .roblox-background{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:#050505}
+  .roblox-gradient-sphere{position:absolute;border-radius:50%;filter:blur(60px);will-change:transform}
+  .roblox-sphere-1{width:40vw;height:40vw;min-width:280px;min-height:280px;background:linear-gradient(40deg,rgba(255,0,128,.8),rgba(255,102,0,.4));top:-10%;left:-10%;animation:roblox-float-1 15s ease-in-out infinite alternate}
+  .roblox-sphere-2{width:45vw;height:45vw;min-width:300px;min-height:300px;background:linear-gradient(240deg,rgba(72,0,255,.8),rgba(0,183,255,.4));bottom:-20%;right:-10%;animation:roblox-float-2 18s ease-in-out infinite alternate}
+  .roblox-sphere-3{width:30vw;height:30vw;min-width:220px;min-height:220px;background:linear-gradient(120deg,rgba(133,89,255,.5),rgba(98,216,249,.3));top:60%;left:20%;animation:roblox-float-3 20s ease-in-out infinite alternate}
+  .roblox-noise-overlay{position:absolute;inset:0;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")}
+  .roblox-grid-overlay{position:absolute;inset:0;background-size:40px 40px;background-image:linear-gradient(to right,rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.03) 1px,transparent 1px)}
+  .roblox-background-glow{position:absolute;width:40vw;height:40vh;min-height:220px;background:radial-gradient(circle,rgba(72,0,255,.15),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:roblox-pulse 8s infinite alternate;filter:blur(30px)}
+  .roblox-particles-container{position:absolute;inset:0;pointer-events:none}
+  @keyframes roblox-float-1{to{transform:translate(10%,10%) scale(1.1)}}
+  @keyframes roblox-float-2{to{transform:translate(-10%,-5%) scale(1.15)}}
+  @keyframes roblox-float-3{0%{transform:translate(0,0) scale(1);opacity:.3}100%{transform:translate(-5%,10%) scale(1.05);opacity:.6}}
+  @keyframes roblox-pulse{0%{opacity:.3;transform:translate(-50%,-50%) scale(.9)}100%{opacity:.7;transform:translate(-50%,-50%) scale(1.1)}}
+  @media(prefers-reduced-motion:reduce){.roblox-gradient-sphere,.roblox-background-glow{animation:none!important}}
   .roblox-page-heading{text-align:center;margin-bottom:38px}
   .roblox-page-heading h1{font-size:clamp(2.5rem,8vw,5rem);margin-bottom:14px}
   .roblox-page-heading p{color:var(--muted);font-size:1.1rem}
@@ -748,6 +763,15 @@
 </div>
 
 <main class="roblox-page" id="roblox-page" hidden>
+  <div class="roblox-background" aria-hidden="true">
+    <div class="roblox-gradient-sphere roblox-sphere-1"></div>
+    <div class="roblox-gradient-sphere roblox-sphere-2"></div>
+    <div class="roblox-gradient-sphere roblox-sphere-3"></div>
+    <div class="roblox-background-glow"></div>
+    <div class="roblox-grid-overlay"></div>
+    <div class="roblox-particles-container"></div>
+    <div class="roblox-noise-overlay"></div>
+  </div>
   <div class="roblox-page-heading">
     <h1>ROBLOX</h1>
     <p>Bem-vindo à página Roblox do YNeX Blox.</p>
