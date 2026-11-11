@@ -1072,6 +1072,12 @@
       const message = document.getElementById('roblox-profile-message');
       const username = input.value.trim();
       if (!username) return;
+      // Abre uma aba durante o clique para evitar bloqueio de pop-ups após a consulta assíncrona.
+      const profileTab = window.open('about:blank', '_blank');
+      if (profileTab) {
+        profileTab.opener = null;
+        try { profileTab.document.title = 'YNeX Blox — Buscando jogador...'; } catch (error) {}
+      }
       button.disabled = true;
       button.textContent = 'PROCURANDO...';
       message.textContent = 'Buscando jogador...';
@@ -1084,6 +1090,7 @@
         });
         const result = await response.json().catch(() => ({}));
         if (response.status === 404) {
+          if (profileTab && !profileTab.closed) profileTab.close();
           message.textContent = result.error || 'Usuário não encontrado. Confira o nome e tente novamente.';
           message.style.color = '#ff8b8b';
           return;
@@ -1091,11 +1098,26 @@
         if (!response.ok || !result.id) {
           throw new Error(result.error || 'Não foi possível consultar o Roblox agora.');
         }
-        message.textContent = 'Jogador encontrado! Abrindo perfil...';
+        message.textContent = 'Jogador encontrado! Abrindo o perfil em uma nova aba...';
         message.style.color = '#72e6a0';
-        window.location.href = 'https://www.roblox.com/users/' + encodeURIComponent(result.id) + '/profile';
+        const profileUrl = 'https://www.roblox.com/users/' + encodeURIComponent(result.id) + '/profile';
+        if (profileTab && !profileTab.closed) {
+          profileTab.location.replace(profileUrl);
+        } else {
+          const fallbackLink = document.createElement('a');
+          fallbackLink.href = profileUrl;
+          fallbackLink.target = '_blank';
+          fallbackLink.rel = 'noopener noreferrer';
+          fallbackLink.textContent = 'CLIQUE AQUI PARA ABRIR O PERFIL';
+          fallbackLink.className = 'roblox-profile-button';
+          fallbackLink.style.display = 'inline-block';
+          fallbackLink.style.marginTop = '10px';
+          message.appendChild(document.createElement('br'));
+          message.appendChild(fallbackLink);
+        }
       } catch (error) {
-        message.textContent = 'Não foi possível buscar o usuário. Tente novamente em instantes.';
+        if (profileTab && !profileTab.closed) profileTab.close();
+        message.textContent = error.message || 'Não foi possível buscar o usuário. Tente novamente em instantes.';
         message.style.color = '#ff8b8b';
       } finally {
         button.disabled = false;
