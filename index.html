@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>YNeX Blox — Plataforma de Jogos</title>
+<meta name="description" content="YNeX Blox — experimente o futuro do gaming. Visual neon, performance e inovação." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#050308;
+    --bg2:#0b0614;
+    --purple:#a855f7;
+    --purple-strong:#7c3aed;
+    --purple-soft:#c084fc;
+    --pink:#d946ef;
+    --cyan:#22d3ee;
+    --text:#e9e2f7;
+    --muted:#9b8fb8;
+    --card:rgba(20,10,35,.55);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Rajdhani',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+    min-height:100vh;
+  }
+  /* fundo com brilhos */
+  .bg-glow{
+    position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(700px 500px at 15% 20%, rgba(124,58,237,.22), transparent 60%),
+      radial-gradient(600px 500px at 85% 75%, rgba(217,70,239,.16), transparent 60%),
+      radial-gradient(800px 600px at 50% 110%, rgba(168,85,247,.14), transparent 65%),
+      linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);
+  }
+  .grid-lines{
+    position:fixed;inset:0;z-index:-1;opacity:.35;
+    background-image:
+      linear-gradient(rgba(168,85,247,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(168,85,247,.06) 1px, transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(circle at 50% 30%, black 30%, transparent 75%);
+    -webkit-mask-image:radial-gradient(circle at 50% 30%, black 30%, transparent 75%);
+  }
+
+  /* ===== NAV ===== */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 6vw;
+    backdrop-filter:blur(14px);
+    background:rgba(5,3,8,.65);
+    border-bottom:1px solid rgba(168,85,247,.18);
+  }
+  .logo{font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.35rem;letter-spacing:2px;
+    background:linear-gradient(90deg,var(--purple-soft),var(--pink),var(--cyan));
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .logo span{color:#fff;-webkit-text-fill-color:#fff}
+  nav ul{display:flex;gap:32px;list-style:none}
+  nav a{color:var(--muted);text-decoration:none;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-size:.85rem;transition:.25s}
+  nav a:hover{color:var(--purple-soft);text-shadow:0 0 12px rgba(168,85,247,.8)}
+  .btn-nav{
+    font-family:'Rajdhani';font-weight:700;color:#fff;cursor:pointer;
+    padding:10px 26px;border-radius:10px;border:1px solid var(--purple);
+    background:linear-gradient(135deg,rgba(124,58,237,.35),rgba(217,70,239,.25));
+    box-shadow:0 0 18px rgba(168,85,247,.45), inset 0 0 12px rgba(168,85,247,.15);
+    transition:.25s;text-transform:uppercase;letter-spacing:1px;font-size:.85rem;
+  }
+  .btn-nav:hover{box-shadow:0 0 32px rgba(168,85,247,.8);transform:translateY(-2px)}
+
+  /* ===== HERO ===== */
+  header{
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:120px 6vw 60px;position:relative;
+  }
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 18px;border-radius:999px;font-size:.8rem;font-weight:700;letter-spacing:2px;
+    color:var(--purple-soft);border:1px solid rgba(168,85,247,.4);
+    background:rgba(124,58,237,.12);text-transform:uppercase;margin-bottom:28px;
+    box-shadow:0 0 20px rgba(168,85,247,.2);
+  }
+  .badge::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--purple-soft);
+    box-shadow:0 0 10px var(--purple-soft);animation:pulse 2s infinite}
+  @keyframes pulse{50%{opacity:.3}}
+  h1{
+    font-family:'Orbitron',sans-serif;font-weight:900;
+    font-size:clamp(2.6rem,8vw,5.5rem);line-height:1.05;letter-spacing:3px;
+    background:linear-gradient(90deg,#fff 10%,var(--purple-soft) 45%,var(--pink) 70%,var(--cyan) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 30px rgba(168,85,247,.45));
+  }
+  .hero-sub{
+    max-width:640px;margin:24px auto 40px;color:var(--muted);
+    font-size:1.15rem;font-weight:500;line-height:1.6;
+  }
+  .hero-sub b{color:var(--purple-soft)}
+  .hero-btns{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+
+  .btn-primary{
+    position:relative;padding:15px 40px;border-radius:12px;border:none;cursor:pointer;
+    font-family:'Rajdhani';font-weight:800;font-size:1rem;letter-spacing:2px;text-transform:uppercase;color:#fff;
+    background:linear-gradient(135deg,var(--purple-strong),var(--pink));
+    box-shadow:0 0 28px rgba(168,85,247,.55);transition:.25s;
+  }
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 0 45px rgba(217,70,239,.8)}
+  .btn-ghost{
+    position:relative;padding:15px 40px;border-radius:12px;cursor:pointer;
+    font-family:'Rajdhani';font-weight:800;font-size:1rem;letter-spacing:2px;text-transform:uppercase;
+    color:var(--purple-soft);background:transparent;border:1px solid rgba(168,85,247,.5);transition:.25s;
+  }
+  .btn-ghost:hover{background:rgba(168,85,247,.12);box-shadow:0 0 25px rgba(168,85,247,.4)}
+
+  /* ===== CARDS COM BORDA ANIMADA ===== */
+  section{padding:90px 6vw;max-width:1250px;margin:0 auto}
+  .sec-title{
+    font-family:'Orbitron';font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);
+    text-align:center;letter-spacing:2px;margin-bottom:12px;
+  }
+  .sec-title em{font-style:normal;background:linear-gradient(90deg,var(--purple-soft),var(--pink));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .sec-desc{text-align:center;color:var(--muted);max-width:560px;margin:0 auto 60px;font-size:1.05rem}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:34px}
+
+  /* borda animada: conic-gradient girando */
+  .neon-card{
+    position:relative;border-radius:18px;padding:2px; /* espaço para a "borda" */
+    background:conic-gradient(from var(--ang,0deg),
+      transparent 0deg, transparent 210deg,
+      var(--purple) 260deg, var(--pink) 300deg, var(--cyan) 330deg, transparent 360deg);
+    animation:spin-border 4s linear infinite;
+    transition:transform .3s;
+  }
+  .neon-card:hover{transform:translateY(-6px)}
+  @property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
+  @keyframes spin-border{to{--ang:360deg}}
+
+  .neon-card-inner{
+    background:linear-gradient(160deg, rgba(24,12,44,.92), rgba(9,5,18,.95));
+    border-radius:16px;padding:34px 28px;height:100%;
+    display:flex;flex-direction:column;gap:14px;
+  }
+  .neon-card-inner::before{ /* glow interno sutil */
+    content:'';position:absolute;inset:0;border-radius:16px;pointer-events:none;
+    background:radial-gradient(400px 200px at 50% 0%, rgba(168,85,247,.12), transparent 70%);
+  }
+  .icon{
+    width:54px;height:54px;border-radius:14px;display:grid;place-items:center;font-size:1.6rem;
+    background:linear-gradient(135deg,rgba(124,58,237,.35),rgba(217,70,239,.2));
+    border:1px solid rgba(168,85,247,.4);
+    box-shadow:0 0 18px rgba(168,85,247,.35);
+  }
+  .neon-card h3{font-family:'Orbitron';font-size:1.15rem;letter-spacing:1.5px;font-weight:700}
+  .neon-card p{color:var(--muted);line-height:1.6;font-weight:500}
+  .tag{margin-top:auto;font-size:.75rem;font-weight:700;letter-spacing:2px;color:var(--cyan);text-transform:uppercase}
+
+  /* ===== STATS ===== */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px;text-align:center}
+  .stat b{
+    display:block;font-family:'Orbitron';font-size:2.4rem;
+    background:linear-gradient(90deg,var(--purple-soft),var(--cyan));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .stat span{color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-size:.8rem;font-weight:700}
+
+  /* ===== CTA ===== */
+  .cta-wrap{max-width:900px;margin:0 auto;padding:0 6vw 100px}
+  .cta{
+    position:relative;border-radius:22px;padding:3px;
+    background:conic-gradient(from var(--ang,0deg),
+      transparent 0deg, transparent 160deg,
+      var(--cyan) 210deg, var(--purple) 260deg, var(--pink) 320deg, transparent 360deg);
+    animation:spin-border 6s linear infinite;
+  }
+  .cta-inner{
+    border-radius:20px;padding:64px 30px;text-align:center;
+    background:linear-gradient(160deg, rgba(26,13,48,.95), rgba(9,5,18,.98));
+  }
+  .cta-inner h2{font-family:'Orbitron';font-size:clamp(1.5rem,4vw,2.2rem);letter-spacing:2px;margin-bottom:14px}
+  .cta-inner p{color:var(--muted);margin-bottom:32px;font-size:1.08rem}
+
+  footer{
+    text-align:center;padding:34px 6vw;border-top:1px solid rgba(168,85,247,.15);
+    color:var(--muted);font-size:.9rem;letter-spacing:1px;
+  }
+  footer .logo{font-size:1rem}
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(30px);transition:.7s ease}
+  .reveal.show{opacity:1;transform:none}
+
+  @media(max-width:720px){
+    nav ul{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="grid-lines"></div>
+
+<nav>
+  <div class="logo">YNeX <span>Blox</span></div>
+  <ul>
+    <li><a href="#recursos">Recursos</a></li>
+    <li><a href="#stats">Status</a></li>
+    <li><a href="#comecar">Começar</a></li>
+  </ul>
+  <button class="btn-nav" onclick="document.getElementById('comecar').scrollIntoView()">Entrar</button>
+</nav>
+
+<header>
+  <div class="badge">Nova geração de gaming</div>
+  <h1>YNeX Blox</h1>
+  <p class="hero-sub">
+    A plataforma definitiva para quem vive o universo dos jogos.
+    Performance extrema, visual neon e uma experiência <b>fora do comum</b>.
+  </p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="document.getElementById('comecar').scrollIntoView()">Começar agora</button>
+    <button class="btn-ghost" onclick="document.getElementById('recursos').scrollIntoView()">Ver recursos</button>
+  </div>
+</header>
+
+<section id="recursos">
+  <h2 class="sec-title">Por que <em>YNeX Blox</em>?</h2>
+  <p class="sec-desc">Tecnologia de ponta, design futurista e velocidade que você sente no primeiro segundo.</p>
+  <div class="cards">
+    <div class="neon-card reveal"><div class="neon-card-inner">
+      <div class="icon">⚡</div>
+      <h3>Performance Extrema</h3>
+      <p>Servidores otimizados e infraestrutura global para reduzir o lag a quase zero e entregar respostas em milissegundos.</p>
+      <span class="tag">Velocidade</span>
+    </div></div>
+    <div class="neon-card reveal"><div class="neon-card-inner">
+      <div class="icon">🛡️</div>
+      <h3>Segurança Total</h3>
+      <p>Proteção em várias camadas, criptografia de ponta a ponta e monitoramento contínuo contra ameaças.</p>
+      <span class="tag">Proteção</span>
+    </div></div>
+    <div class="neon-card reveal"><div class="neon-card-inner">
+      <div class="icon">🎮</div>
+      <h3>Experiência Imersiva</h3>
+      <p>Interface neon moderna e fluida, feita para mergulhar de cabeça no jogo sem distrações.</p>
+      <span class="tag">Design</span>
+    </div></div>
+    <div class="neon-card reveal"><div class="neon-card-inner">
+      <div class="icon">🌍</div>
+      <h3>Comunidade Global</h3>
+      <p>Jogue, converse e evolua com milhares de jogadores conectados do mundo inteiro, 24 horas por dia.</p>
+      <span class="tag">Social</span>
+    </div></div>
+    <div class="neon-card reveal"><div class="neon-card-inner">
+      <div class="icon">🚀</div>
+      <h3>Atualizações Constantes</h3>
+      <p>Novos recursos, eventos e melhorias lançados toda semana para você nunca parar de evoluir.</p>
+      <span class="tag">Inovação</span>
+    </div></div>
+    <div class="neon-card reveal"><div class="neon-card-inner">
+      <div class="icon">💎</div>
+      <h3>Suporte Premium</h3>
+      <p>Equipe dedicada pronta para ajudar a qualquer momento, com resposta rápida e solução de verdade.</p>
+      <span class="tag">Suporte</span>
+    </div></div>
+  </div>
+</section>
+
+<section id="stats">
+  <div class="stats">
+    <div class="stat reveal"><b>50K+</b><span>Jogadores</span></div>
+    <div class="stat reveal"><b>99.9%</b><span>Uptime</span></div>
+    <div class="stat reveal"><b>24/7</b><span>Suporte</span></div>
+    <div class="stat reveal"><b>120+</b><span>Países</span></div>
+  </div>
+</section>
+
+<div class="cta-wrap" id="comecar">
+  <div class="cta reveal"><div class="cta-inner">
+    <h2>Pronto para entrar no YNeX Blox?</h2>
+    <p>Crie sua conta gratuitamente e descubra um novo nível de gameplay.</p>
+    <button class="btn-primary">Criar conta grátis</button>
+  </div></div>
+</div>
+
+<footer>
+  <div class="logo">YNeX <span>Blox</span></div>
+  <p style="margin-top:10px">© 2025 YNeX Blox — Todos os direitos reservados.</p>
+</footer>
+
+<script>
+  // reveal ao rolar
+  const obs = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show') });
+  },{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  // delay diferente na animação de borda de cada card (efeito mais orgânico)
+  document.querySelectorAll('.neon-card, .cta').forEach((el,i)=>{
+    el.style.animationDelay = (-i*0.6)+'s';
+  });
+</script>
+</body>
+</html>
