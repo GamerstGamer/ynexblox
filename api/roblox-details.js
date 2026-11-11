@@ -51,7 +51,35 @@ module.exports = async (req, res) => {
         });
         itemDetails = Array.isArray(catalog.data) ? catalog.data : [];
       } catch (error) {
-        itemDetails = assetIds.map(id => ({ id, name: "Item Roblox #" + id }));
+        itemDetails = [];
+      }
+
+      // A API de catálogo pode omitir alguns itens. Busca os nomes ausentes
+      // individualmente na API de economia do Roblox como alternativa.
+      const knownIds = new Set(
+        itemDetails
+          .filter(item => item && item.name)
+          .map(item => Number(item.id))
+      );
+      const missingIds = assetIds.filter(id => !knownIds.has(id));
+
+      const fallbackDetails = await Promise.allSettled(
+        missingIds.map(async id => {
+          const detail = await fetchJson(
+            "https://economy.roblox.com/v2/assets/" + id + "/details"
+          );
+          return {
+            id,
+            name: detail.Name || detail.name || null,
+            assetType: detail.AssetTypeId || null
+          };
+        })
+      );
+
+      for (const result of fallbackDetails) {
+        if (result.status === "fulfilled" && result.value.name) {
+          itemDetails.push(result.value);
+        }
       }
     }
 
@@ -72,7 +100,7 @@ module.exports = async (req, res) => {
       const detail = itemDetails.find(item => Number(item.id) === id) || {};
       return {
         id,
-        name: detail.name || "Item Roblox #" + id,
+        name: detail.name || "Nome não disponível",
         assetType: detail.assetType || null,
         imageUrl: imageById.get(id) || null,
         url: "https://www.roblox.com/catalog/" + id
