@@ -492,7 +492,7 @@
   @keyframes scrolling{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
   @keyframes shadow{0%{background-position:-98% 0}100%{background-position:102% 0}}
   .roblox-loading[hidden]{display:none!important}
-  @media(max-width:720px){nav ul{display:flex;gap:0}nav ul li:not(.pages-nav-item){display:none}.pages-nav-menu{left:auto;right:0}}
+  @media(max-width:720px){nav ul{display:flex;gap:0}nav ul li:not(:nth-child(2)){display:none}}
   @media(max-width:600px){.loader{--main-size:2.8em}.roblox-page{padding-top:100px}.roblox-placeholder{padding:34px 18px}}
   @media(prefers-reduced-motion:reduce){.loader .text span,.loader .line::after{animation:none!important}}
 
@@ -542,14 +542,8 @@
   <div class="logo">YNeX <span>Blox</span></div>
   <ul>
     <li><a href="#recursos" data-home-link>Recursos</a></li>
-    <li><a href="#stats" data-home-link>Status</a></li>
+    <li><a href="#pagina-roblox" id="open-roblox-page">Roblox</a></li>
     <li><a href="#comecar" data-home-link>Começar</a></li>
-    <li class="pages-nav-item">
-      <button type="button" class="pages-nav-trigger" id="pages-nav-trigger" aria-expanded="false" aria-controls="pages-nav-menu">Páginas ▾</button>
-      <div class="pages-nav-menu" id="pages-nav-menu" hidden>
-        <a href="#pagina-roblox" id="open-roblox-page">Roblox</a>
-      </div>
-    </li>
   </ul>
 </nav>
 
@@ -694,25 +688,13 @@
 
 <script>
 
-  // Navegação entre a página inicial e as páginas internas.
-  const pagesNavTrigger = document.getElementById('pages-nav-trigger');
-  const pagesNavMenu = document.getElementById('pages-nav-menu');
+  // Navegação entre a página inicial e a página Roblox.
   const homePageContent = document.getElementById('home-page-content');
   const robloxPage = document.getElementById('roblox-page');
   const robloxLoading = document.getElementById('roblox-loading');
   let robloxLoadTimer = null;
-  function closePagesMenu() {
-    pagesNavMenu.hidden = true;
-    pagesNavTrigger.setAttribute('aria-expanded', 'false');
-  }
-  pagesNavTrigger.addEventListener('click', () => {
-    const opening = pagesNavTrigger.getAttribute('aria-expanded') !== 'true';
-    pagesNavTrigger.setAttribute('aria-expanded', String(opening));
-    pagesNavMenu.hidden = !opening;
-  });
   document.getElementById('open-roblox-page').addEventListener('click', event => {
     event.preventDefault();
-    closePagesMenu();
     homePageContent.hidden = true;
     robloxPage.hidden = false;
     robloxLoading.hidden = false;
@@ -738,13 +720,6 @@
       }
     });
   });
-  document.addEventListener('click', event => {
-    if (!document.querySelector('.pages-nav-item').contains(event.target)) closePagesMenu();
-  });
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') closePagesMenu();
-  });
-
   // Player de áudio: o YouTube é carregado sem interface e só começa após o clique em OFF.
   const youtubeVideoId = '6YMhcO1RGyo';
   const musicMute = document.getElementById('music-mute');
