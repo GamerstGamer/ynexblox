@@ -310,9 +310,11 @@
   .entry-music{display:flex;align-items:center;justify-content:center;gap:12px;margin:28px auto 0;color:#b9d9f5;font-size:.83rem;letter-spacing:.7px}
   .music-note{font-size:1.35rem;color:#00c8ff;text-shadow:0 0 12px #008cff;animation:music-note-pulse 1.2s ease-in-out infinite alternate}
   @keyframes music-note-pulse{to{transform:translateY(-3px);text-shadow:0 0 18px #00c8ff}}
-  .music-mute{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:9px;border:1px solid rgba(0,160,255,.3);background:rgba(0,50,90,.35);color:#9bcdf0;font:700 .65rem 'Rajdhani',sans-serif;letter-spacing:1px;cursor:pointer}
-  .music-mute:hover{border-color:#00c8ff;color:#fff;box-shadow:0 0 12px rgba(0,150,255,.2)}
-  .sound-icon{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .music-mute{position:fixed;top:18px;left:18px;z-index:10001;width:44px;height:44px;display:grid;place-items:center;padding:0;border-radius:12px;border:1px solid rgba(0,160,255,.42);background:rgba(3,18,35,.88);backdrop-filter:blur(12px);color:#9bcdf0;cursor:pointer;box-shadow:0 0 18px rgba(0,120,255,.18);transition:all .2s}
+  .music-mute:hover{border-color:#00c8ff;color:#fff;box-shadow:0 0 18px rgba(0,150,255,.38);transform:translateY(-1px)}
+  .music-mute:focus-visible{outline:2px solid #fff;outline-offset:3px}
+  .music-mute span{display:none}
+  .sound-icon{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
   .music-mute[aria-pressed="true"] .sound-icon path:nth-child(n+2){display:none}
   .music-title{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .youtube-audio-frame{position:fixed;width:1px;height:1px;left:-10px;bottom:0;opacity:.001;pointer-events:none;border:0}
