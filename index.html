@@ -1143,10 +1143,16 @@
   let currentRobloxPlayer = null;
   let robloxPresenceTimer = null;
 
-  function setRobloxPresence(presence) {
+  function setRobloxPresence(presence, unavailable = false) {
     const status = document.getElementById('roblox-player-status');
     const game = document.getElementById('roblox-player-game');
-    const type = Number(presence?.type ?? 0);
+    if (unavailable || !presence) {
+      status.textContent = 'STATUS INDISPONÍVEL';
+      status.dataset.state = 'offline';
+      game.textContent = 'O Roblox não forneceu a presença pública deste jogador.';
+      return;
+    }
+    const type = Number(presence.type ?? 0);
     const states = {
       0: {label:'OFFLINE', state:'offline'},
       1: {label:'ONLINE', state:'online'},
@@ -1217,7 +1223,7 @@
         avatar.hidden = true;
       }
       renderRobloxItems(details.items);
-      setRobloxPresence(details.presence);
+      setRobloxPresence(details.presence, Boolean(details.partial?.presence));
       loading.textContent = details.partial?.avatar || details.partial?.items || details.partial?.presence
         ? 'Algumas informações podem estar temporariamente indisponíveis na API pública do Roblox.'
         : 'Informações públicas atualizadas.';
