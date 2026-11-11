@@ -620,6 +620,9 @@
   let musicStarted = false;
   let musicMuted = false;
   let pendingStart = false;
+  // Restaura a preferência de áudio salva na última visita.
+  try { musicMuted = localStorage.getItem('ynexblox-muted') === 'true'; } catch (error) {}
+  updateMuteControl();
 
   function updateMuteControl() {
     musicMute.setAttribute('aria-pressed', String(musicMuted));
@@ -671,6 +674,7 @@
 
   musicMute.addEventListener('click', function() {
     musicMuted = !musicMuted;
+    try { localStorage.setItem('ynexblox-muted', String(musicMuted)); } catch (error) {}
     updateMuteControl();
     if (youtubePlayer && youtubeReady) {
       if (musicMuted) youtubePlayer.mute();
