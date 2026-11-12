@@ -2475,6 +2475,23 @@
   .toggle-input:checked~.toggle-label::after{content:" • ONLINE"}
   .toggle-input:focus-visible+.toggle-track{outline:2px solid #fff;outline-offset:5px}
 
+
+  /* Barra de temas em ícones, inspirada no seletor social enviado */
+  .theme-switcher{font-family:'Rajdhani',sans-serif}
+  .example-1{list-style:none;display:flex;justify-content:center;align-items:center;font-weight:900;background:#000;border-radius:30px;padding:10px 14px;height:70px;width:300px;margin:0;box-sizing:border-box;gap:2px}
+  .example-1 .icon-content{margin:0 7px;position:relative;font-weight:900}
+  .example-1 .tooltip{position:absolute;top:-30px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:6px 10px;border-radius:5px;opacity:0;visibility:hidden;font-size:13px;white-space:nowrap;transition:all .3s ease;font-weight:900;z-index:5;pointer-events:none}
+  .example-1 .icon-content:hover .tooltip,.example-1 .icon-content:focus-within .tooltip{opacity:1;visibility:visible;top:-43px}
+  .example-1 .icon-content .link{display:flex;justify-content:center;align-items:center;width:50px;height:50px;padding:0;border:0;border-radius:50%;color:#fff;background:#000;cursor:pointer;transition:all .3s ease-in-out;box-shadow:none}
+  .example-1 .icon-content .link:hover,.example-1 .icon-content .link[aria-pressed="true"]{box-shadow:3px 2px 24px rgba(255,255,255,.13);background:#171717}
+  .example-1 .icon-content .link svg{width:30px;height:30px;fill:#fff;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .example-1 .icon-content .link[data-social="spotify"]:hover,.example-1 .icon-content .link[data-social="spotify"][aria-pressed="true"]{color:#1db954}
+  .example-1 .icon-content .link[data-social="pinterest"]:hover,.example-1 .icon-content .link[data-social="pinterest"][aria-pressed="true"]{color:#bd081c}
+  .example-1 .icon-content .link[data-social="dribbble"]:hover,.example-1 .icon-content .link[data-social="dribbble"][aria-pressed="true"]{color:#ea4c89}
+  .example-1 .icon-content .link[data-social="telegram"]:hover,.example-1 .icon-content .link[data-social="telegram"][aria-pressed="true"]{color:#0088cc}
+  .example-1 .icon-content .link[data-social] svg{fill:none;stroke:currentColor}
+  @media(max-width:600px){.example-1{width:260px;height:62px;padding:7px 9px}.example-1 .icon-content{margin:0 5px}.example-1 .icon-content .link{width:44px;height:44px}.example-1 .icon-content .link svg{width:26px;height:26px}}
+
   /* ===== SELETOR DE TEMAS ===== */
   .theme-switcher{position:fixed;top:108px;right:max(76px,calc((100vw - 1180px)/2 + 60px));z-index:61;font-family:'Rajdhani',sans-serif}
   .theme-trigger{height:44px;min-width:88px;padding:0 13px;border:1px solid rgba(0,160,255,.42);border-radius:12px;
@@ -2901,14 +2918,33 @@
 
 
 <div class="global-controls" id="global-controls">
-  <div class="theme-switcher" id="theme-switcher">
-    <button type="button" class="theme-trigger" id="theme-trigger" aria-expanded="false" aria-controls="theme-menu">TEMA ▾</button>
-    <div class="theme-menu" id="theme-menu" role="menu" hidden>
-      <button type="button" class="theme-option" data-theme-choice="dark-white" role="menuitem" aria-pressed="false">Dark and White</button>
-      <button type="button" class="theme-option" data-theme-choice="hacker" role="menuitem" aria-pressed="false">Hacker Mode</button>
-      <button type="button" class="theme-option" data-theme-choice="pink-white" role="menuitem" aria-pressed="false">Pink and White</button>
-      <button type="button" class="theme-option" data-theme-choice="normal" role="menuitem" aria-pressed="true">Voltar ao normal</button>
-    </div>
+  <div class="theme-switcher" id="theme-switcher" aria-label="Escolher tema">
+    <ul class="example-1" aria-label="Temas do site">
+      <li class="icon-content">
+        <span class="tooltip">Dark and White</span>
+        <button type="button" class="link theme-option" data-social="spotify" data-theme-choice="dark-white" aria-label="Tema Dark and White" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a9.8 9.8 0 1 0 10 10A8 8 0 0 1 12 2Z"/></svg>
+        </button>
+      </li>
+      <li class="icon-content">
+        <span class="tooltip">Hacker Mode</span>
+        <button type="button" class="link theme-option" data-social="pinterest" data-theme-choice="hacker" aria-label="Tema Hacker Mode" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM8 9l3 3-3 3M13 15h4"/></svg>
+        </button>
+      </li>
+      <li class="icon-content">
+        <span class="tooltip">Pink and White</span>
+        <button type="button" class="link theme-option" data-social="dribbble" data-theme-choice="pink-white" aria-label="Tema Pink and White" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-4.6-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.4-8 11-8 11Z"/></svg>
+        </button>
+      </li>
+      <li class="icon-content">
+        <span class="tooltip">Voltar ao normal</span>
+        <button type="button" class="link theme-option" data-social="telegram" data-theme-choice="normal" aria-label="Voltar ao tema normal" aria-pressed="true">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4.8 9a7.5 7.5 0 0 1 13-2L20 12M4 17v-5h5m10.2 3a7.5 7.5 0 0 1-13 2L4 12"/></svg>
+        </button>
+      </li>
+    </ul>
   </div>
   <div class="music-card" id="music-card" aria-label="Player de música">
     <div class="music-card-top">
@@ -3463,8 +3499,6 @@
   });
   // Seletor de temas com preferência salva neste navegador.
   const themeSwitcher = document.getElementById('theme-switcher');
-  const themeTrigger = document.getElementById('theme-trigger');
-  const themeMenu = document.getElementById('theme-menu');
   const themeOptions = document.querySelectorAll('.theme-option');
   const availableThemes = ['dark-white', 'hacker', 'pink-white'];
   function applyTheme(theme) {
@@ -3480,22 +3514,9 @@
     const savedTheme = localStorage.getItem('ynexblox-theme');
     if (savedTheme) applyTheme(savedTheme);
   } catch (error) {}
-  themeTrigger.addEventListener('click', () => {
-    const isOpen = themeTrigger.getAttribute('aria-expanded') === 'true';
-    themeTrigger.setAttribute('aria-expanded', String(!isOpen));
-    themeMenu.hidden = isOpen;
-  });
   themeOptions.forEach(option => option.addEventListener('click', () => {
     applyTheme(option.dataset.themeChoice);
-    themeMenu.hidden = true;
-    themeTrigger.setAttribute('aria-expanded', 'false');
   }));
-  document.addEventListener('click', event => {
-    if (!themeSwitcher.contains(event.target)) {
-      themeMenu.hidden = true;
-      themeTrigger.setAttribute('aria-expanded', 'false');
-    }
-  });
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') {
       themeMenu.hidden = true;
