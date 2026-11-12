@@ -91,7 +91,7 @@ module.exports = async (req, res) => {
           token: current.accessToken,
           token_type_hint: "access_token"
         });
-        await fetch(OAUTH_BASE + "/revoke", {
+        await fetch(OAUTH_BASE + "/token/revoke", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: revokeBody,
@@ -109,7 +109,7 @@ module.exports = async (req, res) => {
     const state = crypto.randomBytes(32).toString("base64url");
     const verifier = crypto.randomBytes(48).toString("base64url");
     const challenge = crypto.createHash("sha256").update(verifier).digest("base64url");
-    setCookie(res, COOKIE_TX, seal({ state, verifier, exp: Date.now() + 10 * 60 * 1000 }), 600, "/api/roblox-auth");
+    setCookie(res, COOKIE_TX, seal({ state, verifier, exp: Date.now() + 10 * 60 * 1000 }), 600);
     const url = new URL("https://apis.roblox.com/oauth/v1/authorize");
     url.search = new URLSearchParams({
       client_id: process.env.ROBLOX_CLIENT_ID,
@@ -125,7 +125,7 @@ module.exports = async (req, res) => {
 
   if (action === "callback") {
     const tx = unseal(jar[COOKIE_TX]);
-    clearCookie(res, COOKIE_TX, "/api/roblox-auth");
+    clearCookie(res, COOKIE_TX);
     if (req.query?.error || !req.query?.code || !tx || tx.exp < Date.now() || req.query?.state !== tx.state) {
       return redirect(res, "/?roblox=error");
     }
