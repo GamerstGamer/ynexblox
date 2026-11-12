@@ -780,6 +780,7 @@
   .roblox-login-cta.is-logged-in .roblox-login-mark{color:#087c58}
   @keyframes logged-in-pulse{0%,100%{filter:brightness(1);box-shadow:0 0 18px rgba(35,230,165,.3)}50%{filter:brightness(1.18);box-shadow:0 0 28px rgba(35,230,165,.55),0 0 48px rgba(0,160,255,.2)}}
   #nav-roblox-login.is-logged-in{color:#7fffd0;font-weight:900;text-shadow:0 0 12px rgba(35,230,165,.55);animation:nav-logged-glow 2s ease-in-out infinite}
+  .btn-primary.is-logged-in{background:linear-gradient(110deg,#087c58,#087b9d);border-color:#51edb5;box-shadow:0 0 18px rgba(35,230,165,.35);animation:logged-in-pulse 2.4s ease-in-out infinite}
   @keyframes nav-logged-glow{0%,100%{text-shadow:0 0 5px rgba(35,230,165,.3)}50%{text-shadow:0 0 15px rgba(35,230,165,.85)}}
   @media(max-width:900px){.roblox-social-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
   @media(max-width:620px){.roblox-social-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
@@ -910,7 +911,7 @@
     Performance extrema, visual neon e uma experiência <b>fora do comum</b>.
   </p>
   <div class="hero-btns">
-    <button class="btn-primary" onclick="window.location.href='/api/roblox-auth?action=start'">Entrar com Roblox</button>
+    <button class="btn-primary" id="hero-roblox-login" onclick="window.location.href='/api/roblox-auth?action=start'">Entrar com Roblox</button>
     <button class="btn-ghost" onclick="document.getElementById('recursos').scrollIntoView()">Ver recursos</button>
   </div>
 </header>
@@ -1715,6 +1716,13 @@
       navLogin.href = '/api/roblox-auth?action=logout';
       navLogin.title = 'Conta conectada. Clique para sair.';
     }
+    const heroLogin = document.getElementById('hero-roblox-login');
+    if (heroLogin) {
+      heroLogin.classList.add('is-logged-in');
+      heroLogin.textContent = 'LOGADO ✓';
+      heroLogin.title = 'Conta conectada. Clique para sair.';
+      heroLogin.onclick = () => { window.location.href = '/api/roblox-auth?action=logout'; };
+    }
     if (robloxAuthNav) {
       robloxAuthNav.hidden = false;
       robloxAuthNav.replaceChildren();
@@ -1773,7 +1781,7 @@
         if (input && form) {
           input.value = user.name || user.displayName || '';
           form.requestSubmit();
-          document.getElementById('roblox-profile-finder')?.scrollIntoView({behavior:'smooth',block:'start'});
+          document.querySelector('.roblox-profile-finder')?.scrollIntoView({behavior:'smooth',block:'start'});
         }
       });
       card.append(name, username, viewButton);
