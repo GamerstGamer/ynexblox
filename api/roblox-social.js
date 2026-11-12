@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: "Método não permitido." });
   }
   const userId = String(req.query?.userId || "");
-  if (!/^\\d{1,20}$/.test(userId)) {
+  if (!/^\d{1,20}$/.test(userId)) {
     return res.status(400).json({ error: "ID de usuário Roblox inválido." });
   }
   const get = async url => {
