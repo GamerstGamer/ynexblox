@@ -721,6 +721,42 @@
   body[data-theme="pink-white"] .roblox-profile-finder h2{color:#d93683}
   body[data-theme="pink-white"] .roblox-profile-finder p{color:#795568}
 
+
+  /* Login oficial Roblox e painel de conexões */
+  .roblox-login-cta{display:flex;align-items:center;justify-content:center;gap:13px;width:100%;max-width:360px;margin:26px auto 0;padding:15px 20px;border:1px solid rgba(0,162,255,.65);border-radius:13px;background:linear-gradient(110deg,#0875d8,#1743a2 55%,#6426bd);box-shadow:0 0 25px rgba(0,130,255,.3);color:#fff;text-decoration:none;font:800 .9rem 'Rajdhani',sans-serif;letter-spacing:1.5px;transition:transform .2s,filter .2s}
+  .roblox-login-cta:hover{transform:translateY(-3px);filter:brightness(1.16)}
+  .roblox-login-mark{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:#fff;color:#1762ad;font:900 1rem 'Orbitron',sans-serif}
+  .roblox-privacy-note{max-width:390px;margin:16px auto 0;color:#9bb4d1;font-size:.84rem;line-height:1.5}
+  .roblox-auth-feedback{min-height:18px;margin:9px 0 0;color:#ffaaaa;font-size:.85rem}
+  .entry-continue{margin:14px auto 0;padding:8px 14px;border:1px solid rgba(125,165,210,.28);border-radius:8px;background:rgba(15,35,60,.35);color:#91a9c5;font:700 .75rem 'Rajdhani',sans-serif;letter-spacing:1px;cursor:pointer}
+  .entry-continue:hover{color:#fff;border-color:#389cff}
+  .entry-panel .toggle-container[hidden]{display:none}
+  .roblox-auth-nav{display:flex;align-items:center;gap:9px;color:#d8eaff;font-size:.85rem;font-weight:700}
+  .roblox-auth-nav img{width:28px;height:28px;border-radius:50%;object-fit:cover;border:1px solid #329cff}
+  .roblox-auth-nav a{color:#8ecbff;text-decoration:none}
+  .roblox-social-panel{margin:24px 0;padding:18px;border:1px solid rgba(65,157,255,.28);border-radius:15px;background:rgba(8,22,42,.62)}
+  .roblox-social-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .roblox-social-heading h3,.roblox-friends-title{font:700 .82rem 'Orbitron',sans-serif;letter-spacing:1px;color:#8dcaff}
+  .roblox-social-heading span,.roblox-social-footnote{color:#9aabc1;font-size:.78rem}
+  .roblox-social-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
+  .roblox-social-stats>div{padding:12px 8px;border:1px solid rgba(95,160,230,.16);border-radius:10px;background:rgba(0,0,0,.17);text-align:center}
+  .roblox-social-stats strong{display:block;color:#fff;font:700 1.35rem 'Orbitron',sans-serif}
+  .roblox-social-stats span{display:block;margin-top:5px;color:#8da7c4;font-size:.67rem;letter-spacing:1px}
+  .roblox-social-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .roblox-social-actions a{padding:9px 11px;border:1px solid rgba(50,155,255,.4);border-radius:8px;color:#b8ddff;text-decoration:none;font-size:.75rem;font-weight:800}
+  .roblox-social-actions a:hover{background:rgba(0,125,255,.16)}
+  .roblox-friends-title{margin:18px 0 9px}
+  .roblox-friends-list{display:flex;gap:8px;flex-wrap:wrap}
+  .roblox-friends-list a,.roblox-friends-list span{padding:7px 10px;border-radius:8px;background:rgba(255,255,255,.055);color:#c9d9ec;text-decoration:none;font-size:.8rem}
+  .roblox-social-footnote{margin-top:12px;line-height:1.45}
+  body[data-theme="hacker"] .roblox-social-panel{border-color:rgba(0,255,90,.3);background:rgba(0,25,8,.72)}
+  body[data-theme="hacker"] .roblox-social-heading h3,body[data-theme="hacker"] .roblox-friends-title{color:#9affad}
+  body[data-theme="pink-white"] .roblox-social-panel{background:rgba(255,249,252,.95);border-color:#efb2ce}
+  body[data-theme="pink-white"] .roblox-social-stats strong{color:#54243b}
+  body[data-theme="pink-white"] .roblox-social-stats span,body[data-theme="pink-white"] .roblox-social-heading span,body[data-theme="pink-white"] .roblox-social-footnote{color:#795568}
+  body[data-theme="pink-white"] .roblox-social-actions a,body[data-theme="pink-white"] .roblox-friends-list a,body[data-theme="pink-white"] .roblox-friends-list span{color:#684258;background:#fff}
+  @media(max-width:560px){.roblox-social-stats strong{font-size:1rem}.roblox-social-actions a{flex:1;text-align:center}.roblox-auth-nav{font-size:.72rem}}
+
 </style>
 </head>
 <body>
@@ -729,29 +765,19 @@
     <div class="entry-kicker">YNeX BLOX // SYSTEM</div>
     <h2>INICIAR SISTEMA</h2>
     <p class="entry-description">Ative o sistema para acessar a experiência.</p>
-    <div class="toggle-container">
+    <a class="roblox-login-cta" id="roblox-login-button" href="/api/roblox-auth?action=start">
+      <span class="roblox-login-mark">R</span><span>ENTRAR COM O ROBLOX</span><span aria-hidden="true">↗</span>
+    </a>
+    <p class="roblox-privacy-note">Não coletamos sua senha nem pedimos seus dados de acesso pelo site. A autenticação é feita pelo Roblox; os dados autorizados são tratados de acordo com os termos e normas aplicáveis.</p>
+    <p class="roblox-auth-feedback" id="roblox-auth-feedback" role="status" aria-live="polite"></p>
+    <div class="toggle-container" hidden>
       <div class="toggle-wrap">
-        <input class="toggle-input" type="checkbox" id="system-toggle" aria-label="Ativar sistema YNeX Blox">
-        <label class="toggle-track" for="system-toggle">
-          <span class="track-lines"><span class="track-line"></span></span>
-          <span class="toggle-data">
-            <span class="data-text off">OFF</span>
-            <span class="data-text on">ON</span>
-            <span class="status-indicator off"></span>
-            <span class="status-indicator on"></span>
-          </span>
-          <span class="toggle-thumb">
-            <span class="thumb-core"></span><span class="thumb-inner"></span><span class="thumb-scan"></span>
-            <span class="thumb-particles"><i></i><i></i><i></i><i></i><i></i></span>
-          </span>
-          <span class="energy-rings"><i></i><i></i><i></i></span>
-          <span class="toggle-reflection"></span>
-          <span class="holo-glow"></span>
-        </label>
+        <input class="toggle-input" type="checkbox" id="system-toggle" aria-label="Continuar sem entrar">
       </div>
       <div class="toggle-label" id="toggle-label">SYSTEM OFF</div>
     </div>
-    <div class="entry-hint">CLIQUE PARA CONTINUAR</div>
+    <button class="entry-continue" id="entry-continue" type="button">CONTINUAR SEM LOGIN</button>
+    <div class="entry-hint">LOGIN SEGURO PELO SITE OFICIAL DO ROBLOX</div>
     <div class="entry-music" id="entry-music" aria-live="polite">
       <span class="music-note" aria-hidden="true">♫</span>
       <span class="music-title">Trilha sonora</span>
@@ -765,6 +791,7 @@
 
 <nav>
   <div class="logo">YNeX <span>Blox</span></div>
+  <div class="roblox-auth-nav" id="roblox-auth-nav" hidden></div>
   <ul>
     <li><a href="#recursos" data-home-link>Recursos</a></li>
     <li><a href="#pagina-roblox" id="open-roblox-page">Roblox</a></li>
@@ -955,6 +982,22 @@
       <section class="roblox-player-bio" id="roblox-player-bio" hidden aria-label="Biografia do jogador">
         <div class="roblox-player-bio-label">📝 SOBRE MIM</div>
         <p class="roblox-player-bio-text" id="roblox-player-bio-text"></p>
+      </section>
+      <section class="roblox-social-panel" id="roblox-social-panel" aria-label="Informações sociais do Roblox">
+        <div class="roblox-social-heading"><h3>CONEXÕES DO JOGADOR</h3><span id="roblox-social-status">Entre com Roblox para carregar</span></div>
+        <div class="roblox-social-stats">
+          <div><strong id="roblox-social-friends-count">—</strong><span>AMIGOS</span></div>
+          <div><strong id="roblox-social-followers-count">—</strong><span>SEGUIDORES</span></div>
+          <div><strong id="roblox-social-following-count">—</strong><span>SEGUINDO</span></div>
+        </div>
+        <div class="roblox-social-actions">
+          <a id="roblox-follow-link" href="#" target="_blank" rel="noopener noreferrer">SEGUIR NO ROBLOX ↗</a>
+          <a id="roblox-followers-link" href="#" target="_blank" rel="noopener noreferrer">VER SEGUIDORES ↗</a>
+          <a id="roblox-following-link" href="#" target="_blank" rel="noopener noreferrer">VER QUEM SEGUE ↗</a>
+        </div>
+        <div class="roblox-friends-title">AMIGOS DO JOGADOR</div>
+        <div class="roblox-friends-list" id="roblox-friends-list"><span>Entre com sua conta Roblox para visualizar as conexões disponíveis.</span></div>
+        <p class="roblox-social-footnote">As listas de seguidores/seguindo e a ação de seguir podem exigir uma sessão do próprio Roblox. Os atalhos abrem o perfil oficial para concluir essas ações por lá.</p>
       </section>
       <h3 class="roblox-outfit-heading">ITENS QUE ESTÁ VESTINDO</h3>
       <div class="roblox-outfit-filters" id="roblox-outfit-filters" role="group" aria-label="Filtrar itens do avatar">
@@ -1600,6 +1643,130 @@
   document.querySelectorAll('.neon-card, .cta').forEach((el,i)=>{
     el.style.animationDelay = (-i*0.6)+'s';
   });
+
+  // Login oficial Roblox via OAuth 2.0 (sessão protegida por cookie HttpOnly).
+  const entryContinueButton = document.getElementById('entry-continue');
+  const robloxAuthFeedback = document.getElementById('roblox-auth-feedback');
+  const robloxLoginButton = document.getElementById('roblox-login-button');
+  const robloxAuthNav = document.getElementById('roblox-auth-nav');
+  let authenticatedRobloxUser = null;
+
+  entryContinueButton?.addEventListener('click', () => {
+    if (!systemToggle.checked) {
+      systemToggle.checked = true;
+      systemToggle.dispatchEvent(new Event('change', {bubbles:true}));
+    }
+  });
+
+  function formatRobloxCount(value) {
+    return value === null || value === undefined ? '—' :
+      new Intl.NumberFormat('pt-BR', {notation:'compact', maximumFractionDigits:1}).format(value);
+  }
+
+  function showRobloxAccount(user) {
+    authenticatedRobloxUser = user;
+    if (robloxLoginButton) {
+      robloxLoginButton.innerHTML = '<span class="roblox-login-mark">R</span><span>CONECTADO @' +
+        String(user.name || 'ROBLOX').replace(/[<>&"]/g, '') + '</span><span>✓</span>';
+      robloxLoginButton.href = '/api/roblox-auth?action=logout';
+    }
+    if (robloxAuthNav) {
+      robloxAuthNav.hidden = false;
+      robloxAuthNav.replaceChildren();
+      if (user.picture) {
+        const avatar = document.createElement('img');
+        avatar.src = user.picture;
+        avatar.alt = 'Avatar Roblox';
+        robloxAuthNav.appendChild(avatar);
+      }
+      const label = document.createElement('span');
+      label.textContent = '@' + (user.name || 'Roblox');
+      const logout = document.createElement('a');
+      logout.href = '/api/roblox-auth?action=logout';
+      logout.textContent = 'SAIR';
+      robloxAuthNav.append(label, logout);
+    }
+  }
+
+  async function loadRobloxSocial(userId) {
+    const panel = document.getElementById('roblox-social-panel');
+    const status = document.getElementById('roblox-social-status');
+    const list = document.getElementById('roblox-friends-list');
+    const profile = 'https://www.roblox.com/users/' + encodeURIComponent(userId) + '/profile';
+    document.getElementById('roblox-follow-link').href = profile;
+    document.getElementById('roblox-followers-link').href = profile + '#!/followers';
+    document.getElementById('roblox-following-link').href = profile + '#!/following';
+    if (!authenticatedRobloxUser) {
+      status.textContent = 'Faça login para abrir os recursos sociais';
+      list.replaceChildren();
+      const message = document.createElement('span');
+      message.textContent = 'Entre com sua conta Roblox para visualizar as conexões disponíveis.';
+      list.appendChild(message);
+      return;
+    }
+    status.textContent = 'Carregando conexões públicas...';
+    list.textContent = 'Carregando amigos...';
+    try {
+      const response = await fetch('/api/roblox-social?userId=' + encodeURIComponent(userId), {cache:'no-store'});
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || 'Não foi possível carregar as conexões.');
+      document.getElementById('roblox-social-friends-count').textContent = formatRobloxCount(data.counts?.friends);
+      document.getElementById('roblox-social-followers-count').textContent = formatRobloxCount(data.counts?.followers);
+      document.getElementById('roblox-social-following-count').textContent = formatRobloxCount(data.counts?.following);
+      list.replaceChildren();
+      (data.friends || []).slice(0,30).forEach(friend => {
+        const link = document.createElement('a');
+        link.href = 'https://www.roblox.com/users/' + encodeURIComponent(friend.id) + '/profile';
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = friend.displayName || friend.name || ('Usuário ' + friend.id);
+        list.appendChild(link);
+      });
+      if (!data.friends?.length) {
+        const empty = document.createElement('span');
+        empty.textContent = data.partial?.friends ? 'A lista de amigos está indisponível no momento.' : 'Nenhum amigo público encontrado.';
+        list.appendChild(empty);
+      }
+      status.textContent = data.partial?.followers || data.partial?.following
+        ? 'Alguns dados sociais podem estar indisponíveis pela API pública.'
+        : 'Dados sociais públicos atualizados.';
+    } catch (error) {
+      status.textContent = error.message || 'Não foi possível carregar os dados sociais.';
+      list.textContent = 'Tente novamente mais tarde.';
+    }
+  }
+
+  async function checkRobloxLogin() {
+    try {
+      const response = await fetch('/api/roblox-auth?action=session', {cache:'no-store'});
+      if (!response.ok) return;
+      const data = await response.json();
+      if (data.authenticated && data.user) {
+        showRobloxAccount(data.user);
+        if (new URLSearchParams(location.search).get('roblox') === 'connected') {
+          if (!systemToggle.checked) {
+            systemToggle.checked = true;
+            systemToggle.dispatchEvent(new Event('change', {bubbles:true}));
+          }
+          history.replaceState({}, document.title, location.pathname + location.hash);
+        }
+      }
+    } catch (_) {}
+  }
+  const robloxAuthResult = new URLSearchParams(location.search).get('roblox');
+  if (robloxAuthResult === 'error' && robloxAuthFeedback) {
+    robloxAuthFeedback.textContent = 'Não foi possível concluir o login. Tente novamente.';
+  } else if (robloxAuthResult === 'logout' && robloxAuthFeedback) {
+    robloxAuthFeedback.textContent = 'Você saiu da sua conta Roblox.';
+  }
+  checkRobloxLogin();
+
+  // Exibe conexões apenas para quem vinculou sua conta Roblox.
+  const socialObserver = new MutationObserver(() => {
+    if (currentRobloxPlayer && authenticatedRobloxUser) loadRobloxSocial(currentRobloxPlayer.id);
+  });
+  if (robloxPreview) socialObserver.observe(robloxPreview, {attributes:true, attributeFilter:['class']});
+
 </script>
 
 </div>
