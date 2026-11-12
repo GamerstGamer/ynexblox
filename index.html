@@ -737,55 +737,22 @@
   .roblox-auth-nav a{color:#8ecbff;text-decoration:none}
   .roblox-social-panel{margin:24px 0;padding:18px;border:1px solid rgba(65,157,255,.28);border-radius:15px;background:rgba(8,22,42,.62)}
   .roblox-social-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-  .roblox-social-heading h3,.roblox-friends-title{font:700 .82rem 'Orbitron',sans-serif;letter-spacing:1px;color:#8dcaff}
   .roblox-social-heading span,.roblox-social-footnote{color:#9aabc1;font-size:.78rem}
   .roblox-social-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
   .roblox-social-stats>div{padding:12px 8px;border:1px solid rgba(95,160,230,.16);border-radius:10px;background:rgba(0,0,0,.17);text-align:center}
   .roblox-social-stats strong{display:block;color:#fff;font:700 1.35rem 'Orbitron',sans-serif}
   .roblox-social-stats span{display:block;margin-top:5px;color:#8da7c4;font-size:.67rem;letter-spacing:1px}
-  .roblox-social-actions{display:flex;gap:8px;flex-wrap:wrap}
-  .roblox-social-tabs button{padding:9px 12px;border:1px solid rgba(50,155,255,.4);border-radius:8px;background:rgba(4,18,35,.65);color:#b8ddff;font-size:.75rem;font-weight:800;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
-  .roblox-social-tabs button:hover,.roblox-social-tabs button.is-active{background:rgba(0,125,255,.22);border-color:#55b5ff;transform:translateY(-1px)}
-  .roblox-social-tabs .roblox-follow-action{margin-left:auto;background:linear-gradient(110deg,#0875d8,#1743a2);color:#fff}
-  .roblox-friends-title{margin:18px 0 12px}
-  .roblox-social-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
-  .roblox-social-card{min-width:0;padding:12px 8px;border:1px solid rgba(95,160,230,.18);border-radius:11px;background:rgba(0,0,0,.2);text-align:center;animation:social-card-in .28s ease both}
-  @keyframes social-card-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-  .roblox-social-card img{display:block;width:58px;height:58px;margin:0 auto 9px;border-radius:50%;object-fit:cover;background:#111b2a;border:1px solid rgba(90,175,255,.55)}
-  .roblox-social-card strong{display:block;overflow:hidden;color:#e7f3ff;font-size:.78rem;text-overflow:ellipsis;white-space:nowrap}
-  .roblox-social-card small{display:block;margin-top:4px;overflow:hidden;color:#8ea8c4;font-size:.68rem;text-overflow:ellipsis;white-space:nowrap}
-  .roblox-social-card button{width:100%;margin-top:9px;padding:6px 4px;border:1px solid rgba(50,155,255,.35);border-radius:7px;background:rgba(0,100,200,.12);color:#a9d7ff;font-size:.65rem;font-weight:800;cursor:pointer}
-  .roblox-social-card button:hover{background:rgba(0,125,255,.25)}
-  .roblox-social-empty{grid-column:1/-1;padding:24px 12px;border:1px dashed rgba(100,160,220,.25);border-radius:10px;color:#9aabc1;text-align:center;font-size:.85rem}
-  .roblox-social-pagination{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:16px}
-  .roblox-social-pagination[hidden]{display:none}
-  .roblox-social-pagination button{padding:9px 13px;border:1px solid rgba(50,155,255,.4);border-radius:8px;background:rgba(0,100,200,.15);color:#c7e4ff;font-size:.72rem;font-weight:800;cursor:pointer}
-  .roblox-social-pagination button:disabled{opacity:.35;cursor:not-allowed}
-  .roblox-social-pagination span{color:#9bb4d1;font-size:.75rem;font-weight:800}
-  .roblox-social-action-message{min-height:18px;margin:9px 0;color:#ffcf8c;font-size:.78rem;line-height:1.45}
   .roblox-social-footnote{margin-top:12px;line-height:1.45}
   body[data-theme="hacker"] .roblox-social-panel{border-color:rgba(0,255,90,.3);background:rgba(0,25,8,.72)}
-  body[data-theme="hacker"] .roblox-social-heading h3,body[data-theme="hacker"] .roblox-friends-title{color:#9affad}
   body[data-theme="pink-white"] .roblox-social-panel{background:rgba(255,249,252,.95);border-color:#efb2ce}
   body[data-theme="pink-white"] .roblox-social-stats strong{color:#54243b}
   body[data-theme="pink-white"] .roblox-social-stats span,body[data-theme="pink-white"] .roblox-social-heading span,body[data-theme="pink-white"] .roblox-social-footnote{color:#795568}
-  body[data-theme="pink-white"] .roblox-social-tabs button{color:#684258;background:#fff;border-color:#efb2ce}
-  body[data-theme="pink-white"] .roblox-social-card{background:#fff;border-color:#efb2ce}
-  body[data-theme="pink-white"] .roblox-social-card strong{color:#54243b}
-  body[data-theme="pink-white"] .roblox-social-card small{color:#795568}
-  body[data-theme="pink-white"] .roblox-social-card button{color:#684258;background:#fff}
-  body[data-theme="hacker"] .roblox-social-card{border-color:rgba(0,255,90,.24);background:rgba(0,20,6,.55)}
-  body[data-theme="hacker"] .roblox-social-card strong{color:#baffc7}
   .roblox-login-cta.is-logged-in{background:linear-gradient(110deg,#087c58,#087b9d 55%,#2453b7);border-color:#51edb5;box-shadow:0 0 18px rgba(35,230,165,.35),0 0 42px rgba(0,160,255,.18);animation:logged-in-pulse 2.4s ease-in-out infinite}
   .roblox-login-cta.is-logged-in .roblox-login-mark{color:#087c58}
   @keyframes logged-in-pulse{0%,100%{filter:brightness(1);box-shadow:0 0 18px rgba(35,230,165,.3)}50%{filter:brightness(1.18);box-shadow:0 0 28px rgba(35,230,165,.55),0 0 48px rgba(0,160,255,.2)}}
   #nav-roblox-login.is-logged-in{color:#7fffd0;font-weight:900;text-shadow:0 0 12px rgba(35,230,165,.55);animation:nav-logged-glow 2s ease-in-out infinite}
   .btn-primary.is-logged-in{background:linear-gradient(110deg,#087c58,#087b9d);border-color:#51edb5;box-shadow:0 0 18px rgba(35,230,165,.35);animation:logged-in-pulse 2.4s ease-in-out infinite}
   @keyframes nav-logged-glow{0%,100%{text-shadow:0 0 5px rgba(35,230,165,.3)}50%{text-shadow:0 0 15px rgba(35,230,165,.85)}}
-  @media(max-width:900px){.roblox-social-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
-  @media(max-width:620px){.roblox-social-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-  @media(max-width:420px){.roblox-social-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media(max-width:560px){.roblox-social-stats strong{font-size:1rem}.roblox-social-tabs button{flex:1;text-align:center}.roblox-social-tabs .roblox-follow-action{margin-left:0}.roblox-auth-nav{font-size:.72rem}.roblox-social-pagination{gap:8px}.roblox-social-pagination button{padding:8px}}
 
 </style>
 </head>
@@ -1020,21 +987,7 @@
           <div><strong id="roblox-social-followers-count">—</strong><span>SEGUIDORES</span></div>
           <div><strong id="roblox-social-following-count">—</strong><span>SEGUINDO</span></div>
         </div>
-        <div class="roblox-social-actions roblox-social-tabs" role="group" aria-label="Escolher lista social">
-          <button type="button" class="is-active" data-social-view="friends">AMIGOS</button>
-          <button type="button" data-social-view="followers">SEGUIDORES</button>
-          <button type="button" data-social-view="following">SEGUINDO</button>
-          <button type="button" class="roblox-follow-action" id="roblox-follow-action">＋ SEGUIR</button>
-        </div>
-        <div class="roblox-friends-title" id="roblox-social-list-title">AMIGOS DO JOGADOR</div>
-        <div class="roblox-social-grid" id="roblox-social-grid" aria-live="polite"><div class="roblox-social-empty">Entre com sua conta Roblox para visualizar as conexões disponíveis.</div></div>
-        <div class="roblox-social-pagination" id="roblox-social-pagination" hidden>
-          <button type="button" id="roblox-social-prev" disabled>← ANTERIOR</button>
-          <span id="roblox-social-page-label">PÁGINA 1</span>
-          <button type="button" id="roblox-social-next" disabled>PRÓXIMA →</button>
-        </div>
-        <p class="roblox-social-action-message" id="roblox-social-action-message" role="status" aria-live="polite"></p>
-        <p class="roblox-social-footnote">As listas são carregadas pela API pública quando disponível. Algumas listas e a ação de seguir podem exigir uma sessão Roblox que o OAuth não fornece; o site não solicita nem armazena cookies da sua conta.</p>
+        <p class="roblox-social-footnote">Estatísticas públicas de conexões do jogador no Roblox.</p>
       </section>
       <h3 class="roblox-outfit-heading">ITENS QUE ESTÁ VESTINDO</h3>
       <div class="roblox-outfit-filters" id="roblox-outfit-filters" role="group" aria-label="Filtrar itens do avatar">
@@ -1741,144 +1694,37 @@
     }
   }
 
-  const socialTitles = {friends:'AMIGOS DO JOGADOR',followers:'SEGUIDORES DO JOGADOR',following:'JOGADOR ESTÁ SEGUINDO'};
-  const socialCursors = {friends:[null],followers:[null],following:[null]};
-  const socialPages = {friends:1,followers:1,following:1};
-  let activeSocialView = 'friends';
-  let activeSocialUserId = null;
-
-  function renderSocialUsers(users) {
-    const grid = document.getElementById('roblox-social-grid');
-    grid.replaceChildren();
-    if (!users.length) {
-      const empty = document.createElement('div');
-      empty.className = 'roblox-social-empty';
-      empty.textContent = 'Nenhuma pessoa encontrada nesta página.';
-      grid.appendChild(empty);
-      return;
-    }
-    users.forEach((user, index) => {
-      const card = document.createElement('article');
-      card.className = 'roblox-social-card';
-      card.style.animationDelay = (index * 18) + 'ms';
-      if (user.avatar) {
-        const avatar = document.createElement('img');
-        avatar.src = user.avatar;
-        avatar.alt = 'Avatar de ' + (user.displayName || user.name || 'jogador');
-        avatar.loading = 'lazy';
-        card.appendChild(avatar);
-      }
-      const name = document.createElement('strong');
-      name.textContent = user.displayName || user.name || ('Usuário ' + user.id);
-      const username = document.createElement('small');
-      username.textContent = user.name ? '@' + user.name : 'ID ' + user.id;
-      const viewButton = document.createElement('button');
-      viewButton.type = 'button';
-      viewButton.textContent = 'VER NO SITE';
-      viewButton.addEventListener('click', () => {
-        const input = document.getElementById('roblox-username');
-        const form = document.getElementById('roblox-profile-form');
-        if (input && form) {
-          input.value = user.name || user.displayName || '';
-          form.requestSubmit();
-          document.querySelector('.roblox-profile-finder')?.scrollIntoView({behavior:'smooth',block:'start'});
-        }
-      });
-      card.append(name, username, viewButton);
-      grid.appendChild(card);
-    });
-  }
-
-  function updateSocialPagination(hasNext) {
-    const pagination = document.getElementById('roblox-social-pagination');
-    const previous = document.getElementById('roblox-social-prev');
-    const next = document.getElementById('roblox-social-next');
-    pagination.hidden = false;
-    previous.disabled = socialPages[activeSocialView] <= 1;
-    next.disabled = !hasNext;
-    document.getElementById('roblox-social-page-label').textContent = 'PÁGINA ' + socialPages[activeSocialView];
-  }
-
-  async function loadRobloxSocial(userId, view = activeSocialView, cursor = socialCursors[view]?.[socialPages[view] - 1] || null) {
+  async function loadRobloxSocial(userId) {
     const status = document.getElementById('roblox-social-status');
-    const grid = document.getElementById('roblox-social-grid');
-    activeSocialUserId = String(userId);
-    activeSocialView = view;
-    document.getElementById('roblox-social-list-title').textContent = socialTitles[view];
-    document.querySelectorAll('[data-social-view]').forEach(button => {
-      button.classList.toggle('is-active', button.dataset.socialView === view);
-      button.setAttribute('aria-pressed', button.dataset.socialView === view ? 'true' : 'false');
-    });
+    const countIds = {
+      friends: 'roblox-social-friends-count',
+      followers: 'roblox-social-followers-count',
+      following: 'roblox-social-following-count'
+    };
     if (!authenticatedRobloxUser) {
       status.textContent = 'Entre com Roblox para carregar';
-      grid.innerHTML = '<div class="roblox-social-empty">Entre com sua conta Roblox para visualizar as conexões.</div>';
-      document.getElementById('roblox-social-pagination').hidden = true;
+      Object.values(countIds).forEach(id => {
+        document.getElementById(id).textContent = '—';
+      });
       return;
     }
-    status.textContent = 'Carregando ' + (view === 'friends' ? 'amigos' : view === 'followers' ? 'seguidores' : 'lista de seguindo') + '...';
-    grid.innerHTML = '<div class="roblox-social-empty">Buscando pessoas no Roblox...</div>';
-    const query = new URLSearchParams({userId:String(userId),view});
-    if (cursor) query.set('cursor', cursor);
+    status.textContent = 'Carregando conexões...';
     try {
+      const query = new URLSearchParams({userId:String(userId)});
       const response = await fetch('/api/roblox-social?' + query.toString(), {cache:'no-store'});
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || 'Não foi possível carregar as conexões.');
-      document.getElementById('roblox-social-friends-count').textContent = formatRobloxCount(data.counts?.friends);
-      document.getElementById('roblox-social-followers-count').textContent = formatRobloxCount(data.counts?.followers);
-      document.getElementById('roblox-social-following-count').textContent = formatRobloxCount(data.counts?.following);
-      if (data.listError) {
-        grid.innerHTML = '';
-        const message = document.createElement('div');
-        message.className = 'roblox-social-empty';
-        message.textContent = data.listError;
-        grid.appendChild(message);
-        status.textContent = 'Lista indisponível pela API';
-        document.getElementById('roblox-social-pagination').hidden = true;
-        return;
-      }
-      renderSocialUsers(data.users || []);
-      socialCursors[view][socialPages[view]] = cursor || null;
-      updateSocialPagination(Boolean(data.nextPageCursor));
-      const partialText = data.partialCounts ? ' • alguns totais indisponíveis' : '';
-      status.textContent = 'Página ' + socialPages[view] + ' carregada' + partialText;
-      document.getElementById('roblox-social-action-message').textContent = '';
-      document.getElementById('roblox-social-next').dataset.nextCursor = data.nextPageCursor || '';
+      document.getElementById(countIds.friends).textContent = formatRobloxCount(data.counts?.friends);
+      document.getElementById(countIds.followers).textContent = formatRobloxCount(data.counts?.followers);
+      document.getElementById(countIds.following).textContent = formatRobloxCount(data.counts?.following);
+      status.textContent = data.partialCounts ? 'Algumas contagens indisponíveis' : 'Conexões atualizadas';
     } catch (error) {
-      grid.innerHTML = '<div class="roblox-social-empty"></div>';
-      grid.firstElementChild.textContent = error.message || 'Não foi possível carregar esta lista.';
-      status.textContent = 'Falha ao carregar conexões';
-      document.getElementById('roblox-social-pagination').hidden = true;
+      status.textContent = error.message || 'Falha ao carregar conexões';
+      Object.values(countIds).forEach(id => {
+        document.getElementById(id).textContent = '—';
+      });
     }
   }
-
-  document.querySelectorAll('[data-social-view]').forEach(button => {
-    button.addEventListener('click', () => {
-      activeSocialView = button.dataset.socialView;
-      socialCursors[activeSocialView] = [null];
-      socialPages[activeSocialView] = 1;
-      if (currentRobloxPlayer) loadRobloxSocial(currentRobloxPlayer.id, activeSocialView, null);
-    });
-  });
-
-  document.getElementById('roblox-social-prev')?.addEventListener('click', () => {
-    if (!currentRobloxPlayer || socialPages[activeSocialView] <= 1) return;
-    socialPages[activeSocialView] -= 1;
-    loadRobloxSocial(currentRobloxPlayer.id, activeSocialView, socialCursors[activeSocialView][socialPages[activeSocialView] - 1] || null);
-  });
-
-  document.getElementById('roblox-social-next')?.addEventListener('click', () => {
-    if (!currentRobloxPlayer) return;
-    const nextCursor = document.getElementById('roblox-social-next').dataset.nextCursor;
-    if (!nextCursor) return;
-    socialCursors[activeSocialView][socialPages[activeSocialView]] = nextCursor;
-    socialPages[activeSocialView] += 1;
-    loadRobloxSocial(currentRobloxPlayer.id, activeSocialView, nextCursor);
-  });
-
-  document.getElementById('roblox-follow-action')?.addEventListener('click', () => {
-    const message = document.getElementById('roblox-social-action-message');
-    message.textContent = 'O Roblox não disponibiliza a ação de seguir por esta integração OAuth. Nenhuma ação foi realizada e nenhuma credencial adicional será solicitada.';
-  });
 
   async function checkRobloxLogin() {
     try {
