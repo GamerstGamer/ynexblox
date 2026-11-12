@@ -322,7 +322,7 @@
   .global-controls .theme-switcher{position:relative;top:auto;right:auto;z-index:112}
   .global-controls .theme-trigger{height:36px;min-width:88px}
   .global-controls .theme-menu{top:43px}
-  .music-card{position:relative;width:260px;height:130px;padding:10px;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:linear-gradient(145deg,#1b1b1b,#101010);color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.35);font-family:Arial,sans-serif;transition:background .25s,border-color .25s,box-shadow .25s}
+  .music-card{position:fixed;top:149px;right:6vw;z-index:111;width:260px;height:130px;padding:10px;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:linear-gradient(145deg,#1b1b1b,#101010);color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.35);font-family:Arial,sans-serif;transition:background .25s,border-color .25s,box-shadow .25s;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}.music-card.is-dragging{cursor:grabbing;transition:none;box-shadow:0 16px 38px rgba(0,0,0,.48)}.music-card :is(button,input){user-select:auto;-webkit-user-select:auto}
   .music-card-top{display:flex;align-items:center;gap:10px;position:relative}
   .music-art{width:40px;height:40px;flex:0 0 40px;display:grid;place-items:center;border-radius:5px;background:linear-gradient(135deg,#1db954,#0b5d2a);color:#fff;font-size:27px;box-shadow:0 0 12px rgba(29,185,84,.2)}
   .music-track-info{min-width:0;flex:1}
@@ -369,7 +369,7 @@
   body[data-theme="pink-white"] .music-art{background:linear-gradient(135deg,#e85d9e,#d93683)}
   body[data-theme="pink-white"] .music-playing i{background:#d93683}
   body[data-theme="pink-white"] .music-progress{background:linear-gradient(to right,#d93683 0%,#d93683 var(--progress,0%),#e8bfd1 var(--progress,0%),#e8bfd1 100%)}
-  @media(max-width:600px){.global-controls{top:88px;right:10px;gap:7px}.music-card{width:min(238px,calc(100vw - 20px));height:124px}.global-controls .theme-trigger{height:32px}.roblox-page{padding-top:290px}}
+  @media(max-width:600px){.global-controls{top:88px;right:10px;gap:7px}.music-card{top:127px;right:10px;width:min(238px,calc(100vw - 20px));height:124px}.global-controls .theme-trigger{height:32px}.roblox-page{padding-top:290px}}
   .youtube-audio-frame{position:fixed;width:1px;height:1px;left:-10px;bottom:0;opacity:.001;pointer-events:none;border:0}
   @media(max-width:420px){.entry-music{gap:8px}.music-title{max-width:135px}}
 
@@ -1088,6 +1088,62 @@
     if (Number.isFinite(storedVolume) && storedVolume >= 0 && storedVolume <= 100) savedVolume = storedVolume;
   } catch (error) {}
   musicVolume.value = String(savedVolume);
+
+  // Player arrastável: pode ser movido pela borda ou por qualquer área livre do cartão.
+  (function enableMusicCardDrag() {
+    const storageKey = 'ynexblox-music-card-position';
+    let savedPosition = null;
+    try { savedPosition = JSON.parse(localStorage.getItem(storageKey) || 'null'); } catch (error) {}
+    if (savedPosition && Number.isFinite(savedPosition.left) && Number.isFinite(savedPosition.top)) {
+      const maxLeft = Math.max(0, window.innerWidth - musicCard.offsetWidth);
+      const maxTop = Math.max(0, window.innerHeight - musicCard.offsetHeight);
+      musicCard.style.left = Math.min(maxLeft, Math.max(0, savedPosition.left)) + 'px';
+      musicCard.style.top = Math.min(maxTop, Math.max(0, savedPosition.top)) + 'px';
+      musicCard.style.right = 'auto';
+    }
+
+    let dragPointerId = null;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+    musicCard.addEventListener('pointerdown', event => {
+      if (event.button !== 0 || event.target.closest('button,input,a,select,textarea')) return;
+      const rect = musicCard.getBoundingClientRect();
+      dragPointerId = event.pointerId;
+      dragOffsetX = event.clientX - rect.left;
+      dragOffsetY = event.clientY - rect.top;
+      musicCard.classList.add('is-dragging');
+      musicCard.style.left = rect.left + 'px';
+      musicCard.style.top = rect.top + 'px';
+      musicCard.style.right = 'auto';
+      musicCard.setPointerCapture(event.pointerId);
+      event.preventDefault();
+    });
+    musicCard.addEventListener('pointermove', event => {
+      if (dragPointerId !== event.pointerId) return;
+      const left = Math.min(Math.max(0, event.clientX - dragOffsetX), window.innerWidth - musicCard.offsetWidth);
+      const top = Math.min(Math.max(0, event.clientY - dragOffsetY), window.innerHeight - musicCard.offsetHeight);
+      musicCard.style.left = left + 'px';
+      musicCard.style.top = top + 'px';
+    });
+    function finishMusicCardDrag(event) {
+      if (dragPointerId !== event.pointerId) return;
+      dragPointerId = null;
+      musicCard.classList.remove('is-dragging');
+      const rect = musicCard.getBoundingClientRect();
+      try { localStorage.setItem(storageKey, JSON.stringify({left:rect.left,top:rect.top})); } catch (error) {}
+    }
+    musicCard.addEventListener('pointerup', finishMusicCardDrag);
+    musicCard.addEventListener('pointercancel', finishMusicCardDrag);
+    window.addEventListener('resize', () => {
+      if (dragPointerId !== null) return;
+      const rect = musicCard.getBoundingClientRect();
+      const left = Math.min(Math.max(0, rect.left), window.innerWidth - musicCard.offsetWidth);
+      const top = Math.min(Math.max(0, rect.top), window.innerHeight - musicCard.offsetHeight);
+      musicCard.style.left = left + 'px';
+      musicCard.style.top = top + 'px';
+      musicCard.style.right = 'auto';
+    });
+  })();
 
   function formatMusicTime(seconds) {
     if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
