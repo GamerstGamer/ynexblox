@@ -812,6 +812,7 @@
     </div>
   </div>
 </div>
+  <audio id="music-audio" preload="none" src="https://static1.squarespace.com/static/56cc9de14d088eb7a2a2ec5b/t/60efc8eb1b42e761db862d65/1626327280935/clair+de+lune.mp3" aria-label="Clair de Lune, interpretação de David O"></audio>
 
 <div id="home-page-content">
 <section class="tiktok-section" id="tiktok">
@@ -1065,8 +1066,8 @@
       }
     });
   });
-  // Player de áudio: o YouTube é carregado sem interface e só começa após o clique em OFF.
-  const youtubeVideoId = '6YMhcO1RGyo';
+  // Player de áudio nativo: não utiliza YouTube, iframe ou API externa de vídeo.
+  const musicAudio = document.getElementById('music-audio');
   const musicMute = document.getElementById('music-mute');
   const musicCard = document.getElementById('music-card');
   const musicPlayButton = document.getElementById('music-play');
@@ -1074,12 +1075,8 @@
   const musicProgress = document.getElementById('music-progress');
   const musicTimeNow = document.getElementById('music-time-now');
   const musicTimeFull = document.getElementById('music-time-full');
-  let youtubePlayer = null;
-  let youtubeReady = false;
-  let musicStarted = false;
   let musicMuted = false;
   let musicPlaying = false;
-  let pendingStart = false;
   let seekingMusic = false;
   let savedVolume = 80;
   try {
@@ -1088,6 +1085,8 @@
     if (Number.isFinite(storedVolume) && storedVolume >= 0 && storedVolume <= 100) savedVolume = storedVolume;
   } catch (error) {}
   musicVolume.value = String(savedVolume);
+  musicAudio.volume = savedVolume / 100;
+  musicAudio.muted = musicMuted || savedVolume === 0;
 
   // Player arrastável: pode ser movido pela borda ou por qualquer área livre do cartão.
   (function enableMusicCardDrag() {
@@ -1166,95 +1165,62 @@
       : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
   }
   function updateMusicProgress() {
-    if (!youtubePlayer || !youtubeReady) return;
-    try {
-      const duration = youtubePlayer.getDuration() || 0;
-      const current = youtubePlayer.getCurrentTime() || 0;
-      if (duration > 0) {
-        if (!seekingMusic) {
-          const progress = Math.min(1000,Math.round(current / duration * 1000));
-          musicProgress.value = String(progress);
-          musicProgress.style.setProperty('--progress',(progress / 10) + '%');
-        }
-        musicTimeNow.textContent = formatMusicTime(current);
-        musicTimeFull.textContent = formatMusicTime(duration);
+    const duration = musicAudio.duration || 0;
+    const current = musicAudio.currentTime || 0;
+    if (duration > 0) {
+      if (!seekingMusic) {
+        const progress = Math.min(1000,Math.round(current / duration * 1000));
+        musicProgress.value = String(progress);
+        musicProgress.style.setProperty('--progress',(progress / 10) + '%');
       }
-    } catch (error) {}
+      musicTimeNow.textContent = formatMusicTime(current);
+      musicTimeFull.textContent = formatMusicTime(duration);
+    }
   }
   updateMusicControls();
   function startMusic() {
-    musicStarted = true;
-    pendingStart = true;
-    if (youtubePlayer && youtubeReady) {
-      youtubePlayer.setVolume(Number(musicVolume.value));
-      if (musicMuted || Number(musicVolume.value) === 0) youtubePlayer.mute();
-      else youtubePlayer.unMute();
-      youtubePlayer.playVideo();
-      pendingStart = false;
-    }
-  }
-  function initializeYouTubePlayer() {
-    if (youtubePlayer) return;
-    const frame = document.createElement('div');
-    frame.id = 'youtube-audio-player';
-    frame.className = 'youtube-audio-frame';
-    frame.setAttribute('aria-hidden', 'true');
-    document.getElementById('entry-gate').appendChild(frame);
-    youtubePlayer = new YT.Player('youtube-audio-player', {
-      width: '1', height: '1', videoId: youtubeVideoId,
-      playerVars: {autoplay: 0, controls: 0, disablekb: 1, fs: 0, rel: 0, playsinline: 1},
-      events: {
-        onReady: function(event) {
-          youtubeReady = true;
-          event.target.setVolume(Number(musicVolume.value));
-          if (pendingStart) {
-            if (musicMuted || Number(musicVolume.value) === 0) event.target.mute();
-            else event.target.unMute();
-            event.target.playVideo();
-            pendingStart = false;
-          }
-          updateMusicProgress();
-        },
-        onStateChange: function(event) {
-          musicPlaying = event.data === YT.PlayerState.PLAYING;
-          updateMusicControls();
-        },
-        onError: function() {
-          document.querySelector('.music-track-artist').textContent = 'Áudio indisponível';
-          musicPlayButton.disabled = true;
-          musicMute.disabled = true;
-        }
-      }
+    musicAudio.volume = Number(musicVolume.value) / 100;
+    musicAudio.muted = musicMuted || Number(musicVolume.value) === 0;
+    musicAudio.play().then(() => {
+      musicPlaying = true;
+      updateMusicControls();
+    }).catch(() => {
+      musicPlaying = false;
+      updateMusicControls();
+      document.querySelector('.music-track-artist').textContent = 'Toque em reproduzir para tentar novamente';
     });
   }
-  window.onYouTubeIframeAPIReady = initializeYouTubePlayer;
-  const youtubeApiScript = document.createElement('script');
-  youtubeApiScript.src = 'https://www.youtube.com/iframe_api';
-  youtubeApiScript.async = true;
-  document.head.appendChild(youtubeApiScript);
+  musicAudio.addEventListener('play', () => { musicPlaying = true; updateMusicControls(); });
+  musicAudio.addEventListener('pause', () => { musicPlaying = false; updateMusicControls(); });
+  musicAudio.addEventListener('timeupdate', updateMusicProgress);
+  musicAudio.addEventListener('loadedmetadata', updateMusicProgress);
+  musicAudio.addEventListener('durationchange', updateMusicProgress);
+  musicAudio.addEventListener('ended', () => {
+    musicPlaying = false;
+    updateMusicControls();
+  });
+  musicAudio.addEventListener('error', () => {
+    document.querySelector('.music-track-artist').textContent = 'Não foi possível carregar o áudio';
+    musicPlayButton.disabled = true;
+    musicMute.disabled = true;
+  });
   musicMute.addEventListener('click', function() {
     musicMuted = !musicMuted;
-    if (youtubePlayer && youtubeReady) {
-      if (musicMuted) youtubePlayer.mute();
-      else {
-        if (Number(musicVolume.value) === 0) musicVolume.value = String(savedVolume || 80);
-        youtubePlayer.setVolume(Number(musicVolume.value));
-        youtubePlayer.unMute();
-      }
-    }
+    if (!musicMuted && Number(musicVolume.value) === 0) musicVolume.value = String(savedVolume || 80);
+    musicAudio.volume = Number(musicVolume.value) / 100;
+    musicAudio.muted = musicMuted || Number(musicVolume.value) === 0;
     try { localStorage.setItem('ynexblox-muted', String(musicMuted)); } catch (error) {}
     updateMusicControls();
   });
   musicPlayButton.addEventListener('click', function() {
-    if (!youtubePlayer || !youtubeReady) { startMusic(); return; }
-    if (musicPlaying) youtubePlayer.pauseVideo();
+    if (musicPlaying) musicAudio.pause();
     else {
       if (musicMuted && Number(musicVolume.value) > 0) {
         musicMuted = false;
-        youtubePlayer.unMute();
+        musicAudio.muted = false;
         try { localStorage.setItem('ynexblox-muted','false'); } catch (error) {}
       }
-      youtubePlayer.playVideo();
+      startMusic();
     }
     updateMusicControls();
   });
@@ -1262,11 +1228,8 @@
     const value = Number(musicVolume.value);
     if (value > 0) savedVolume = value;
     musicMuted = value === 0;
-    if (youtubePlayer && youtubeReady) {
-      youtubePlayer.setVolume(value);
-      if (musicMuted) youtubePlayer.mute();
-      else youtubePlayer.unMute();
-    }
+    musicAudio.volume = value / 100;
+    musicAudio.muted = musicMuted;
     try {
       localStorage.setItem('ynexblox-volume',String(value));
       localStorage.setItem('ynexblox-muted',String(musicMuted));
@@ -1279,14 +1242,11 @@
     musicProgress.style.setProperty('--progress',percent + '%');
   });
   musicProgress.addEventListener('change', function() {
-    if (youtubePlayer && youtubeReady) {
-      const duration = youtubePlayer.getDuration() || 0;
-      if (duration > 0) youtubePlayer.seekTo(duration * Number(musicProgress.value) / 1000,true);
-    }
+    const duration = musicAudio.duration || 0;
+    if (duration > 0) musicAudio.currentTime = duration * Number(musicProgress.value) / 1000;
     seekingMusic = false;
     updateMusicProgress();
   });
-  window.setInterval(updateMusicProgress,500);
   // Seletor de temas com preferência salva neste navegador.
   const themeSwitcher = document.getElementById('theme-switcher');
   const themeTrigger = document.getElementById('theme-trigger');
