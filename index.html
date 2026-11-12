@@ -2402,6 +2402,9 @@
   .toggle-label{margin-top:20px;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(0,150,255,.8);text-shadow:0 0 10px rgba(0,100,255,.5);transition:.5s}
   .entry-hint{margin-top:32px;font-size:.65rem;letter-spacing:2px;color:#58718e;animation:entry-blink 1.8s infinite alternate}
   .entry-music{display:flex;align-items:center;justify-content:center;gap:12px;margin:28px auto 0;color:#b9d9f5;font-size:.83rem;letter-spacing:.7px}
+  .entry-music-toggle{width:27px;height:27px;border:1px solid rgba(0,190,255,.4);border-radius:50%;background:rgba(0,100,180,.16);color:#b9eaff;cursor:pointer;font-size:.8rem;line-height:1;transition:.2s}
+  .entry-music-toggle:hover{background:rgba(0,140,255,.3);box-shadow:0 0 12px rgba(0,160,255,.3)}
+  #welcome-audio{display:none}
   .music-note{font-size:1.35rem;color:#00c8ff;text-shadow:0 0 12px #008cff;animation:music-note-pulse 1.2s ease-in-out infinite alternate}
   @keyframes music-note-pulse{to{transform:translateY(-3px);text-shadow:0 0 18px #00c8ff}}
   .global-controls{position:fixed;top:104px;right:max(16px,calc((100vw - 1180px)/2 + 8px));z-index:110;display:flex;flex-direction:column;align-items:flex-end;gap:9px;font-family:'Rajdhani',sans-serif}
@@ -2875,10 +2878,12 @@
     <div class="entry-hint">LOGIN SEGURO PELO SITE OFICIAL DO ROBLOX</div>
     <div class="entry-music" id="entry-music" aria-live="polite">
       <span class="music-note" aria-hidden="true">♫</span>
-      <span class="music-title">Trilha sonora</span>
+      <span class="music-title" id="entry-music-status">Trilha sonora · volume 40%</span>
+      <button type="button" class="entry-music-toggle" id="entry-music-toggle" aria-label="Reproduzir ou pausar trilha sonora">Ⅱ</button>
     </div>
   </div>
 </div>
+<audio id="welcome-audio" preload="auto" loop src="/assets/welcome-track.mp3" aria-label="Música da tela de boas-vindas"></audio>
 <div id="site-content" aria-hidden="true">
 <div class="neon-cursor" id="neon-cursor" aria-hidden="true"></div>
 <div class="bg-glow"></div>
@@ -3198,6 +3203,37 @@
   });
   // Player de áudio nativo: não utiliza YouTube, iframe ou API externa de vídeo.
   const musicAudio = document.getElementById('music-audio');
+  const welcomeAudio = document.getElementById('welcome-audio');
+  const welcomeMusicToggle = document.getElementById('entry-music-toggle');
+  const welcomeMusicStatus = document.getElementById('entry-music-status');
+  let welcomeMusicPlaying = false;
+  if (welcomeAudio) {
+    welcomeAudio.volume = 0.4;
+    welcomeAudio.loop = true;
+    const updateWelcomeMusicUI = () => {
+      welcomeMusicPlaying = !welcomeAudio.paused;
+      if (welcomeMusicToggle) {
+        welcomeMusicToggle.textContent = welcomeMusicPlaying ? 'Ⅱ' : '▶';
+        welcomeMusicToggle.setAttribute('aria-label', welcomeMusicPlaying ? 'Pausar trilha sonora' : 'Reproduzir trilha sonora');
+      }
+      if (welcomeMusicStatus) welcomeMusicStatus.textContent = welcomeMusicPlaying ? 'Trilha sonora · 40%' : 'Trilha sonora pausada';
+    };
+    welcomeAudio.addEventListener('play', updateWelcomeMusicUI);
+    welcomeAudio.addEventListener('pause', updateWelcomeMusicUI);
+    welcomeAudio.addEventListener('error', () => {
+      if (welcomeMusicStatus) welcomeMusicStatus.textContent = 'Arquivo de áudio não encontrado';
+    });
+    const tryWelcomeMusic = () => welcomeAudio.play().then(updateWelcomeMusicUI).catch(() => {
+      if (welcomeMusicStatus) welcomeMusicStatus.textContent = 'Clique em ▶ para ativar a música';
+      updateWelcomeMusicUI();
+    });
+    if (welcomeMusicToggle) welcomeMusicToggle.addEventListener('click', () => {
+      if (welcomeAudio.paused) tryWelcomeMusic();
+      else welcomeAudio.pause();
+    });
+    // Tenta iniciar automaticamente; navegadores podem exigir interação explícita.
+    tryWelcomeMusic();
+  }
   const musicMute = document.getElementById('music-mute');
   const musicCard = document.getElementById('music-card');
   const musicPlayButton = document.getElementById('music-play');
@@ -3476,6 +3512,13 @@
   const toggleLabel = document.getElementById('toggle-label');
   systemToggle.addEventListener('change', () => {
     if (!systemToggle.checked) return;
+    // Interrompe a música da tela de boas-vindas antes da transição.
+    if (welcomeAudio) {
+      welcomeAudio.pause();
+      welcomeAudio.currentTime = 0;
+      if (welcomeMusicStatus) welcomeMusicStatus.textContent = 'Transição misteriosa...';
+      if (welcomeMusicToggle) welcomeMusicToggle.disabled = true;
+    }
     // Interrompe qualquer trilha anterior e toca uma transição misteriosa original.
     if (musicAudio) {
       musicAudio.pause();
