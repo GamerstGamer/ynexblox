@@ -3224,8 +3224,8 @@
       if (welcomeMusicStatus) welcomeMusicStatus.textContent = 'Arquivo de áudio não encontrado';
     });
     const tryWelcomeMusic = () => welcomeAudio.play().then(updateWelcomeMusicUI).catch(() => {
-      if (welcomeMusicStatus) welcomeMusicStatus.textContent = 'Clique em ▶ para ativar a música';
       updateWelcomeMusicUI();
+      if (welcomeMusicStatus) welcomeMusicStatus.textContent = 'Clique em ▶ para ativar a música';
     });
     if (welcomeMusicToggle) welcomeMusicToggle.addEventListener('click', () => {
       if (welcomeAudio.paused) tryWelcomeMusic();
