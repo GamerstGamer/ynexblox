@@ -83,13 +83,12 @@ module.exports = async (req, res) => {
 
   if (action === "logout") {
     const current = unseal(jar[COOKIE_SESSION]);
-    if (current?.accessToken && process.env.ROBLOX_CLIENT_ID && process.env.ROBLOX_CLIENT_SECRET) {
+    if (current?.refreshToken && process.env.ROBLOX_CLIENT_ID && process.env.ROBLOX_CLIENT_SECRET) {
       try {
         const revokeBody = new URLSearchParams({
           client_id: process.env.ROBLOX_CLIENT_ID,
           client_secret: process.env.ROBLOX_CLIENT_SECRET,
-          token: current.accessToken,
-          token_type_hint: "access_token"
+          token: current.refreshToken
         });
         await fetch(OAUTH_BASE + "/token/revoke", {
           method: "POST",
