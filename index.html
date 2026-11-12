@@ -763,8 +763,8 @@
 <div class="entry-gate" id="entry-gate" role="dialog" aria-modal="true" aria-label="Ativar experiência YNeX Blox">
   <div class="entry-panel">
     <div class="entry-kicker">YNeX BLOX // SYSTEM</div>
-    <h2>INICIAR SISTEMA</h2>
-    <p class="entry-description">Ative o sistema para acessar a experiência.</p>
+    <h2>ENTRE COM ROBLOX</h2>
+    <p class="entry-description">Conecte sua conta Roblox com autenticação oficial e acesse os recursos extras.</p>
     <a class="roblox-login-cta" id="roblox-login-button" href="/api/roblox-auth?action=start">
       <span class="roblox-login-mark">R</span><span>ENTRAR COM O ROBLOX</span><span aria-hidden="true">↗</span>
     </a>
@@ -795,7 +795,7 @@
   <ul>
     <li><a href="#recursos" data-home-link>Recursos</a></li>
     <li><a href="#pagina-roblox" id="open-roblox-page">Roblox</a></li>
-    <li><a href="#comecar" data-home-link>Começar</a></li>
+    <li><a href="/api/roblox-auth?action=start">Entrar com Roblox</a></li>
   </ul>
 </nav>
 
@@ -881,7 +881,7 @@
     Performance extrema, visual neon e uma experiência <b>fora do comum</b>.
   </p>
   <div class="hero-btns">
-    <button class="btn-primary" onclick="document.getElementById('comecar').scrollIntoView()">Começar agora</button>
+    <button class="btn-primary" onclick="window.location.href='/api/roblox-auth?action=start'">Entrar com Roblox</button>
     <button class="btn-ghost" onclick="document.getElementById('recursos').scrollIntoView()">Ver recursos</button>
   </div>
 </header>
