@@ -1599,6 +1599,7 @@
         if (!response.ok || !result.id) throw new Error(result.error || 'Não foi possível consultar o Roblox agora.');
 
         currentRobloxPlayer = result;
+        if (authenticatedRobloxUser) loadRobloxSocial(result.id);
         document.getElementById('roblox-player-display').textContent = result.displayName || result.name || username;
         document.getElementById('roblox-player-username').textContent = '@' + (result.name || username);
         document.getElementById('roblox-player-avatar').src = '';
@@ -1691,6 +1692,8 @@
       logout.textContent = 'SAIR';
       robloxAuthNav.append(label, logout);
     }
+    // Atualiza também se o perfil já estiver aberto quando o login for confirmado.
+    if (currentRobloxPlayer?.id) loadRobloxSocial(currentRobloxPlayer.id);
   }
 
   async function loadRobloxSocial(userId) {
@@ -1750,15 +1753,7 @@
   }
   checkRobloxLogin();
 
-  // Exibe conexões apenas para quem vinculou sua conta Roblox.
-  const socialObserver = new MutationObserver(() => {
-    if (currentRobloxPlayer && authenticatedRobloxUser) {
-      socialCursors[activeSocialView] = [null];
-      socialPages[activeSocialView] = 1;
-      loadRobloxSocial(currentRobloxPlayer.id, activeSocialView, null);
-    }
-  });
-  if (robloxPreview) socialObserver.observe(robloxPreview, {attributes:true, attributeFilter:['class']});
+
 
 </script>
 
