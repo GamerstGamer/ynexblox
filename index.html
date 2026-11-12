@@ -2408,7 +2408,7 @@
   .music-note{font-size:1.35rem;color:#00c8ff;text-shadow:0 0 12px #008cff;animation:music-note-pulse 1.2s ease-in-out infinite alternate}
   @keyframes music-note-pulse{to{transform:translateY(-3px);text-shadow:0 0 18px #00c8ff}}
   .global-controls{position:fixed;top:104px;right:max(16px,calc((100vw - 1180px)/2 + 8px));z-index:110;display:flex;flex-direction:column;align-items:flex-end;gap:9px;font-family:'Rajdhani',sans-serif}
-  .global-controls .theme-switcher{position:relative;top:auto;right:auto;z-index:112}
+  .global-controls .theme-switcher{position:fixed;left:24px;bottom:24px;top:auto;right:auto;z-index:120}
   .global-controls .theme-trigger{height:36px;min-width:88px}
   .global-controls .theme-menu{top:43px}
   .music-card{position:fixed;top:149px;right:6vw;z-index:111;width:260px;height:130px;padding:10px;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:linear-gradient(145deg,#1b1b1b,#101010);color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.35);font-family:Arial,sans-serif;transition:background .25s,border-color .25s,box-shadow .25s;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}.music-card.is-dragging{cursor:grabbing;transition:none;box-shadow:0 16px 38px rgba(0,0,0,.48)}.music-card :is(button,input){user-select:auto;-webkit-user-select:auto}
@@ -2458,7 +2458,7 @@
   body[data-theme="pink-white"] .music-art{background:linear-gradient(135deg,#e85d9e,#d93683)}
   body[data-theme="pink-white"] .music-playing i{background:#d93683}
   body[data-theme="pink-white"] .music-progress{background:linear-gradient(to right,#d93683 0%,#d93683 var(--progress,0%),#e8bfd1 var(--progress,0%),#e8bfd1 100%)}
-  @media(max-width:600px){.global-controls{top:88px;right:10px;gap:7px}.music-card{top:127px;right:10px;width:min(238px,calc(100vw - 20px));height:124px}.global-controls .theme-trigger{height:32px}.roblox-page{padding-top:290px}}
+  @media(max-width:600px){.global-controls{top:88px;right:10px;gap:7px}.global-controls .theme-switcher{left:10px;bottom:14px}.music-card{top:127px;right:10px;width:min(238px,calc(100vw - 20px));height:124px}.global-controls .theme-trigger{height:32px}.roblox-page{padding-top:290px}}
   @media(max-width:420px){.entry-music{gap:8px}.music-title{max-width:135px}}
 
   .toggle-input:checked+.toggle-track{background:rgba(0,60,30,.5);border-color:rgba(0,255,150,.5);box-shadow:0 0 20px rgba(0,255,150,.25),inset 0 0 10px #000}
