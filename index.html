@@ -1068,7 +1068,6 @@
   // Player de áudio: o YouTube é carregado sem interface e só começa após o clique em OFF.
   const youtubeVideoId = '6YMhcO1RGyo';
   const musicMute = document.getElementById('music-mute');
-  const musicMuteLabel = document.getElementById('music-mute-label');
   const musicCard = document.getElementById('music-card');
   const musicPlayButton = document.getElementById('music-play');
   const musicVolume = document.getElementById('music-volume');
@@ -1102,6 +1101,7 @@
     musicMute.title = musicMuted ? 'Ativar som' : 'Silenciar música';
     musicCard.classList.toggle('is-muted', musicMuted);
     musicCard.classList.toggle('is-playing', musicPlaying);
+    document.getElementById('music-playing').setAttribute('aria-label', musicPlaying ? 'Música tocando' : 'Música pausada');
     musicPlayButton.classList.toggle('is-paused', !musicPlaying);
     musicPlayButton.setAttribute('aria-label', musicPlaying ? 'Pausar música' : 'Reproduzir música');
     musicPlayButton.title = musicPlaying ? 'Pausar música' : 'Reproduzir música';
