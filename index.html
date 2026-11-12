@@ -728,9 +728,16 @@
   .roblox-login-mark{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:#fff;color:#1762ad;font:900 1rem 'Orbitron',sans-serif}
   .roblox-privacy-note{max-width:390px;margin:16px auto 0;color:#9bb4d1;font-size:.84rem;line-height:1.5}
   .roblox-auth-feedback{min-height:18px;margin:9px 0 0;color:#ffaaaa;font-size:.85rem}
-  .entry-continue{margin:14px auto 0;padding:8px 14px;border:1px solid rgba(125,165,210,.28);border-radius:8px;background:rgba(15,35,60,.35);color:#91a9c5;font:700 .75rem 'Rajdhani',sans-serif;letter-spacing:1px;cursor:pointer}
-  .entry-continue:hover{color:#fff;border-color:#389cff}
-  .entry-panel .toggle-container[hidden]{display:none}
+  .entry-power-control{display:flex;align-items:center;justify-content:center;gap:10px;margin:14px auto 0}
+  .entry-power-switch{position:relative;display:inline-block;width:48px;height:25px;cursor:pointer;flex:0 0 auto}
+  .entry-power-switch input{position:absolute;width:1px;height:1px;opacity:0}
+  .entry-power-slider{position:absolute;inset:0;border-radius:20px;background:rgba(10,35,65,.8);border:1px solid rgba(0,150,255,.5);box-shadow:inset 0 0 8px #000,0 0 9px rgba(0,120,255,.15);transition:.25s}
+  .entry-power-slider::before{content:"";position:absolute;width:17px;height:17px;left:3px;top:3px;border-radius:50%;background:linear-gradient(145deg,#d8f4ff,#168cff);box-shadow:0 0 9px rgba(0,150,255,.7);transition:.25s}
+  .entry-power-switch input:checked+.entry-power-slider{background:rgba(0,75,45,.8);border-color:rgba(0,255,150,.65);box-shadow:0 0 12px rgba(0,255,150,.22),inset 0 0 8px #000}
+  .entry-power-switch input:checked+.entry-power-slider::before{transform:translateX(23px);background:linear-gradient(145deg,#e5fff5,#00d889);box-shadow:0 0 10px rgba(0,255,150,.75)}
+  .entry-power-switch input:focus-visible+.entry-power-slider{outline:2px solid #fff;outline-offset:4px}
+  .entry-power-label{min-width:76px;text-align:left;color:#6fa9dc;font:800 .68rem 'Orbitron',sans-serif;letter-spacing:1px;transition:.25s}
+  .entry-power-switch input:checked~.entry-power-label{color:#58ffc0}
   .roblox-auth-nav{display:flex;align-items:center;gap:9px;color:#d8eaff;font-size:.85rem;font-weight:700}
   .roblox-auth-nav[hidden]{display:none}
   .roblox-auth-nav img{width:28px;height:28px;border-radius:50%;object-fit:cover;border:1px solid #329cff}
@@ -767,13 +774,13 @@
     </a>
     <p class="roblox-privacy-note">Não coletamos sua senha nem pedimos seus dados de acesso pelo site. A autenticação é feita pelo Roblox; os dados autorizados são tratados de acordo com os termos e normas aplicáveis.</p>
     <p class="roblox-auth-feedback" id="roblox-auth-feedback" role="status" aria-live="polite"></p>
-    <div class="toggle-container" hidden>
-      <div class="toggle-wrap">
-        <input class="toggle-input" type="checkbox" id="system-toggle" aria-label="Continuar sem entrar">
-      </div>
-      <div class="toggle-label" id="toggle-label">SYSTEM OFF</div>
+    <div class="entry-power-control">
+      <label class="entry-power-switch" aria-label="Ativar o YNeX Blox">
+        <input type="checkbox" id="system-toggle" aria-label="SYSTEM OFF / ON">
+        <span class="entry-power-slider" aria-hidden="true"></span>
+      </label>
+      <span class="entry-power-label" id="toggle-label">SYSTEM OFF</span>
     </div>
-    <button class="entry-continue" id="entry-continue" type="button">CONTINUAR SEM LOGIN</button>
     <div class="entry-hint">LOGIN SEGURO PELO SITE OFICIAL DO ROBLOX</div>
     <div class="entry-music" id="entry-music" aria-live="polite">
       <span class="music-note" aria-hidden="true">♫</span>
@@ -1331,7 +1338,7 @@
   systemToggle.addEventListener('change', () => {
     if (!systemToggle.checked) return;
     startMusic();
-    toggleLabel.textContent = 'SYSTEM ONLINE';
+    toggleLabel.textContent = 'SYSTEM ON';
     systemToggle.disabled = true;
     window.setTimeout(() => {
       document.body.classList.remove('site-locked');
@@ -1635,18 +1642,10 @@
   });
 
   // Login oficial Roblox via OAuth 2.0 (sessão protegida por cookie HttpOnly).
-  const entryContinueButton = document.getElementById('entry-continue');
   const robloxAuthFeedback = document.getElementById('roblox-auth-feedback');
   const robloxLoginButton = document.getElementById('roblox-login-button');
   const robloxAuthNav = document.getElementById('roblox-auth-nav');
   let authenticatedRobloxUser = null;
-
-  entryContinueButton?.addEventListener('click', () => {
-    if (!systemToggle.checked) {
-      systemToggle.checked = true;
-      systemToggle.dispatchEvent(new Event('change', {bubbles:true}));
-    }
-  });
 
   function formatRobloxCount(value) {
     return value === null || value === undefined ? '—' :
