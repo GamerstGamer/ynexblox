@@ -85,7 +85,18 @@ module.exports = async (req, res) => {
     const current = unseal(jar[COOKIE_SESSION]);
     if (current?.accessToken && process.env.ROBLOX_CLIENT_ID && process.env.ROBLOX_CLIENT_SECRET) {
       try {
-        await tokenRequest({ grant_type: "refresh_token", refresh_token: current.refreshToken });
+        const revokeBody = new URLSearchParams({
+          client_id: process.env.ROBLOX_CLIENT_ID,
+          client_secret: process.env.ROBLOX_CLIENT_SECRET,
+          token: current.accessToken,
+          token_type_hint: "access_token"
+        });
+        await fetch(OAUTH_BASE + "/revoke", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: revokeBody,
+          signal: AbortSignal.timeout(8000)
+        });
       } catch (_) {}
     }
     clearCookie(res, COOKIE_SESSION);
