@@ -3308,6 +3308,54 @@
     }
   }
   updateMusicControls();
+  function playMysteryTransition() {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    try {
+      const context = new AudioContextClass();
+      const now = context.currentTime;
+      const master = context.createGain();
+      master.gain.setValueAtTime(0.0001, now);
+      master.gain.exponentialRampToValueAtTime(0.22, now + 0.12);
+      master.gain.exponentialRampToValueAtTime(0.0001, now + 2.15);
+      master.connect(context.destination);
+
+      // Drone grave com batimentos lentos.
+      [55, 55.7, 82.4].forEach((frequency, index) => {
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        oscillator.type = index === 2 ? 'triangle' : 'sine';
+        oscillator.frequency.setValueAtTime(frequency, now);
+        oscillator.frequency.exponentialRampToValueAtTime(frequency * 1.22, now + 1.8);
+        gain.gain.value = index === 2 ? 0.22 : 0.42;
+        oscillator.connect(gain);
+        gain.connect(master);
+        oscillator.start(now);
+        oscillator.stop(now + 2.2);
+      });
+
+      // Brilho agudo descendente, como um sino distante.
+      [880, 659.25, 523.25].forEach((frequency, index) => {
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        const start = now + 0.18 + index * 0.19;
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(frequency, start);
+        oscillator.frequency.exponentialRampToValueAtTime(frequency * 0.72, start + 0.8);
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(0.12, start + 0.035);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.9);
+        oscillator.connect(gain);
+        gain.connect(master);
+        oscillator.start(start);
+        oscillator.stop(start + 0.95);
+      });
+      window.setTimeout(() => context.close().catch(() => {}), 2600);
+    } catch (error) {
+      // A entrada do site não depende da disponibilidade de áudio Web.
+    }
+  }
+
   function startMusic() {
     musicAudio.volume = Number(musicVolume.value) / 100;
     musicAudio.muted = musicMuted || Number(musicVolume.value) === 0;
@@ -3428,7 +3476,12 @@
   const toggleLabel = document.getElementById('toggle-label');
   systemToggle.addEventListener('change', () => {
     if (!systemToggle.checked) return;
-    startMusic();
+    // Interrompe qualquer trilha anterior e toca uma transição misteriosa original.
+    if (musicAudio) {
+      musicAudio.pause();
+      musicAudio.currentTime = 0;
+    }
+    playMysteryTransition();
     toggleLabel.textContent = 'SYSTEM ON';
     systemToggle.disabled = true;
     window.setTimeout(() => {
