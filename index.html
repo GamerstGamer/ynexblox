@@ -318,13 +318,58 @@
   .entry-music{display:flex;align-items:center;justify-content:center;gap:12px;margin:28px auto 0;color:#b9d9f5;font-size:.83rem;letter-spacing:.7px}
   .music-note{font-size:1.35rem;color:#00c8ff;text-shadow:0 0 12px #008cff;animation:music-note-pulse 1.2s ease-in-out infinite alternate}
   @keyframes music-note-pulse{to{transform:translateY(-3px);text-shadow:0 0 18px #00c8ff}}
-  .music-mute{position:fixed;top:108px;right: max(24px, calc((100vw - 1180px)/2 + 8px));z-index:60;width:44px;height:44px;display:grid;place-items:center;padding:0;border-radius:12px;border:1px solid rgba(0,160,255,.42);background:rgba(3,18,35,.92);backdrop-filter:blur(12px);color:#9bcdf0;cursor:pointer;box-shadow:0 0 18px rgba(0,120,255,.18);transition:all .2s}
-  .music-mute:hover{border-color:#00c8ff;color:#fff;box-shadow:0 0 18px rgba(0,150,255,.38);transform:translateY(-1px)}
-  .music-mute:focus-visible{outline:2px solid #fff;outline-offset:3px}
-  .music-mute span{display:none}
-  .sound-icon{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-  .music-mute[aria-pressed="true"] .sound-icon path:nth-child(n+2){display:none}
-  .music-title{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .global-controls{position:fixed;top:104px;right:max(16px,calc((100vw - 1180px)/2 + 8px));z-index:110;display:flex;flex-direction:column;align-items:flex-end;gap:9px;font-family:'Rajdhani',sans-serif}
+  .global-controls .theme-switcher{position:relative;top:auto;right:auto;z-index:112}
+  .global-controls .theme-trigger{height:36px;min-width:88px}
+  .global-controls .theme-menu{top:43px}
+  .music-card{position:relative;width:260px;height:130px;padding:10px;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:linear-gradient(145deg,#1b1b1b,#101010);color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.35);font-family:Arial,sans-serif;transition:background .25s,border-color .25s,box-shadow .25s}
+  .music-card-top{display:flex;align-items:center;gap:10px;position:relative}
+  .music-art{width:40px;height:40px;flex:0 0 40px;display:grid;place-items:center;border-radius:5px;background:linear-gradient(135deg,#1db954,#0b5d2a);color:#fff;font-size:27px;box-shadow:0 0 12px rgba(29,185,84,.2)}
+  .music-track-info{min-width:0;flex:1}
+  .music-track-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff;font-size:16px;font-weight:800}
+  .music-track-artist{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:3px;color:#bdbdbd;font-size:10px;font-weight:700}
+  .music-playing{height:20px;width:25px;display:flex;align-items:center;justify-content:center;gap:2px;opacity:.28}
+  .music-playing i{height:18px;width:2px;background:#1db954;transform:scaleY(.12);transform-origin:bottom}
+  .music-card.is-playing .music-playing{opacity:1}
+  .music-card.is-playing .music-playing i{animation:music-equalizer .85s ease-in-out infinite}
+  .music-card.is-playing .music-playing i:nth-child(1){animation-delay:.12s}
+  .music-card.is-playing .music-playing i:nth-child(2){animation-delay:.38s}
+  .music-card.is-playing .music-playing i:nth-child(3){animation-delay:.52s}
+  .music-card.is-playing .music-playing i:nth-child(4){animation-delay:0s}
+  .music-card.is-playing .music-playing i:nth-child(5){animation-delay:.28s}
+  @keyframes music-equalizer{0%,100%{transform:scaleY(.12)}35%{transform:scaleY(.95)}68%{transform:scaleY(.48)}}
+  .music-card-controls{position:absolute;left:10px;right:10px;bottom:35px;height:24px;display:flex;align-items:center;justify-content:center;gap:10px}
+  .music-card-controls button{display:grid;place-items:center;padding:0;border:0;background:none;color:#fff;cursor:pointer;transition:color .15s,transform .15s}
+  .music-card-controls button:hover{color:#1db954;transform:scale(1.08)}
+  .music-card-controls button:focus-visible,.music-card input:focus-visible{outline:2px solid #1db954;outline-offset:3px}
+  .music-play-button{width:25px;height:25px}
+  .music-play-button svg{width:19px;height:19px;fill:currentColor}
+  .music-play-button.is-paused svg{width:20px;height:20px}
+  .music-volume-button{width:22px;height:22px}
+  .sound-icon{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .music-volume-control{width:65px;opacity:.0;transition:opacity .2s}
+  .music-card-controls:hover .music-volume-control,.music-volume-control:focus-within{opacity:1}
+  .music-volume-slider,.music-progress{width:100%;height:4px;margin:0;appearance:none;-webkit-appearance:none;border-radius:4px;background:#5e5e5e;cursor:pointer;accent-color:#1db954}
+  .music-volume-slider::-webkit-slider-thumb,.music-progress::-webkit-slider-thumb{appearance:none;width:8px;height:8px;border-radius:50%;background:#fff}
+  .music-volume-slider::-moz-range-thumb,.music-progress::-moz-range-thumb{width:8px;height:8px;border:0;border-radius:50%;background:#fff}
+  .music-progress-wrap{position:absolute;left:13px;right:13px;bottom:8px}
+  .music-progress{display:block;height:5px;background:linear-gradient(to right,#1db954 0%,#1db954 var(--progress,0%),#5e5e5e var(--progress,0%),#5e5e5e 100%)}
+  .music-time{display:flex;justify-content:space-between;margin-top:3px;color:#ddd;font-size:8px;font-variant-numeric:tabular-nums}
+  .music-card.is-muted .music-volume-button{color:#888}
+  body[data-theme="dark-white"] .music-card{background:linear-gradient(145deg,#fff,#e9e9e9);border-color:#ccc;color:#171717;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+  body[data-theme="dark-white"] .music-track-title,body[data-theme="dark-white"] .music-card-controls button{color:#171717}
+  body[data-theme="dark-white"] .music-track-artist,body[data-theme="dark-white"] .music-time{color:#555}
+  body[data-theme="hacker"] .music-card{background:linear-gradient(145deg,#001b09,#020805);border-color:rgba(0,255,90,.4);box-shadow:0 0 22px rgba(0,255,90,.14)}
+  body[data-theme="hacker"] .music-art{background:linear-gradient(135deg,#00ff70,#006b2e);color:#001b09}
+  body[data-theme="hacker"] .music-playing i,body[data-theme="hacker"] .music-progress{accent-color:#00ff70}
+  body[data-theme="hacker"] .music-progress{background:linear-gradient(to right,#00ff70 0%,#00ff70 var(--progress,0%),#31523b var(--progress,0%),#31523b 100%)}
+  body[data-theme="pink-white"] .music-card{background:linear-gradient(145deg,#fff,#fff0f7);border-color:#efb2ce;box-shadow:0 8px 24px rgba(217,54,131,.13)}
+  body[data-theme="pink-white"] .music-track-title,body[data-theme="pink-white"] .music-card-controls button{color:#3a2430}
+  body[data-theme="pink-white"] .music-track-artist,body[data-theme="pink-white"] .music-time{color:#795568}
+  body[data-theme="pink-white"] .music-art{background:linear-gradient(135deg,#e85d9e,#d93683)}
+  body[data-theme="pink-white"] .music-playing i{background:#d93683}
+  body[data-theme="pink-white"] .music-progress{background:linear-gradient(to right,#d93683 0%,#d93683 var(--progress,0%),#e8bfd1 var(--progress,0%),#e8bfd1 100%)}
+  @media(max-width:600px){.global-controls{top:88px;right:10px;gap:7px}.music-card{width:min(238px,calc(100vw - 20px));height:124px}.global-controls .theme-trigger{height:32px}.roblox-page{padding-top:290px}}
   .youtube-audio-frame{position:fixed;width:1px;height:1px;left:-10px;bottom:0;opacity:.001;pointer-events:none;border:0}
   @media(max-width:420px){.entry-music{gap:8px}.music-title{max-width:135px}}
 
@@ -654,6 +699,29 @@
   @media(prefers-reduced-motion:reduce){.loader .text span,.loader .line::after{animation:none!important}}
 
   @media(prefers-reduced-motion:reduce){.entry-panel,.track-line,.thumb-inner,.thumb-scan,.thumb-particles i,.status-indicator,.entry-hint,.energy-rings i{animation:none!important}}
+
+  /* Temas também aplicados à página Roblox; controles globais permanecem acessíveis em ambas as páginas. */
+  body[data-theme="dark-white"] .roblox-page{background:#f4f4f4;color:#171717}
+  body[data-theme="dark-white"] .roblox-background{background:linear-gradient(145deg,#f4f4f4,#e6e6e6)}
+  body[data-theme="dark-white"] .roblox-sphere-1,body[data-theme="dark-white"] .roblox-sphere-2,body[data-theme="dark-white"] .roblox-sphere-3{opacity:.12;filter:blur(75px) grayscale(1)}
+  body[data-theme="dark-white"] .roblox-page-heading p{color:#555}
+  body[data-theme="dark-white"] .roblox-profile-finder{background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(235,235,235,.98));border-color:#bbb;box-shadow:0 8px 28px rgba(0,0,0,.08)}
+  body[data-theme="dark-white"] .roblox-profile-finder h2,body[data-theme="dark-white"] .roblox-profile-finder p{color:#222}
+  body[data-theme="hacker"] .roblox-page{background:#020805;color:#d7ffe3}
+  body[data-theme="hacker"] .roblox-background{background:linear-gradient(145deg,#020805,#03150a)}
+  body[data-theme="hacker"] .roblox-sphere-1,body[data-theme="hacker"] .roblox-sphere-2,body[data-theme="hacker"] .roblox-sphere-3{filter:blur(70px) hue-rotate(75deg);opacity:.32}
+  body[data-theme="hacker"] .roblox-page-heading p{color:#78ad89}
+  body[data-theme="hacker"] .roblox-profile-finder{background:linear-gradient(145deg,rgba(0,30,12,.94),rgba(0,8,3,.98));border-color:rgba(0,255,90,.4);box-shadow:0 0 25px rgba(0,255,90,.1)}
+  body[data-theme="hacker"] .roblox-profile-finder h2{color:#66ff9b}
+  body[data-theme="hacker"] .roblox-profile-finder p{color:#9acbaa}
+  body[data-theme="pink-white"] .roblox-page{background:#fff7fb;color:#3a2430}
+  body[data-theme="pink-white"] .roblox-background{background:linear-gradient(145deg,#fff7fb,#ffeaf3)}
+  body[data-theme="pink-white"] .roblox-sphere-1,body[data-theme="pink-white"] .roblox-sphere-2,body[data-theme="pink-white"] .roblox-sphere-3{filter:blur(75px) hue-rotate(285deg);opacity:.18}
+  body[data-theme="pink-white"] .roblox-page-heading p{color:#956b7d}
+  body[data-theme="pink-white"] .roblox-profile-finder{background:linear-gradient(145deg,rgba(255,255,255,.97),rgba(255,240,247,.98));border-color:#efb2ce;box-shadow:0 8px 28px rgba(217,54,131,.1)}
+  body[data-theme="pink-white"] .roblox-profile-finder h2{color:#d93683}
+  body[data-theme="pink-white"] .roblox-profile-finder p{color:#795568}
+
 </style>
 </head>
 <body>
@@ -705,12 +773,8 @@
   </ul>
 </nav>
 
-<div id="home-page-content">
-<section class="tiktok-section" id="tiktok">
-  <button type="button" class="music-mute" id="music-mute" aria-label="Silenciar música" aria-pressed="false">
-    <svg class="sound-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
-    <span id="music-mute-label">MUTAR</span>
-  </button>
+
+<div class="global-controls" id="global-controls">
   <div class="theme-switcher" id="theme-switcher">
     <button type="button" class="theme-trigger" id="theme-trigger" aria-expanded="false" aria-controls="theme-menu">TEMA ▾</button>
     <div class="theme-menu" id="theme-menu" role="menu" hidden>
@@ -720,6 +784,37 @@
       <button type="button" class="theme-option" data-theme-choice="normal" role="menuitem" aria-pressed="true">Voltar ao normal</button>
     </div>
   </div>
+  <div class="music-card" id="music-card" aria-label="Player de música">
+    <div class="music-card-top">
+      <div class="music-art" aria-hidden="true">♫</div>
+      <div class="music-track-info">
+        <div class="music-track-title">Married Life</div>
+        <div class="music-track-artist">Pixar's Up Theme Song</div>
+      </div>
+      <div class="music-playing" id="music-playing" aria-label="Música pausada">
+        <i></i><i></i><i></i><i></i><i></i>
+      </div>
+    </div>
+    <div class="music-card-controls">
+      <button type="button" class="music-play-button" id="music-play" aria-label="Reproduzir música" title="Reproduzir ou pausar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <button type="button" class="music-volume-button" id="music-mute" aria-label="Silenciar música" aria-pressed="false" title="Silenciar ou ativar som">
+        <svg class="sound-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+      </button>
+      <div class="music-volume-control">
+        <input class="music-volume-slider" id="music-volume" type="range" min="0" max="100" value="80" aria-label="Volume da música">
+      </div>
+    </div>
+    <div class="music-progress-wrap">
+      <input class="music-progress" id="music-progress" type="range" min="0" max="1000" value="0" aria-label="Progresso da música">
+      <div class="music-time"><span id="music-time-now">0:00</span><span id="music-time-full">0:00</span></div>
+    </div>
+  </div>
+</div>
+
+<div id="home-page-content">
+<section class="tiktok-section" id="tiktok">
   <div class="tiktok-layout">
     <div class="tiktok-heading">
       <h2 class="sec-title">Meu <em>TikTok</em></h2>
@@ -974,25 +1069,69 @@
   const youtubeVideoId = '6YMhcO1RGyo';
   const musicMute = document.getElementById('music-mute');
   const musicMuteLabel = document.getElementById('music-mute-label');
+  const musicCard = document.getElementById('music-card');
+  const musicPlayButton = document.getElementById('music-play');
+  const musicVolume = document.getElementById('music-volume');
+  const musicProgress = document.getElementById('music-progress');
+  const musicTimeNow = document.getElementById('music-time-now');
+  const musicTimeFull = document.getElementById('music-time-full');
   let youtubePlayer = null;
   let youtubeReady = false;
   let musicStarted = false;
   let musicMuted = false;
+  let musicPlaying = false;
   let pendingStart = false;
-  // Restaura a preferência de áudio salva na última visita.
-  try { musicMuted = localStorage.getItem('ynexblox-muted') === 'true'; } catch (error) {}
-  updateMuteControl();
+  let seekingMusic = false;
+  let savedVolume = 80;
+  try {
+    musicMuted = localStorage.getItem('ynexblox-muted') === 'true';
+    const storedVolume = Number(localStorage.getItem('ynexblox-volume'));
+    if (Number.isFinite(storedVolume) && storedVolume >= 0 && storedVolume <= 100) savedVolume = storedVolume;
+  } catch (error) {}
+  musicVolume.value = String(savedVolume);
 
-  function updateMuteControl() {
+  function formatMusicTime(seconds) {
+    if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60).toString().padStart(2,'0');
+    return mins + ':' + secs;
+  }
+  function updateMusicControls() {
     musicMute.setAttribute('aria-pressed', String(musicMuted));
     musicMute.setAttribute('aria-label', musicMuted ? 'Ativar som' : 'Silenciar música');
-    musicMuteLabel.textContent = musicMuted ? 'ATIVAR SOM' : 'MUTAR';
+    musicMute.title = musicMuted ? 'Ativar som' : 'Silenciar música';
+    musicCard.classList.toggle('is-muted', musicMuted);
+    musicCard.classList.toggle('is-playing', musicPlaying);
+    musicPlayButton.classList.toggle('is-paused', !musicPlaying);
+    musicPlayButton.setAttribute('aria-label', musicPlaying ? 'Pausar música' : 'Reproduzir música');
+    musicPlayButton.title = musicPlaying ? 'Pausar música' : 'Reproduzir música';
+    musicPlayButton.innerHTML = musicPlaying
+      ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>'
+      : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
   }
+  function updateMusicProgress() {
+    if (!youtubePlayer || !youtubeReady) return;
+    try {
+      const duration = youtubePlayer.getDuration() || 0;
+      const current = youtubePlayer.getCurrentTime() || 0;
+      if (duration > 0) {
+        if (!seekingMusic) {
+          const progress = Math.min(1000,Math.round(current / duration * 1000));
+          musicProgress.value = String(progress);
+          musicProgress.style.setProperty('--progress',(progress / 10) + '%');
+        }
+        musicTimeNow.textContent = formatMusicTime(current);
+        musicTimeFull.textContent = formatMusicTime(duration);
+      }
+    } catch (error) {}
+  }
+  updateMusicControls();
   function startMusic() {
     musicStarted = true;
     pendingStart = true;
     if (youtubePlayer && youtubeReady) {
-      if (musicMuted) youtubePlayer.mute();
+      youtubePlayer.setVolume(Number(musicVolume.value));
+      if (musicMuted || Number(musicVolume.value) === 0) youtubePlayer.mute();
       else youtubePlayer.unMute();
       youtubePlayer.playVideo();
       pendingStart = false;
@@ -1011,15 +1150,22 @@
       events: {
         onReady: function(event) {
           youtubeReady = true;
+          event.target.setVolume(Number(musicVolume.value));
           if (pendingStart) {
-            if (musicMuted) event.target.mute();
+            if (musicMuted || Number(musicVolume.value) === 0) event.target.mute();
             else event.target.unMute();
             event.target.playVideo();
             pendingStart = false;
           }
+          updateMusicProgress();
+        },
+        onStateChange: function(event) {
+          musicPlaying = event.data === YT.PlayerState.PLAYING;
+          updateMusicControls();
         },
         onError: function() {
-          musicMuteLabel.textContent = 'ÁUDIO INDISPONÍVEL';
+          document.querySelector('.music-track-artist').textContent = 'Áudio indisponível';
+          musicPlayButton.disabled = true;
           musicMute.disabled = true;
         }
       }
@@ -1030,17 +1176,61 @@
   youtubeApiScript.src = 'https://www.youtube.com/iframe_api';
   youtubeApiScript.async = true;
   document.head.appendChild(youtubeApiScript);
-
   musicMute.addEventListener('click', function() {
     musicMuted = !musicMuted;
-    try { localStorage.setItem('ynexblox-muted', String(musicMuted)); } catch (error) {}
-    updateMuteControl();
     if (youtubePlayer && youtubeReady) {
       if (musicMuted) youtubePlayer.mute();
-      else if (musicStarted) youtubePlayer.unMute();
+      else {
+        if (Number(musicVolume.value) === 0) musicVolume.value = String(savedVolume || 80);
+        youtubePlayer.setVolume(Number(musicVolume.value));
+        youtubePlayer.unMute();
+      }
     }
+    try { localStorage.setItem('ynexblox-muted', String(musicMuted)); } catch (error) {}
+    updateMusicControls();
   });
-
+  musicPlayButton.addEventListener('click', function() {
+    if (!youtubePlayer || !youtubeReady) { startMusic(); return; }
+    if (musicPlaying) youtubePlayer.pauseVideo();
+    else {
+      if (musicMuted && Number(musicVolume.value) > 0) {
+        musicMuted = false;
+        youtubePlayer.unMute();
+        try { localStorage.setItem('ynexblox-muted','false'); } catch (error) {}
+      }
+      youtubePlayer.playVideo();
+    }
+    updateMusicControls();
+  });
+  musicVolume.addEventListener('input', function() {
+    const value = Number(musicVolume.value);
+    if (value > 0) savedVolume = value;
+    musicMuted = value === 0;
+    if (youtubePlayer && youtubeReady) {
+      youtubePlayer.setVolume(value);
+      if (musicMuted) youtubePlayer.mute();
+      else youtubePlayer.unMute();
+    }
+    try {
+      localStorage.setItem('ynexblox-volume',String(value));
+      localStorage.setItem('ynexblox-muted',String(musicMuted));
+    } catch (error) {}
+    updateMusicControls();
+  });
+  musicProgress.addEventListener('input', function() {
+    seekingMusic = true;
+    const percent = Number(musicProgress.value) / 10;
+    musicProgress.style.setProperty('--progress',percent + '%');
+  });
+  musicProgress.addEventListener('change', function() {
+    if (youtubePlayer && youtubeReady) {
+      const duration = youtubePlayer.getDuration() || 0;
+      if (duration > 0) youtubePlayer.seekTo(duration * Number(musicProgress.value) / 1000,true);
+    }
+    seekingMusic = false;
+    updateMusicProgress();
+  });
+  window.setInterval(updateMusicProgress,500);
   // Seletor de temas com preferência salva neste navegador.
   const themeSwitcher = document.getElementById('theme-switcher');
   const themeTrigger = document.getElementById('theme-trigger');
