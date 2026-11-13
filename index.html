@@ -2691,6 +2691,45 @@
   .roblox-page-heading h1{font-size:clamp(2.5rem,8vw,5rem);margin-bottom:14px}
   .roblox-page-heading p{color:var(--muted);font-size:1.1rem}
   .roblox-extensions{max-width:1000px;margin:34px auto 0}
+  .roblox-favorites-panel{position:relative;isolation:isolate;overflow:hidden;max-width:1000px;margin:0 auto 28px;padding:24px;border:1px solid rgba(63,190,255,.42);border-radius:20px;background:linear-gradient(135deg,rgba(5,18,39,.94),rgba(13,8,35,.94));box-shadow:0 0 28px rgba(0,145,255,.13),inset 0 0 24px rgba(100,70,255,.06)}
+  .roblox-favorites-panel::before{content:"⚔";position:absolute;z-index:-1;right:24px;top:12px;font-size:46px;color:rgba(90,205,255,.18);text-shadow:0 0 15px rgba(0,190,255,.55);transform:rotate(18deg);animation:roblox-sword-float 4s ease-in-out infinite}
+  .roblox-favorites-panel::after{content:"⚔";position:absolute;z-index:-1;left:20px;bottom:8px;font-size:38px;color:rgba(183,105,255,.2);text-shadow:0 0 15px rgba(160,80,255,.55);transform:rotate(198deg);animation:roblox-sword-float 5s ease-in-out infinite reverse}
+  @keyframes roblox-sword-float{0%,100%{translate:0 0;rotate:-5deg}50%{translate:0 -9px;rotate:7deg}}
+  .roblox-favorites-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+  .roblox-favorites-heading h2{margin:0;color:#d9f4ff;font:800 clamp(1rem,3vw,1.3rem) 'Orbitron',sans-serif;letter-spacing:1.2px;text-shadow:0 0 14px rgba(0,175,255,.4)}
+  .roblox-favorites-count{padding:6px 10px;border:1px solid rgba(0,210,255,.35);border-radius:99px;color:#8feaff;background:rgba(0,150,255,.1);font:700 .72rem 'Rajdhani',sans-serif}
+  .roblox-favorites-caption{margin:0 0 18px;color:#9eb7d2;font-size:.9rem;line-height:1.5}
+  .roblox-favorites-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .roblox-favorite-card{position:relative;display:flex;align-items:center;gap:11px;min-width:0;padding:12px;border:1px solid rgba(87,172,255,.25);border-radius:14px;background:rgba(2,10,25,.76);box-shadow:inset 0 0 15px rgba(0,120,255,.05);transition:border-color .2s,box-shadow .2s,transform .2s}
+  .roblox-favorite-card:hover{transform:translateY(-2px);border-color:rgba(0,220,255,.7);box-shadow:0 0 18px rgba(0,170,255,.15)}
+  .roblox-favorite-avatar{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border:1px solid rgba(100,205,255,.55);border-radius:12px;background:linear-gradient(145deg,#123d70,#24124f);color:#a9edff;font-size:21px;box-shadow:0 0 12px rgba(0,170,255,.16)}
+  .roblox-favorite-meta{min-width:0;flex:1}
+  .roblox-favorite-name{display:block;overflow:hidden;color:#effaff;font-weight:800;text-overflow:ellipsis;white-space:nowrap}
+  .roblox-favorite-username{display:block;overflow:hidden;margin-top:3px;color:#8da9c7;font-size:.78rem;text-overflow:ellipsis;white-space:nowrap}
+  .roblox-favorite-actions{display:flex;flex-direction:column;gap:5px}
+  .roblox-favorite-actions button{padding:5px 8px;border:1px solid rgba(65,180,255,.42);border-radius:7px;background:rgba(0,115,210,.16);color:#aeeaff;font:800 .66rem 'Rajdhani',sans-serif;letter-spacing:.5px;cursor:pointer}
+  .roblox-favorite-actions button:hover{background:rgba(0,155,255,.28);box-shadow:0 0 10px rgba(0,170,255,.22)}
+  .roblox-favorite-actions .roblox-favorite-remove{border-color:rgba(255,100,150,.28);color:#ff9ab9;background:rgba(160,20,70,.12)}
+  .roblox-favorites-empty{padding:16px;border:1px dashed rgba(95,170,230,.28);border-radius:12px;color:#91a9c3;text-align:center;font-size:.86rem}
+  .roblox-favorite-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:10px 16px;border:1px solid rgba(0,220,255,.52);border-radius:10px;background:linear-gradient(135deg,rgba(0,125,220,.22),rgba(105,55,210,.2));color:#b8f2ff;font:800 .78rem 'Rajdhani',sans-serif;letter-spacing:.8px;cursor:pointer;box-shadow:0 0 14px rgba(0,170,255,.1);transition:all .2s}
+  .roblox-favorite-toggle:hover:not(:disabled){border-color:#65eaff;box-shadow:0 0 18px rgba(0,195,255,.28);transform:translateY(-1px)}
+  .roblox-favorite-toggle[aria-pressed="true"]{border-color:#ffdc78;color:#ffe9a8;background:linear-gradient(135deg,rgba(160,105,0,.24),rgba(115,70,180,.2));box-shadow:0 0 16px rgba(255,205,90,.16)}
+  .roblox-favorite-toggle:disabled{opacity:.58;cursor:not-allowed}
+  body[data-theme="hacker"] .roblox-favorites-panel{border-color:rgba(0,255,90,.4);background:linear-gradient(135deg,rgba(0,20,8,.96),rgba(0,12,5,.96))}
+  body[data-theme="hacker"] .roblox-favorites-heading h2{color:#baffcf;text-shadow:0 0 14px rgba(0,255,90,.4)}
+  body[data-theme="hacker"] .roblox-favorite-card{border-color:rgba(0,255,90,.22);background:rgba(0,12,5,.8)}
+  body[data-theme="hacker"] .roblox-favorite-name{color:#d7ffe3}
+  body[data-theme="pink-white"] .roblox-favorites-panel{background:linear-gradient(135deg,rgba(255,246,251,.97),rgba(246,237,255,.97));border-color:rgba(232,93,158,.4);box-shadow:0 0 24px rgba(232,93,158,.12)}
+  body[data-theme="pink-white"] .roblox-favorites-heading h2{color:#8e3563;text-shadow:none}
+  body[data-theme="pink-white"] .roblox-favorites-caption,body[data-theme="pink-white"] .roblox-favorite-username,body[data-theme="pink-white"] .roblox-favorites-empty{color:#805b72}
+  body[data-theme="pink-white"] .roblox-favorite-card{background:rgba(255,255,255,.82);border-color:rgba(232,93,158,.24)}
+  body[data-theme="pink-white"] .roblox-favorite-name{color:#48283a}
+  body[data-theme="dark-white"] .roblox-favorites-panel{background:linear-gradient(135deg,rgba(20,20,20,.97),rgba(9,9,9,.97));border-color:rgba(220,220,220,.3)}
+  body[data-theme="dark-white"] .roblox-favorites-heading h2{color:#fff;text-shadow:0 0 12px rgba(255,255,255,.18)}
+  body[data-theme="dark-white"] .roblox-favorites-caption,body[data-theme="dark-white"] .roblox-favorites-empty{color:#aaa}
+  body[data-theme="dark-white"] .roblox-favorite-card{background:rgba(28,28,28,.86);border-color:rgba(220,220,220,.2)}
+  body[data-theme="dark-white"] .roblox-favorite-name{color:#fff}
+  @media(max-width:560px){.roblox-favorites-panel{padding:18px 14px}.roblox-favorites-list{grid-template-columns:1fr}.roblox-favorite-actions{flex-direction:row}}
   .roblox-profile-finder{max-width:760px;margin:0 auto 42px;padding:26px;border:1px solid rgba(50,145,255,.3);border-radius:18px;background:linear-gradient(145deg,rgba(10,28,50,.88),rgba(3,8,17,.96));box-shadow:0 0 24px rgba(0,110,255,.1);text-align:center}
   .roblox-profile-finder h2{margin:0 0 10px;font:700 clamp(1.1rem,3vw,1.5rem) 'Orbitron',sans-serif;letter-spacing:1.5px;color:#b9e5ff}
   .roblox-profile-finder p{margin:0 0 18px;color:#9baec5;line-height:1.6}
@@ -3162,6 +3201,16 @@
     <h1>ROBLOX</h1>
     <p>Bem-vindo à página Roblox do YNeX Blox.</p>
   </div>
+  <section class="roblox-favorites-panel" id="roblox-favorites-panel" aria-labelledby="roblox-favorites-title">
+    <div class="roblox-favorites-heading">
+      <h2 id="roblox-favorites-title">✦ JOGADORES FAVORITOS</h2>
+      <span class="roblox-favorites-count" id="roblox-favorites-count">0 SALVOS</span>
+    </div>
+    <p class="roblox-favorites-caption" id="roblox-favorites-caption">Entre com sua conta Roblox para salvar jogadores e encontrar os perfis rapidamente sempre que voltar.</p>
+    <div class="roblox-favorites-list" id="roblox-favorites-list">
+      <div class="roblox-favorites-empty">Conecte sua conta Roblox para carregar seus favoritos.</div>
+    </div>
+  </section>
   <section class="roblox-profile-finder" aria-labelledby="roblox-profile-title">
     <h2 id="roblox-profile-title">VEJA ALGUM PERFIL DE JOGADOR DO ROBLOX AQUI</h2>
     <p>Digite o nome de usuário do jogador para abrir o perfil dele diretamente no Roblox.</p>
@@ -3204,6 +3253,7 @@
       <div class="roblox-outfit-grid" id="roblox-outfit-grid"><div class="roblox-outfit-empty">Carregando itens do avatar...</div></div>
       <p class="roblox-player-loading" id="roblox-player-loading"></p>
       <div class="roblox-preview-actions">
+        <button class="roblox-favorite-toggle" id="roblox-favorite-toggle" type="button" aria-pressed="false" disabled title="Entre com Roblox para favoritar">☆ FAVORITAR JOGADOR</button>
         <button class="roblox-profile-button roblox-open-profile" id="roblox-open-profile" type="button">VER PERFIL ↗</button>
       </div>
     </article>
@@ -3702,6 +3752,140 @@
   let currentRobloxPlayer = null;
   let robloxPresenceTimer = null;
 
+  function robloxFavoritesStorageKey(user = authenticatedRobloxUser) {
+    return user?.id ? 'ynexblox:roblox-favorites:' + String(user.id) : null;
+  }
+
+  function loadRobloxFavorites(user = authenticatedRobloxUser) {
+    const list = document.getElementById('roblox-favorites-list');
+    const caption = document.getElementById('roblox-favorites-caption');
+    if (!user?.id) {
+      robloxFavoritePlayers = [];
+      renderRobloxFavorites();
+      return;
+    }
+    try {
+      const saved = JSON.parse(localStorage.getItem(robloxFavoritesStorageKey(user)) || '[]');
+      robloxFavoritePlayers = Array.isArray(saved) ? saved.filter(item =>
+        item && /^\\d{1,20}$/.test(String(item.id)) && typeof item.name === 'string'
+      ).slice(0, 50) : [];
+    } catch (_) { robloxFavoritePlayers = []; }
+    if (caption) caption.textContent = 'Favoritos salvos nesta conta neste navegador. Seus jogadores ficam separados por conta Roblox.';
+    renderRobloxFavorites();
+  }
+
+  function saveRobloxFavorites() {
+    const key = robloxFavoritesStorageKey();
+    if (!key) return false;
+    try {
+      localStorage.setItem(key, JSON.stringify(robloxFavoritePlayers));
+      return true;
+    } catch (_) {
+      const message = document.getElementById('roblox-profile-message');
+      if (message) message.textContent = 'Não foi possível salvar. Verifique o espaço disponível no navegador.';
+      return false;
+    }
+  }
+
+  function renderRobloxFavorites() {
+    const list = document.getElementById('roblox-favorites-list');
+    const count = document.getElementById('roblox-favorites-count');
+    if (!list || !count) return;
+    count.textContent = robloxFavoritePlayers.length + (robloxFavoritePlayers.length === 1 ? ' SALVO' : ' SALVOS');
+    list.replaceChildren();
+    if (!authenticatedRobloxUser) {
+      const empty = document.createElement('div');
+      empty.className = 'roblox-favorites-empty';
+      empty.textContent = 'Conecte sua conta Roblox para acessar seus jogadores favoritos.';
+      list.appendChild(empty);
+      return;
+    }
+    if (!robloxFavoritePlayers.length) {
+      const empty = document.createElement('div');
+      empty.className = 'roblox-favorites-empty';
+      empty.textContent = 'Nenhum favorito ainda. Busque um jogador e toque em ☆ FAVORITAR JOGADOR.';
+      list.appendChild(empty);
+      return;
+    }
+    robloxFavoritePlayers.forEach(player => {
+      const card = document.createElement('article');
+      card.className = 'roblox-favorite-card';
+      const avatar = document.createElement('span');
+      avatar.className = 'roblox-favorite-avatar';
+      avatar.textContent = '✦';
+      avatar.setAttribute('aria-hidden', 'true');
+      const meta = document.createElement('div');
+      meta.className = 'roblox-favorite-meta';
+      const name = document.createElement('strong');
+      name.className = 'roblox-favorite-name';
+      name.textContent = player.displayName || player.name;
+      const username = document.createElement('span');
+      username.className = 'roblox-favorite-username';
+      username.textContent = '@' + player.name;
+      meta.append(name, username);
+      const actions = document.createElement('div');
+      actions.className = 'roblox-favorite-actions';
+      const open = document.createElement('button');
+      open.type = 'button';
+      open.textContent = 'ABRIR';
+      open.setAttribute('aria-label', 'Abrir perfil de ' + player.name);
+      open.addEventListener('click', () => {
+        const input = document.getElementById('roblox-username');
+        input.value = player.name;
+        robloxProfileForm?.requestSubmit();
+      });
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'roblox-favorite-remove';
+      remove.textContent = 'REMOVER';
+      remove.setAttribute('aria-label', 'Remover ' + player.name + ' dos favoritos');
+      remove.addEventListener('click', () => {
+        robloxFavoritePlayers = robloxFavoritePlayers.filter(item => String(item.id) !== String(player.id));
+        saveRobloxFavorites();
+        renderRobloxFavorites();
+        updateRobloxFavoriteButton();
+      });
+      actions.append(open, remove);
+      card.append(avatar, meta, actions);
+      list.appendChild(card);
+    });
+  }
+
+  function updateRobloxFavoriteButton() {
+    const button = document.getElementById('roblox-favorite-toggle');
+    if (!button) return;
+    const canFavorite = Boolean(authenticatedRobloxUser?.id && currentRobloxPlayer?.id);
+    const isFavorite = canFavorite && robloxFavoritePlayers.some(item => String(item.id) === String(currentRobloxPlayer.id));
+    button.disabled = !canFavorite;
+    button.setAttribute('aria-pressed', String(Boolean(isFavorite)));
+    button.textContent = isFavorite ? '★ JOGADOR FAVORITADO' : '☆ FAVORITAR JOGADOR';
+    button.title = authenticatedRobloxUser ? (isFavorite ? 'Remover dos favoritos' : 'Salvar nos seus favoritos') : 'Entre com Roblox para favoritar';
+  }
+
+  document.getElementById('roblox-favorite-toggle')?.addEventListener('click', () => {
+    if (!authenticatedRobloxUser?.id || !currentRobloxPlayer?.id) return;
+    const existing = robloxFavoritePlayers.some(item => String(item.id) === String(currentRobloxPlayer.id));
+    if (existing) {
+      robloxFavoritePlayers = robloxFavoritePlayers.filter(item => String(item.id) !== String(currentRobloxPlayer.id));
+    } else {
+      if (robloxFavoritePlayers.length >= 50) {
+        const message = document.getElementById('roblox-profile-message');
+        if (message) message.textContent = 'Você pode salvar até 50 jogadores favoritos.';
+        return;
+      }
+      robloxFavoritePlayers.unshift({
+        id: String(currentRobloxPlayer.id),
+        name: String(currentRobloxPlayer.name || document.getElementById('roblox-username').value.trim()),
+        displayName: String(currentRobloxPlayer.displayName || currentRobloxPlayer.name || '')
+      });
+    }
+    if (saveRobloxFavorites()) {
+      renderRobloxFavorites();
+      updateRobloxFavoriteButton();
+    }
+  });
+
+
   function setRobloxPresence(presence, unavailable = false) {
     const status = document.getElementById('roblox-player-status');
     const game = document.getElementById('roblox-player-game');
@@ -3872,6 +4056,7 @@
         if (!response.ok || !result.id) throw new Error(result.error || 'Não foi possível consultar o Roblox agora.');
 
         currentRobloxPlayer = result;
+        updateRobloxFavoriteButton();
         if (authenticatedRobloxUser) loadRobloxSocial(result.id);
         document.getElementById('roblox-player-display').textContent = result.displayName || result.name || username;
         document.getElementById('roblox-player-username').textContent = '@' + (result.name || username);
@@ -3920,6 +4105,7 @@
   const robloxLoginButton = document.getElementById('roblox-login-button');
   const robloxAuthNav = document.getElementById('roblox-auth-nav');
   let authenticatedRobloxUser = null;
+  let robloxFavoritePlayers = [];
 
   function formatRobloxCount(value) {
     return value === null || value === undefined ? '—' :
@@ -3928,6 +4114,8 @@
 
   function showRobloxAccount(user) {
     authenticatedRobloxUser = user;
+    loadRobloxFavorites(user);
+    updateRobloxFavoriteButton();
     if (robloxLoginButton) {
       robloxLoginButton.classList.add('is-logged-in');
       robloxLoginButton.title = 'Conta conectada. Clique para sair.';
