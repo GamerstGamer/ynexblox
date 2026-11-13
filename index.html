@@ -3427,6 +3427,30 @@
   </div>
 </div>
 
+<div class="roblox-batch-overlay" id="roblox-batch-overlay" aria-hidden="true">
+  <section class="roblox-batch-dialog" role="dialog" aria-modal="true" aria-labelledby="roblox-batch-title">
+    <div class="roblox-batch-inner">
+      <div class="roblox-batch-top">
+        <div><div class="roblox-batch-eyebrow">YNeX BLOX · MULTI IMPORT</div><h2 class="roblox-batch-title" id="roblox-batch-title">Adicionar em conjunto</h2><p class="roblox-batch-subtitle" id="roblox-batch-folder-label">Adicione vários jogadores à sua pasta de uma só vez.</p></div>
+        <button type="button" class="roblox-batch-close" id="roblox-batch-close" aria-label="Fechar">×</button>
+      </div>
+      <label class="roblox-batch-label" for="roblox-batch-input">NOMES DE USUÁRIO <span>1 nome por linha</span></label>
+      <textarea class="roblox-batch-textarea" id="roblox-batch-input" spellcheck="false" autocomplete="off" placeholder="Builderman&#10;1x1x1x1&#10;Roblox&#10;Digite ou cole um nome em cada linha..."></textarea>
+      <div class="roblox-batch-hint"><span>↳</span><span>O sistema criará um arquivo <b>.txt</b> para cada nome válido. Não use vírgulas.</span></div>
+      <div class="roblox-batch-stats" aria-live="polite">
+        <div class="roblox-batch-stat valid"><strong id="roblox-batch-valid">0</strong> válidos</div>
+        <div class="roblox-batch-stat"><strong id="roblox-batch-duplicates">0</strong> duplicados</div>
+        <div class="roblox-batch-stat invalid"><strong id="roblox-batch-invalid">0</strong> inválidos</div>
+        <div class="roblox-batch-stat"><strong id="roblox-batch-remaining">100</strong> vagas restantes</div>
+      </div>
+      <div class="roblox-batch-actions">
+        <button type="button" class="roblox-batch-btn roblox-batch-cancel" id="roblox-batch-cancel">CANCELAR</button>
+        <button type="button" class="roblox-batch-btn roblox-batch-submit" id="roblox-batch-submit" disabled>＋ ADICIONAR ARQUIVOS .TXT</button>
+      </div>
+    </div>
+  </section>
+</div>
+
 <script>
 
   // Navegação entre a página inicial e a página Roblox.
@@ -4585,30 +4609,6 @@
 
 </script>
 
-</div>
-
-<div class="roblox-batch-overlay" id="roblox-batch-overlay" aria-hidden="true">
-  <section class="roblox-batch-dialog" role="dialog" aria-modal="true" aria-labelledby="roblox-batch-title">
-    <div class="roblox-batch-inner">
-      <div class="roblox-batch-top">
-        <div><div class="roblox-batch-eyebrow">YNeX BLOX · MULTI IMPORT</div><h2 class="roblox-batch-title" id="roblox-batch-title">Adicionar em conjunto</h2><p class="roblox-batch-subtitle" id="roblox-batch-folder-label">Adicione vários jogadores à sua pasta de uma só vez.</p></div>
-        <button type="button" class="roblox-batch-close" id="roblox-batch-close" aria-label="Fechar">×</button>
-      </div>
-      <label class="roblox-batch-label" for="roblox-batch-input">NOMES DE USUÁRIO <span>1 nome por linha</span></label>
-      <textarea class="roblox-batch-textarea" id="roblox-batch-input" spellcheck="false" autocomplete="off" placeholder="Builderman&#10;1x1x1x1&#10;Roblox&#10;Digite ou cole um nome em cada linha..."></textarea>
-      <div class="roblox-batch-hint"><span>↳</span><span>O sistema criará um arquivo <b>.txt</b> para cada nome válido. Não use vírgulas.</span></div>
-      <div class="roblox-batch-stats" aria-live="polite">
-        <div class="roblox-batch-stat valid"><strong id="roblox-batch-valid">0</strong> válidos</div>
-        <div class="roblox-batch-stat"><strong id="roblox-batch-duplicates">0</strong> duplicados</div>
-        <div class="roblox-batch-stat invalid"><strong id="roblox-batch-invalid">0</strong> inválidos</div>
-        <div class="roblox-batch-stat"><strong id="roblox-batch-remaining">100</strong> vagas restantes</div>
-      </div>
-      <div class="roblox-batch-actions">
-        <button type="button" class="roblox-batch-btn roblox-batch-cancel" id="roblox-batch-cancel">CANCELAR</button>
-        <button type="button" class="roblox-batch-btn roblox-batch-submit" id="roblox-batch-submit" disabled>＋ ADICIONAR ARQUIVOS .TXT</button>
-      </div>
-    </div>
-  </section>
 </div>
 
 </body>
