@@ -3767,7 +3767,7 @@
     try {
       const saved = JSON.parse(localStorage.getItem(robloxFavoritesStorageKey(user)) || '[]');
       robloxFavoritePlayers = Array.isArray(saved) ? saved.filter(item =>
-        item && /^\\d{1,20}$/.test(String(item.id)) && typeof item.name === 'string'
+        item && /^\d{1,20}$/.test(String(item.id)) && typeof item.name === 'string'
       ).slice(0, 50) : [];
     } catch (_) { robloxFavoritePlayers = []; }
     if (caption) caption.textContent = 'Favoritos salvos nesta conta neste navegador. Seus jogadores ficam separados por conta Roblox.';
