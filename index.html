@@ -4036,9 +4036,9 @@
         addBatch.textContent = '＋ ADICIONAR EM CONJUNTO';
         addBatch.title = 'Adicionar vários usuários de uma só vez';
         addBatch.addEventListener('click',() => {
-          const raw = window.prompt('MODO CONJUNTO\\nCole ou digite vários nomes de usuário Roblox. Use uma linha para cada nome (ou separe por vírgulas ou ponto e vírgula):');
+          const raw = window.prompt('MODO CONJUNTO\nCole ou digite vários nomes de usuário Roblox. Use uma linha para cada nome (ou separe por vírgulas ou ponto e vírgula):');
           if (raw === null) return;
-          const names = raw.split(/[\\n,;]+/).map(value => value.trim().replace(/^@/,'')).filter(Boolean);
+          const names = raw.split(/[\n,;]+/).map(value => value.trim().replace(/^@/,'')).filter(Boolean);
           if (!names.length) { window.alert('Nenhum nome foi informado.'); return; }
           const existing = new Set(folder.users.map(item => item.name.toLowerCase()));
           let added = 0, invalid = 0, duplicates = 0;
@@ -4057,10 +4057,10 @@
             renderRobloxFolders();
             const reopened = [...document.querySelectorAll('.roblox-folder-card')].find(el => el.querySelector('.roblox-folder-title')?.textContent === folder.name);
             if (reopened) { reopened.classList.add('is-open'); const b=reopened.querySelector('.roblox-folder-top button'); if(b){b.textContent='FECHAR';b.setAttribute('aria-expanded','true');} }
-            window.alert('Modo conjunto concluído!\\n' + added + ' arquivo(s) .txt adicionado(s).' +
-              (duplicates ? '\\n' + duplicates + ' duplicado(s) ignorado(s).' : '') +
-              (invalid ? '\\n' + invalid + ' nome(s) inválido(s) ignorado(s).' : '') +
-              (limitReached ? '\\nLimite de 100 arquivos por pasta atingido; alguns nomes não foram adicionados.' : ''));
+            window.alert('Modo conjunto concluído!\n' + added + ' arquivo(s) .txt adicionado(s).' +
+              (duplicates ? '\n' + duplicates + ' duplicado(s) ignorado(s).' : '') +
+              (invalid ? '\n' + invalid + ' nome(s) inválido(s) ignorado(s).' : '') +
+              (limitReached ? '\nLimite de 100 arquivos por pasta atingido; alguns nomes não foram adicionados.' : ''));
           }
         });
         const rename = document.createElement('button');
