@@ -4201,6 +4201,9 @@
     document.body.appendChild(overlay);
     overlay.addEventListener('click',event => { if (event.target === overlay) closeRobloxFolderManager(); });
     overlay.querySelector('#roblox-folder-manager-close').addEventListener('click',closeRobloxFolderManager);
+    document.addEventListener('keydown',event => {
+      if (event.key === 'Escape' && overlay.classList.contains('is-visible')) closeRobloxFolderManager();
+    });
     overlay.querySelector('#roblox-folder-manager-search').addEventListener('input',event => {
       robloxFolderManagerSearch = event.target.value.trim().toLowerCase();
       renderRobloxFolderManagerContents();
