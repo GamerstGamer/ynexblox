@@ -2991,6 +2991,40 @@
     body #roblox-favorites-panel{animation:none;border-color:#ffd400;box-shadow:0 0 14px rgba(255,196,0,.35)}
   }
 
+
+  /* Pastas pessoais para organizar perfis Roblox */
+  .roblox-folders-panel{max-width:1000px;margin:0 auto 34px;padding:22px;border:1px solid rgba(255,190,55,.3);border-radius:18px;background:linear-gradient(145deg,rgba(18,17,31,.94),rgba(7,12,25,.96));box-shadow:0 0 22px rgba(255,175,35,.08)}
+  .roblox-folders-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+  .roblox-folders-heading h2{margin:0 0 6px;color:#ffe1a0;font:800 clamp(1rem,3vw,1.25rem) 'Orbitron',sans-serif;letter-spacing:1px}
+  .roblox-folders-heading p{margin:0;color:#aebbd0;font-size:.88rem}
+  .roblox-folder-create,.roblox-folder-action{padding:9px 13px;border:1px solid rgba(255,190,55,.48);border-radius:9px;background:linear-gradient(135deg,rgba(255,174,0,.2),rgba(255,205,75,.08));color:#ffe3a6;font:800 .75rem 'Rajdhani',sans-serif;letter-spacing:.7px;cursor:pointer;transition:.2s}
+  .roblox-folder-create:hover,.roblox-folder-action:hover{box-shadow:0 0 18px rgba(255,190,55,.25);transform:translateY(-1px)}
+  .roblox-folders-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:13px}
+  .roblox-folder-card{position:relative;min-width:0;padding:14px;border:1px solid rgba(255,190,55,.28);border-radius:13px;background:rgba(8,13,25,.72);transition:border-color .2s,box-shadow .2s}
+  .roblox-folder-card:hover,.roblox-folder-card.is-open{border-color:rgba(255,205,75,.8);box-shadow:0 0 18px rgba(255,185,35,.13)}
+  .roblox-folder-top{display:flex;align-items:center;gap:10px}
+  .roblox-folder-icon{display:grid;place-items:center;flex:0 0 42px;height:42px;border-radius:10px;background:rgba(255,183,35,.12);font-size:25px}
+  .roblox-folder-title{min-width:0;flex:1;color:#fff0ce;font-weight:800;overflow-wrap:anywhere}
+  .roblox-folder-count{display:block;margin-top:3px;color:#aebbd0;font-size:.74rem}
+  .roblox-folder-files{display:none;margin-top:12px;padding-top:11px;border-top:1px solid rgba(255,190,55,.18)}
+  .roblox-folder-card.is-open .roblox-folder-files{display:block;animation:roblox-folder-reveal .25s ease both}
+  @keyframes roblox-folder-reveal{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+  .roblox-folder-file{display:flex;align-items:center;gap:8px;width:100%;padding:7px 8px;margin:4px 0;border:1px solid rgba(130,165,205,.14);border-radius:7px;background:rgba(30,45,67,.38);color:#dcecff;text-align:left;font:600 .8rem 'Rajdhani',sans-serif;cursor:pointer}
+  .roblox-folder-file:hover{border-color:rgba(255,205,75,.55);color:#ffe3a6;background:rgba(255,190,35,.08)}
+  .roblox-folder-empty-files{padding:9px;color:#9eacc1;font-size:.78rem;text-align:center}
+  .roblox-folder-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+  .roblox-folder-actions .roblox-folder-action{padding:6px 9px;font-size:.68rem}
+  .roblox-folder-actions .danger{border-color:rgba(255,100,130,.3);color:#ff9caf;background:rgba(150,20,50,.12)}
+  .roblox-folder-empty{grid-column:1/-1;padding:18px;border:1px dashed rgba(255,190,55,.25);border-radius:11px;color:#aebbd0;text-align:center;font-size:.86rem}
+  body[data-theme="hacker"] .roblox-folders-panel{border-color:rgba(0,255,90,.35);background:linear-gradient(145deg,rgba(0,20,8,.95),rgba(0,10,4,.97))}
+  body[data-theme="hacker"] .roblox-folders-heading h2,body[data-theme="hacker"] .roblox-folder-title{color:#caffd8}
+  body[data-theme="pink-white"] .roblox-folders-panel{background:linear-gradient(145deg,rgba(255,246,251,.98),rgba(247,237,255,.98));border-color:rgba(232,93,158,.35)}
+  body[data-theme="pink-white"] .roblox-folders-heading h2,body[data-theme="pink-white"] .roblox-folder-title{color:#8e3563}
+  body[data-theme="pink-white"] .roblox-folders-heading p,body[data-theme="pink-white"] .roblox-folder-count,body[data-theme="pink-white"] .roblox-folder-empty{color:#805b72}
+  body[data-theme="dark-white"] .roblox-folders-panel{background:linear-gradient(145deg,#171717,#090909);border-color:rgba(255,255,255,.3)}
+  body[data-theme="dark-white"] .roblox-folders-heading h2,body[data-theme="dark-white"] .roblox-folder-title{color:#fff}
+  body[data-theme="dark-white"] .roblox-folder-create,body[data-theme="dark-white"] .roblox-folder-action{border-color:#aaa;color:#fff;background:rgba(255,255,255,.08)}
+
 </style>
 </head>
 <body>
@@ -3229,6 +3263,15 @@
     <p class="roblox-favorites-caption" id="roblox-favorites-caption">Entre com sua conta Roblox para salvar jogadores e encontrar os perfis rapidamente sempre que voltar.</p>
     <div class="roblox-favorites-list" id="roblox-favorites-list">
       <div class="roblox-favorites-empty">Conecte sua conta Roblox para carregar seus favoritos.</div>
+    </div>
+  </section>
+  <section class="roblox-folders-panel" id="roblox-folders-panel" aria-labelledby="roblox-folders-title">
+    <div class="roblox-folders-heading">
+      <div><h2 id="roblox-folders-title">📁 MINHAS PASTAS</h2><p>Organize nomes de usuários em arquivos .txt e abra os perfis sem sair do site.</p></div>
+      <button type="button" class="roblox-folder-create" id="roblox-folder-create">＋ CRIAR PASTA</button>
+    </div>
+    <div class="roblox-folders-grid" id="roblox-folders-grid">
+      <div class="roblox-folder-empty">Entre com Roblox para criar sua primeira pasta.</div>
     </div>
   </section>
   <section class="roblox-profile-finder" aria-labelledby="roblox-profile-title">
@@ -3792,6 +3835,7 @@
     } catch (_) { robloxFavoritePlayers = []; }
     if (caption) caption.textContent = 'Favoritos salvos nesta conta neste navegador. Seus jogadores ficam separados por conta Roblox.';
     renderRobloxFavorites();
+    loadRobloxFolders(user);
   }
 
   function saveRobloxFavorites() {
@@ -3870,6 +3914,165 @@
       list.appendChild(card);
     });
   }
+
+
+  let robloxUserFolders = [];
+
+  function robloxFoldersStorageKey(user = authenticatedRobloxUser) {
+    return user?.id ? 'ynexblox:roblox-folders:' + String(user.id) : null;
+  }
+
+  function saveRobloxFolders() {
+    const key = robloxFoldersStorageKey();
+    if (!key) return false;
+    try {
+      localStorage.setItem(key, JSON.stringify(robloxUserFolders));
+      return true;
+    } catch (_) {
+      const message = document.getElementById('roblox-profile-message');
+      if (message) message.textContent = 'Não foi possível salvar as pastas neste navegador.';
+      return false;
+    }
+  }
+
+  function renderRobloxFolders() {
+    const grid = document.getElementById('roblox-folders-grid');
+    if (!grid) return;
+    grid.replaceChildren();
+    if (!authenticatedRobloxUser?.id) {
+      const empty = document.createElement('div');
+      empty.className = 'roblox-folder-empty';
+      empty.textContent = 'Entre com Roblox para criar e acessar suas pastas.';
+      grid.appendChild(empty);
+      return;
+    }
+    if (!robloxUserFolders.length) {
+      const empty = document.createElement('div');
+      empty.className = 'roblox-folder-empty';
+      empty.textContent = 'Nenhuma pasta criada. Clique em “CRIAR PASTA” para começar.';
+      grid.appendChild(empty);
+      return;
+    }
+    robloxUserFolders.forEach(folder => {
+      const card = document.createElement('article');
+      card.className = 'roblox-folder-card';
+      const top = document.createElement('div');
+      top.className = 'roblox-folder-top';
+      const icon = document.createElement('span');
+      icon.className = 'roblox-folder-icon';
+      icon.textContent = '📁';
+      const meta = document.createElement('div');
+      meta.style.minWidth = '0';
+      meta.style.flex = '1';
+      const title = document.createElement('div');
+      title.className = 'roblox-folder-title';
+      title.textContent = folder.name;
+      const count = document.createElement('span');
+      count.className = 'roblox-folder-count';
+      count.textContent = (folder.users?.length || 0) + ((folder.users?.length || 0) === 1 ? ' arquivo .txt' : ' arquivos .txt');
+      meta.append(title,count);
+      const toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.className = 'roblox-folder-action';
+      toggle.textContent = 'ABRIR';
+      toggle.setAttribute('aria-expanded','false');
+      top.append(icon,meta,toggle);
+      const files = document.createElement('div');
+      files.className = 'roblox-folder-files';
+      const renderFiles = () => {
+        files.replaceChildren();
+        if (!folder.users?.length) {
+          const empty = document.createElement('div');
+          empty.className = 'roblox-folder-empty-files';
+          empty.textContent = 'Pasta vazia — adicione nomes de usuários.';
+          files.appendChild(empty);
+        } else {
+          folder.users.forEach((entry,index) => {
+            const file = document.createElement('button');
+            file.type = 'button';
+            file.className = 'roblox-folder-file';
+            file.textContent = '📄 ' + entry.name + '.txt';
+            file.title = 'Abrir perfil de @' + entry.name + ' dentro do YNeX Blox';
+            file.addEventListener('click',() => {
+              const input = document.getElementById('roblox-username');
+              if (!input || !robloxProfileForm) return;
+              input.value = entry.name;
+              robloxProfileForm.requestSubmit();
+              document.getElementById('roblox-profile-finder')?.scrollIntoView({behavior:'smooth',block:'start'});
+            });
+            files.appendChild(file);
+          });
+        }
+        const actions = document.createElement('div');
+        actions.className = 'roblox-folder-actions';
+        const add = document.createElement('button');
+        add.type = 'button'; add.className = 'roblox-folder-action'; add.textContent = '+ ADICIONAR .TXT';
+        add.addEventListener('click',() => {
+          const username = window.prompt('Digite o nome de usuário Roblox para salvar como arquivo .txt:');
+          if (username === null) return;
+          const clean = username.trim().replace(/^@/,'');
+          if (!/^[A-Za-z0-9_]{3,20}$/.test(clean)) { window.alert('Digite um nome de usuário Roblox válido (3 a 20 caracteres).'); return; }
+          if (folder.users.some(item => item.name.toLowerCase() === clean.toLowerCase())) { window.alert('Esse usuário já está nesta pasta.'); return; }
+          folder.users.push({name:clean});
+          if (saveRobloxFolders()) renderRobloxFolders();
+          const reopened = [...document.querySelectorAll('.roblox-folder-card')].find(el => el.querySelector('.roblox-folder-title')?.textContent === folder.name);
+          if (reopened) { reopened.classList.add('is-open'); const b=reopened.querySelector('.roblox-folder-top button'); if(b){b.textContent='FECHAR';b.setAttribute('aria-expanded','true');} }
+        });
+        const rename = document.createElement('button');
+        rename.type = 'button'; rename.className = 'roblox-folder-action'; rename.textContent = 'RENOMEAR';
+        rename.addEventListener('click',() => {
+          const name = window.prompt('Novo nome da pasta:',folder.name);
+          if (name === null) return;
+          const clean = name.trim().slice(0,40);
+          if (!clean) { window.alert('O nome da pasta não pode ficar vazio.'); return; }
+          folder.name = clean;
+          if (saveRobloxFolders()) renderRobloxFolders();
+        });
+        const remove = document.createElement('button');
+        remove.type = 'button'; remove.className = 'roblox-folder-action danger'; remove.textContent = 'EXCLUIR';
+        remove.addEventListener('click',() => {
+          if (!window.confirm('Excluir a pasta "' + folder.name + '" e seus arquivos .txt?')) return;
+          robloxUserFolders = robloxUserFolders.filter(item => item.id !== folder.id);
+          if (saveRobloxFolders()) renderRobloxFolders();
+        });
+        actions.append(add,rename,remove);
+        files.appendChild(actions);
+      };
+      renderFiles();
+      toggle.addEventListener('click',() => {
+        const opened = card.classList.toggle('is-open');
+        toggle.textContent = opened ? 'FECHAR' : 'ABRIR';
+        toggle.setAttribute('aria-expanded',String(opened));
+      });
+      card.append(top,files);
+      grid.appendChild(card);
+    });
+  }
+
+  function loadRobloxFolders(user = authenticatedRobloxUser) {
+    try {
+      const saved = user?.id ? JSON.parse(localStorage.getItem(robloxFoldersStorageKey(user)) || '[]') : [];
+      robloxUserFolders = Array.isArray(saved) ? saved.filter(folder =>
+        folder && typeof folder.id === 'string' && typeof folder.name === 'string' && Array.isArray(folder.users)
+      ).slice(0,30).map(folder => ({
+        id:folder.id, name:folder.name.slice(0,40),
+        users:folder.users.filter(item => item && typeof item.name === 'string' && /^[A-Za-z0-9_]{3,20}$/.test(item.name)).slice(0,100)
+      })) : [];
+    } catch (_) { robloxUserFolders = []; }
+    renderRobloxFolders();
+  }
+
+  document.getElementById('roblox-folder-create')?.addEventListener('click',() => {
+    if (!authenticatedRobloxUser?.id) { window.alert('Entre com sua conta Roblox para criar pastas.'); return; }
+    if (robloxUserFolders.length >= 30) { window.alert('Você pode criar até 30 pastas.'); return; }
+    const name = window.prompt('Qual será o nome da nova pasta?');
+    if (name === null) return;
+    const clean = name.trim().slice(0,40);
+    if (!clean) { window.alert('Digite um nome para a pasta.'); return; }
+    if (robloxUserFolders.some(folder => folder.name.toLowerCase() === clean.toLowerCase())) { window.alert('Já existe uma pasta com esse nome.'); return; }
+    robloxUserFolders.push({id:'folder-' + Date.now() + '-' + Math.random().toString(36).slice(2,7),name:clean,users:[]});
+    if (saveRobloxFolders()) renderRobloxFolders();
+  });
 
   function updateRobloxFavoriteButton() {
     const button = document.getElementById('roblox-favorite-toggle');
