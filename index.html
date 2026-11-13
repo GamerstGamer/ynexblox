@@ -3969,7 +3969,7 @@
   const robloxBatchInput = document.getElementById('roblox-batch-input');
 
   function getRobloxBatchNames() {
-    return (robloxBatchInput?.value || '').split(/\\r?\\n/).map(value => value.trim().replace(/^@/,'')).filter(Boolean);
+    return (robloxBatchInput?.value || '').split(/\r?\n/).map(value => value.trim().replace(/^@/,'')).filter(Boolean);
   }
 
   function updateRobloxBatchPreview() {
@@ -4047,10 +4047,10 @@
         const toggle = reopened.querySelector('.roblox-folder-top button');
         if (toggle) { toggle.textContent='FECHAR'; toggle.setAttribute('aria-expanded','true'); }
       }
-      window.alert('Importação concluída!\\n' + added + ' arquivo(s) .txt adicionado(s).' +
-        (duplicates ? '\\n' + duplicates + ' duplicado(s) ignorado(s).' : '') +
-        (invalid ? '\\n' + invalid + ' nome(s) inválido(s) ignorado(s).' : '') +
-        (limit ? '\\n' + limit + ' nome(s) não adicionado(s): limite de 100 arquivos por pasta.' : ''));
+      window.alert('Importação concluída!\n' + added + ' arquivo(s) .txt adicionado(s).' +
+        (duplicates ? '\n' + duplicates + ' duplicado(s) ignorado(s).' : '') +
+        (invalid ? '\n' + invalid + ' nome(s) inválido(s) ignorado(s).' : '') +
+        (limit ? '\n' + limit + ' nome(s) não adicionado(s): limite de 100 arquivos por pasta.' : ''));
     }
   });
 
