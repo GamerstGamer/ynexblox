@@ -3036,6 +3036,41 @@
   body[data-theme="pink-white"] .roblox-folders-inline{border-top-color:rgba(232,93,158,.28);background:transparent}
   body[data-theme="dark-white"] .roblox-folders-inline{border-top-color:rgba(255,255,255,.25);background:transparent}
 
+
+  /* Modal profissional do modo conjunto de arquivos .txt */
+  .roblox-batch-overlay{position:fixed;inset:0;z-index:10020;display:none;place-items:center;padding:20px;background:rgba(2,5,14,.82);backdrop-filter:blur(12px)}
+  .roblox-batch-overlay.is-visible{display:grid;animation:roblox-batch-fade .22s ease both}
+  @keyframes roblox-batch-fade{from{opacity:0}to{opacity:1}}
+  .roblox-batch-dialog{position:relative;width:min(100%,650px);max-height:min(90vh,820px);overflow:auto;padding:2px;border-radius:22px;background:conic-gradient(from var(--roblox-batch-angle,0deg),#21e6ff,#7c3aed,#ff38d1,#21e6ff);animation:roblox-batch-border 4s linear infinite;box-shadow:0 0 24px rgba(33,230,255,.25),0 0 55px rgba(124,58,237,.2)}
+  @property --roblox-batch-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+  @keyframes roblox-batch-border{to{--roblox-batch-angle:360deg}}
+  .roblox-batch-inner{position:relative;border-radius:20px;padding:clamp(20px,4vw,32px);background:radial-gradient(ellipse at 10% 0%,rgba(33,230,255,.11),transparent 45%),linear-gradient(145deg,#0c1224,#080914 75%);color:#f4f7ff}
+  .roblox-batch-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px}
+  .roblox-batch-eyebrow{color:#56eaff;font:800 .7rem 'Orbitron',sans-serif;letter-spacing:2px;margin-bottom:8px}
+  .roblox-batch-title{font:800 clamp(1.15rem,3vw,1.55rem) 'Orbitron',sans-serif;letter-spacing:.5px}
+  .roblox-batch-subtitle{margin-top:9px;color:#9eabc7;font-size:.98rem;line-height:1.5}
+  .roblox-batch-close{flex:0 0 38px;width:38px;height:38px;border:1px solid rgba(160,190,255,.2);border-radius:11px;background:rgba(255,255,255,.05);color:#dce8ff;font-size:1.35rem;cursor:pointer}
+  .roblox-batch-close:hover{border-color:#56eaff;box-shadow:0 0 15px rgba(33,230,255,.25)}
+  .roblox-batch-label{display:flex;justify-content:space-between;gap:10px;margin:0 0 9px;color:#dbe8ff;font-weight:800;font-size:.9rem}
+  .roblox-batch-label span{color:#7183a7;font-weight:600}
+  .roblox-batch-textarea{display:block;width:100%;min-height:230px;resize:vertical;padding:16px;border:1px solid rgba(95,170,255,.28);border-radius:14px;outline:none;background:rgba(3,8,20,.85);color:#eaf7ff;font:600 .95rem/1.8 'Rajdhani',sans-serif;box-shadow:inset 0 0 18px rgba(33,100,180,.08);transition:border-color .2s,box-shadow .2s}
+  .roblox-batch-textarea:focus{border-color:#39dfff;box-shadow:0 0 0 3px rgba(33,223,255,.1),0 0 22px rgba(33,223,255,.12)}
+  .roblox-batch-textarea::placeholder{color:#64748b}
+  .roblox-batch-hint{display:flex;align-items:center;gap:9px;margin-top:11px;color:#8fa0bd;font-size:.83rem}
+  .roblox-batch-hint b{color:#56eaff}
+  .roblox-batch-stats{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}
+  .roblox-batch-stat{padding:7px 11px;border:1px solid rgba(130,160,210,.18);border-radius:9px;background:rgba(255,255,255,.035);color:#aebbd3;font-size:.8rem}
+  .roblox-batch-stat strong{color:#fff;margin-right:4px}
+  .roblox-batch-stat.invalid strong{color:#ff9b9b}
+  .roblox-batch-stat.valid strong{color:#70f0bd}
+  .roblox-batch-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:23px}
+  .roblox-batch-btn{min-height:42px;padding:10px 17px;border-radius:10px;font:800 .78rem 'Rajdhani',sans-serif;letter-spacing:1px;cursor:pointer;transition:.2s}
+  .roblox-batch-cancel{border:1px solid rgba(160,180,220,.25);background:rgba(255,255,255,.04);color:#c4cde0}
+  .roblox-batch-submit{border:1px solid rgba(45,225,255,.7);background:linear-gradient(110deg,rgba(0,177,220,.24),rgba(124,58,237,.35));color:#e9fcff;box-shadow:0 0 17px rgba(33,210,255,.15)}
+  .roblox-batch-submit:hover{box-shadow:0 0 25px rgba(33,210,255,.35);transform:translateY(-1px)}
+  .roblox-batch-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+  @media(prefers-reduced-motion:reduce){.roblox-batch-dialog{animation:none}}
+
 </style>
 </head>
 <body>
@@ -3928,6 +3963,97 @@
   }
 
 
+
+  let activeRobloxBatchFolder = null;
+  const robloxBatchOverlay = document.getElementById('roblox-batch-overlay');
+  const robloxBatchInput = document.getElementById('roblox-batch-input');
+
+  function getRobloxBatchNames() {
+    return (robloxBatchInput?.value || '').split(/\\r?\\n/).map(value => value.trim().replace(/^@/,'')).filter(Boolean);
+  }
+
+  function updateRobloxBatchPreview() {
+    if (!activeRobloxBatchFolder || !robloxBatchInput) return;
+    const names = getRobloxBatchNames();
+    const existing = new Set(activeRobloxBatchFolder.users.map(item => item.name.toLowerCase()));
+    const seen = new Set();
+    let valid = 0, duplicates = 0, invalid = 0;
+    names.forEach(name => {
+      if (!/^[A-Za-z0-9_]{3,20}$/.test(name)) { invalid++; return; }
+      const key = name.toLowerCase();
+      if (existing.has(key) || seen.has(key)) { duplicates++; return; }
+      seen.add(key);
+      valid++;
+    });
+    const remaining = Math.max(0,100 - activeRobloxBatchFolder.users.length);
+    document.getElementById('roblox-batch-valid').textContent = String(Math.min(valid,remaining));
+    document.getElementById('roblox-batch-duplicates').textContent = String(duplicates);
+    document.getElementById('roblox-batch-invalid').textContent = String(invalid + Math.max(0,valid-remaining));
+    document.getElementById('roblox-batch-remaining').textContent = String(remaining);
+    document.getElementById('roblox-batch-submit').disabled = valid === 0 || remaining === 0;
+  }
+
+  function closeRobloxBatchModal() {
+    if (!robloxBatchOverlay) return;
+    robloxBatchOverlay.classList.remove('is-visible');
+    robloxBatchOverlay.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    activeRobloxBatchFolder = null;
+  }
+
+  function openRobloxBatchModal(folder) {
+    if (!robloxBatchOverlay || !robloxBatchInput) return;
+    activeRobloxBatchFolder = folder;
+    document.getElementById('roblox-batch-folder-label').textContent = 'Adicionando jogadores à pasta “' + folder.name + '”. Um nome por linha.';
+    robloxBatchInput.value = '';
+    robloxBatchOverlay.classList.add('is-visible');
+    robloxBatchOverlay.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    updateRobloxBatchPreview();
+    window.setTimeout(() => robloxBatchInput.focus(),80);
+  }
+
+  robloxBatchInput?.addEventListener('input',updateRobloxBatchPreview);
+  document.getElementById('roblox-batch-close')?.addEventListener('click',closeRobloxBatchModal);
+  document.getElementById('roblox-batch-cancel')?.addEventListener('click',closeRobloxBatchModal);
+  robloxBatchOverlay?.addEventListener('click',event => {
+    if (event.target === robloxBatchOverlay) closeRobloxBatchModal();
+  });
+  document.addEventListener('keydown',event => {
+    if (event.key === 'Escape' && robloxBatchOverlay?.classList.contains('is-visible')) closeRobloxBatchModal();
+  });
+  document.getElementById('roblox-batch-submit')?.addEventListener('click',() => {
+    if (!activeRobloxBatchFolder) return;
+    const folder = activeRobloxBatchFolder;
+    const existing = new Set(folder.users.map(item => item.name.toLowerCase()));
+    const names = getRobloxBatchNames();
+    const available = Math.max(0,100-folder.users.length);
+    let added = 0, invalid = 0, duplicates = 0, limit = 0;
+    names.forEach(name => {
+      if (!/^[A-Za-z0-9_]{3,20}$/.test(name)) { invalid++; return; }
+      const key = name.toLowerCase();
+      if (existing.has(key)) { duplicates++; return; }
+      if (added >= available) { limit++; return; }
+      folder.users.push({name});
+      existing.add(key);
+      added++;
+    });
+    if (saveRobloxFolders()) {
+      closeRobloxBatchModal();
+      renderRobloxFolders();
+      const reopened = [...document.querySelectorAll('.roblox-folder-card')].find(el => el.querySelector('.roblox-folder-title')?.textContent === folder.name);
+      if (reopened) {
+        reopened.classList.add('is-open');
+        const toggle = reopened.querySelector('.roblox-folder-top button');
+        if (toggle) { toggle.textContent='FECHAR'; toggle.setAttribute('aria-expanded','true'); }
+      }
+      window.alert('Importação concluída!\\n' + added + ' arquivo(s) .txt adicionado(s).' +
+        (duplicates ? '\\n' + duplicates + ' duplicado(s) ignorado(s).' : '') +
+        (invalid ? '\\n' + invalid + ' nome(s) inválido(s) ignorado(s).' : '') +
+        (limit ? '\\n' + limit + ' nome(s) não adicionado(s): limite de 100 arquivos por pasta.' : ''));
+    }
+  });
+
   let robloxUserFolders = [];
 
   function robloxFoldersStorageKey(user = authenticatedRobloxUser) {
@@ -4035,34 +4161,7 @@
         addBatch.className = 'roblox-folder-action';
         addBatch.textContent = '＋ ADICIONAR EM CONJUNTO';
         addBatch.title = 'Adicionar vários usuários de uma só vez';
-        addBatch.addEventListener('click',() => {
-          const raw = window.prompt('MODO CONJUNTO\nCole ou digite vários nomes de usuário Roblox. Use uma linha para cada nome (ou separe por vírgulas ou ponto e vírgula):');
-          if (raw === null) return;
-          const names = raw.split(/[\n,;]+/).map(value => value.trim().replace(/^@/,'')).filter(Boolean);
-          if (!names.length) { window.alert('Nenhum nome foi informado.'); return; }
-          const existing = new Set(folder.users.map(item => item.name.toLowerCase()));
-          let added = 0, invalid = 0, duplicates = 0;
-          const available = Math.max(0,100 - folder.users.length);
-          names.forEach(name => {
-            if (!/^[A-Za-z0-9_]{3,20}$/.test(name)) { invalid++; return; }
-            const normalized = name.toLowerCase();
-            if (existing.has(normalized)) { duplicates++; return; }
-            if (added >= available) return;
-            folder.users.push({name});
-            existing.add(normalized);
-            added++;
-          });
-          const limitReached = names.filter(name => /^[A-Za-z0-9_]{3,20}$/.test(name) && !existing.has(name.toLowerCase())).length;
-          if (saveRobloxFolders()) {
-            renderRobloxFolders();
-            const reopened = [...document.querySelectorAll('.roblox-folder-card')].find(el => el.querySelector('.roblox-folder-title')?.textContent === folder.name);
-            if (reopened) { reopened.classList.add('is-open'); const b=reopened.querySelector('.roblox-folder-top button'); if(b){b.textContent='FECHAR';b.setAttribute('aria-expanded','true');} }
-            window.alert('Modo conjunto concluído!\n' + added + ' arquivo(s) .txt adicionado(s).' +
-              (duplicates ? '\n' + duplicates + ' duplicado(s) ignorado(s).' : '') +
-              (invalid ? '\n' + invalid + ' nome(s) inválido(s) ignorado(s).' : '') +
-              (limitReached ? '\nLimite de 100 arquivos por pasta atingido; alguns nomes não foram adicionados.' : ''));
-          }
-        });
+        addBatch.addEventListener('click',() => openRobloxBatchModal(folder));
         const rename = document.createElement('button');
         rename.type = 'button'; rename.className = 'roblox-folder-action'; rename.textContent = 'RENOMEAR';
         rename.addEventListener('click',() => {
@@ -4487,5 +4586,30 @@
 </script>
 
 </div>
+
+<div class="roblox-batch-overlay" id="roblox-batch-overlay" aria-hidden="true">
+  <section class="roblox-batch-dialog" role="dialog" aria-modal="true" aria-labelledby="roblox-batch-title">
+    <div class="roblox-batch-inner">
+      <div class="roblox-batch-top">
+        <div><div class="roblox-batch-eyebrow">YNeX BLOX · MULTI IMPORT</div><h2 class="roblox-batch-title" id="roblox-batch-title">Adicionar em conjunto</h2><p class="roblox-batch-subtitle" id="roblox-batch-folder-label">Adicione vários jogadores à sua pasta de uma só vez.</p></div>
+        <button type="button" class="roblox-batch-close" id="roblox-batch-close" aria-label="Fechar">×</button>
+      </div>
+      <label class="roblox-batch-label" for="roblox-batch-input">NOMES DE USUÁRIO <span>1 nome por linha</span></label>
+      <textarea class="roblox-batch-textarea" id="roblox-batch-input" spellcheck="false" autocomplete="off" placeholder="Builderman&#10;1x1x1x1&#10;Roblox&#10;Digite ou cole um nome em cada linha..."></textarea>
+      <div class="roblox-batch-hint"><span>↳</span><span>O sistema criará um arquivo <b>.txt</b> para cada nome válido. Não use vírgulas.</span></div>
+      <div class="roblox-batch-stats" aria-live="polite">
+        <div class="roblox-batch-stat valid"><strong id="roblox-batch-valid">0</strong> válidos</div>
+        <div class="roblox-batch-stat"><strong id="roblox-batch-duplicates">0</strong> duplicados</div>
+        <div class="roblox-batch-stat invalid"><strong id="roblox-batch-invalid">0</strong> inválidos</div>
+        <div class="roblox-batch-stat"><strong id="roblox-batch-remaining">100</strong> vagas restantes</div>
+      </div>
+      <div class="roblox-batch-actions">
+        <button type="button" class="roblox-batch-btn roblox-batch-cancel" id="roblox-batch-cancel">CANCELAR</button>
+        <button type="button" class="roblox-batch-btn roblox-batch-submit" id="roblox-batch-submit" disabled>＋ ADICIONAR ARQUIVOS .TXT</button>
+      </div>
+    </div>
+  </section>
+</div>
+
 </body>
 </html>
