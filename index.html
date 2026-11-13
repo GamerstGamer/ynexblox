@@ -4105,43 +4105,39 @@
 
   async function loadRobloxFolderAvatars(entries, filesContainer) {
     const validEntries = (entries || []).filter(entry => entry && /^[A-Za-z0-9_]{3,20}$/.test(entry.name || ''));
-    const missingIds = validEntries.filter(entry => !entry.userId);
-    if (missingIds.length) {
-      try {
-        const response = await fetch('https://users.roblox.com/v1/usernames/users', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({usernames:missingIds.map(entry => entry.name), excludeBannedUsers:false})
-        });
-        if (response.ok) {
-          const result = await response.json();
-          (result.data || []).forEach(user => {
-            const entry = validEntries.find(item => item.name.toLowerCase() === String(user.name || '').toLowerCase());
-            if (entry && user.id) entry.userId = user.id;
-          });
-          saveRobloxFolders();
-        }
-      } catch (_) {}
-    }
-    const ids = [...new Set(validEntries.map(entry => String(entry.userId || '')).filter(id => /^\\d+$/.test(id)))];
-    if (!ids.length) return;
+    if (!validEntries.length) return;
+    const unresolved = validEntries.filter(entry => !entry.userId);
+    const payload = validEntries.map(entry => ({name:entry.name,userId:entry.userId || null}));
     try {
-      const response = await fetch('https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=' + ids.join(',') + '&size=48x48&format=Png&isCircular=true');
-      if (!response.ok) return;
+      const response = await fetch('/api/roblox-avatars', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({users:payload})
+      });
+      if (!response.ok) throw new Error('Não foi possível consultar os avatares Roblox (' + response.status + ').');
       const result = await response.json();
-      const urls = new Map((result.data || []).map(item => [String(item.targetId),item.imageUrl]));
+      const byName = new Map((result.data || []).map(item => [String(item.name || '').toLowerCase(),item]));
       validEntries.forEach(entry => {
-        const url = urls.get(String(entry.userId || ''));
-        if (!url) return;
-        robloxFolderAvatarCache.set(entry.name.toLowerCase(),url);
-        const avatar = filesContainer.querySelector('[data-roblox-folder-avatar="' + CSS.escape(entry.name.toLowerCase()) + '"]');
+        const found = byName.get(entry.name.toLowerCase());
+        if (!found) return;
+        if (found.userId) entry.userId = found.userId;
+        if (!found.imageUrl) return;
+        robloxFolderAvatarCache.set(entry.name.toLowerCase(),found.imageUrl);
+        const avatar = [...filesContainer.querySelectorAll('img[data-roblox-folder-avatar]')]
+          .find(img => img.dataset.robloxFolderAvatar === entry.name.toLowerCase());
         if (avatar) {
-          avatar.src = url;
-          avatar.classList.remove('is-loading');
+          avatar.onload = () => avatar.classList.remove('is-loading');
+          avatar.onerror = () => { avatar.hidden = true; };
+          avatar.src = found.imageUrl;
           avatar.hidden = false;
+          if (avatar.complete && avatar.naturalWidth > 0) avatar.classList.remove('is-loading');
         }
       });
-    } catch (_) {}
+      if (unresolved.some(entry => entry.userId)) saveRobloxFolders();
+      else if (validEntries.some(entry => entry.userId)) saveRobloxFolders();
+    } catch (error) {
+      console.warn('YNeX Blox: falha ao carregar fotos dos jogadores:',error);
+    }
   }
 
   function renderRobloxFolders() {
