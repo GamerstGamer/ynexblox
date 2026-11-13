@@ -3010,6 +3010,10 @@
   .roblox-folder-card.is-open .roblox-folder-files{display:block;animation:roblox-folder-reveal .25s ease both}
   @keyframes roblox-folder-reveal{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
   .roblox-folder-file{display:flex;align-items:center;gap:8px;width:100%;padding:7px 8px;margin:4px 0;border:1px solid rgba(130,165,205,.14);border-radius:7px;background:rgba(30,45,67,.38);color:#dcecff;text-align:left;font:600 .8rem 'Rajdhani',sans-serif;cursor:pointer}
+  .roblox-folder-file-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .roblox-folder-file-avatar{width:34px;height:34px;flex:0 0 34px;margin-left:auto;border-radius:50%;object-fit:cover;border:1px solid rgba(255,205,75,.55);background:rgba(255,190,35,.12);box-shadow:0 0 10px rgba(255,190,35,.12)}
+  .roblox-folder-file-avatar.is-loading{opacity:.35}
+  .roblox-folder-file:hover .roblox-folder-file-avatar{border-color:rgba(255,225,150,.95);box-shadow:0 0 13px rgba(255,190,35,.28)}
   .roblox-folder-file:hover{border-color:rgba(255,205,75,.55);color:#ffe3a6;background:rgba(255,190,35,.08)}
   .roblox-folder-empty-files{padding:9px;color:#9eacc1;font-size:.78rem;text-align:center}
   .roblox-folder-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
@@ -4097,6 +4101,49 @@
     }
   }
 
+  const robloxFolderAvatarCache = new Map();
+
+  async function loadRobloxFolderAvatars(entries, filesContainer) {
+    const validEntries = (entries || []).filter(entry => entry && /^[A-Za-z0-9_]{3,20}$/.test(entry.name || ''));
+    const missingIds = validEntries.filter(entry => !entry.userId);
+    if (missingIds.length) {
+      try {
+        const response = await fetch('https://users.roblox.com/v1/usernames/users', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({usernames:missingIds.map(entry => entry.name), excludeBannedUsers:false})
+        });
+        if (response.ok) {
+          const result = await response.json();
+          (result.data || []).forEach(user => {
+            const entry = validEntries.find(item => item.name.toLowerCase() === String(user.name || '').toLowerCase());
+            if (entry && user.id) entry.userId = user.id;
+          });
+          saveRobloxFolders();
+        }
+      } catch (_) {}
+    }
+    const ids = [...new Set(validEntries.map(entry => String(entry.userId || '')).filter(id => /^\\d+$/.test(id)))];
+    if (!ids.length) return;
+    try {
+      const response = await fetch('https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=' + ids.join(',') + '&size=48x48&format=Png&isCircular=true');
+      if (!response.ok) return;
+      const result = await response.json();
+      const urls = new Map((result.data || []).map(item => [String(item.targetId),item.imageUrl]));
+      validEntries.forEach(entry => {
+        const url = urls.get(String(entry.userId || ''));
+        if (!url) return;
+        robloxFolderAvatarCache.set(entry.name.toLowerCase(),url);
+        const avatar = filesContainer.querySelector('[data-roblox-folder-avatar="' + CSS.escape(entry.name.toLowerCase()) + '"]');
+        if (avatar) {
+          avatar.src = url;
+          avatar.classList.remove('is-loading');
+          avatar.hidden = false;
+        }
+      });
+    } catch (_) {}
+  }
+
   function renderRobloxFolders() {
     const grid = document.getElementById('roblox-folders-grid');
     if (!grid) return;
@@ -4153,8 +4200,21 @@
             const file = document.createElement('button');
             file.type = 'button';
             file.className = 'roblox-folder-file';
-            file.textContent = '📄 ' + entry.name + '.txt';
             file.title = 'Abrir perfil de @' + entry.name + ' dentro do YNeX Blox';
+            const fileLabel = document.createElement('span');
+            fileLabel.className = 'roblox-folder-file-label';
+            fileLabel.textContent = '📄 ' + entry.name + '.txt';
+            const avatar = document.createElement('img');
+            avatar.className = 'roblox-folder-file-avatar is-loading';
+            avatar.alt = 'Foto de perfil de ' + entry.name;
+            avatar.title = 'Avatar Roblox de @' + entry.name;
+            avatar.hidden = true;
+            avatar.dataset.robloxFolderAvatar = entry.name.toLowerCase();
+            avatar.loading = 'lazy';
+            avatar.referrerPolicy = 'no-referrer';
+            const cachedAvatar = robloxFolderAvatarCache.get(entry.name.toLowerCase());
+            if (cachedAvatar) { avatar.src = cachedAvatar; avatar.hidden = false; avatar.classList.remove('is-loading'); }
+            file.append(fileLabel,avatar);
             file.addEventListener('click',() => {
               const input = document.getElementById('roblox-username');
               if (!input || !robloxProfileForm) return;
@@ -4164,6 +4224,7 @@
             });
             files.appendChild(file);
           });
+          loadRobloxFolderAvatars(folder.users,files);
         }
         const actions = document.createElement('div');
         actions.className = 'roblox-folder-actions';
