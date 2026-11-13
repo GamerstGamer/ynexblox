@@ -3041,7 +3041,7 @@
   .roblox-batch-overlay{position:fixed;inset:0;z-index:10020;display:none;place-items:center;padding:20px;background:rgba(2,5,14,.82);backdrop-filter:blur(12px)}
   .roblox-batch-overlay.is-visible{display:grid;animation:roblox-batch-fade .22s ease both}
   @keyframes roblox-batch-fade{from{opacity:0}to{opacity:1}}
-  .roblox-batch-dialog{position:relative;width:min(100%,650px);max-height:min(90vh,820px);overflow:auto;padding:2px;border-radius:22px;background:conic-gradient(from var(--roblox-batch-angle,0deg),#21e6ff,#7c3aed,#ff38d1,#21e6ff);animation:roblox-batch-border 4s linear infinite;box-shadow:0 0 24px rgba(33,230,255,.25),0 0 55px rgba(124,58,237,.2)}
+  .roblox-batch-dialog{position:relative;width:min(100%,650px);max-width:none;max-height:min(90vh,820px);margin:0;padding:2px;overflow:auto;border-radius:22px;background:conic-gradient(from var(--roblox-batch-angle,0deg),#21e6ff,#7c3aed,#ff38d1,#21e6ff);animation:roblox-batch-border 4s linear infinite;box-shadow:0 0 24px rgba(33,230,255,.25),0 0 55px rgba(124,58,237,.2)}
   @property --roblox-batch-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
   @keyframes roblox-batch-border{to{--roblox-batch-angle:360deg}}
   .roblox-batch-inner{position:relative;border-radius:20px;padding:clamp(20px,4vw,32px);background:radial-gradient(ellipse at 10% 0%,rgba(33,230,255,.11),transparent 45%),linear-gradient(145deg,#0c1224,#080914 75%);color:#f4f7ff}
