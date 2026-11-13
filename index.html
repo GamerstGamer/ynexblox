@@ -2744,7 +2744,7 @@
   .roblox-player-preview.visible{display:block;animation:roblox-preview-in .35s ease both}
   @keyframes roblox-preview-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   .roblox-player-top{display:flex;align-items:center;gap:18px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.1)}
-  .roblox-player-avatar-wrap{width:104px;height:104px;flex:0 0 104px;padding:3px;border-radius:22px;background:linear-gradient(135deg,#ff3a82,#5233ff,#00b7ff);box-shadow:0 0 24px rgba(82,51,255,.25)}
+  .roblox-player-avatar-wrap{width:104px;height:104px;flex:0 0 104px;padding:3px;border-radius:22px;background:#facc15;box-shadow:0 0 18px rgba(250,204,21,.38);transition:background .25s ease,box-shadow .25s ease}.roblox-player-avatar-wrap[data-state="playing"]{background:#22c55e;box-shadow:0 0 22px rgba(34,197,94,.58)}
   .roblox-player-avatar{display:block;width:100%;height:100%;object-fit:cover;border-radius:19px;background:#101522}
   .roblox-player-identity{min-width:0}
   .roblox-player-display{font:700 1.18rem 'Orbitron',sans-serif;color:#fff;overflow-wrap:anywhere}
@@ -4430,9 +4430,11 @@
   function setRobloxPresence(presence, unavailable = false) {
     const status = document.getElementById('roblox-player-status');
     const game = document.getElementById('roblox-player-game');
+    const avatarWrap = document.querySelector('.roblox-player-avatar-wrap');
     if (unavailable || !presence) {
       status.textContent = 'STATUS INDISPONÍVEL';
       status.dataset.state = 'offline';
+      if (avatarWrap) avatarWrap.dataset.state = 'offline';
       game.textContent = 'O Roblox não forneceu a presença pública deste jogador.';
       return;
     }
@@ -4446,6 +4448,7 @@
     const current = states[type] || {label:'STATUS INDISPONÍVEL',state:'offline'};
     status.textContent = current.label;
     status.dataset.state = current.state;
+    if (avatarWrap) avatarWrap.dataset.state = current.state;
     if (type === 2 && presence.lastLocation) {
       game.textContent = 'Experiência: ' + presence.lastLocation;
     } else if (type === 3 && presence.lastLocation) {
