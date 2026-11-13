@@ -3274,7 +3274,7 @@
       <div class="roblox-folder-empty">Entre com Roblox para criar sua primeira pasta.</div>
     </div>
   </section>
-  <section class="roblox-profile-finder" aria-labelledby="roblox-profile-title">
+  <section class="roblox-profile-finder" id="roblox-profile-finder" aria-labelledby="roblox-profile-title">
     <h2 id="roblox-profile-title">VEJA ALGUM PERFIL DE JOGADOR DO ROBLOX AQUI</h2>
     <p>Digite o nome de usuário do jogador para abrir o perfil dele diretamente no Roblox.</p>
     <form class="roblox-profile-form" id="roblox-profile-form">
@@ -3825,6 +3825,7 @@
     if (!user?.id) {
       robloxFavoritePlayers = [];
       renderRobloxFavorites();
+      loadRobloxFolders(user);
       return;
     }
     try {
