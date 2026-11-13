@@ -3025,6 +3025,17 @@
   body[data-theme="dark-white"] .roblox-folders-heading h2,body[data-theme="dark-white"] .roblox-folder-title{color:#fff}
   body[data-theme="dark-white"] .roblox-folder-create,body[data-theme="dark-white"] .roblox-folder-action{border-color:#aaa;color:#fff;background:rgba(255,255,255,.08)}
 
+
+  /* Pastas integradas ao painel de favoritos */
+  .roblox-folders-inline{max-width:none;margin:24px 0 0;padding:20px 0 0;border:0;border-top:1px solid rgba(255,205,75,.28);border-radius:0;background:transparent;box-shadow:none}
+  .roblox-folders-inline .roblox-folders-heading{margin-bottom:14px}
+  .roblox-folders-inline .roblox-folders-heading h2{font-size:clamp(.92rem,2.5vw,1.08rem);letter-spacing:.9px}
+  .roblox-folders-inline .roblox-folders-heading p{font-size:.82rem}
+  .roblox-folders-inline .roblox-folders-grid{grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:10px}
+  body[data-theme="hacker"] .roblox-folders-inline{border-top-color:rgba(0,255,90,.28);background:transparent}
+  body[data-theme="pink-white"] .roblox-folders-inline{border-top-color:rgba(232,93,158,.28);background:transparent}
+  body[data-theme="dark-white"] .roblox-folders-inline{border-top-color:rgba(255,255,255,.25);background:transparent}
+
 </style>
 </head>
 <body>
@@ -3264,14 +3275,14 @@
     <div class="roblox-favorites-list" id="roblox-favorites-list">
       <div class="roblox-favorites-empty">Conecte sua conta Roblox para carregar seus favoritos.</div>
     </div>
-  </section>
-  <section class="roblox-folders-panel" id="roblox-folders-panel" aria-labelledby="roblox-folders-title">
-    <div class="roblox-folders-heading">
-      <div><h2 id="roblox-folders-title">📁 MINHAS PASTAS</h2><p>Organize nomes de usuários em arquivos .txt e abra os perfis sem sair do site.</p></div>
-      <button type="button" class="roblox-folder-create" id="roblox-folder-create">＋ CRIAR PASTA</button>
-    </div>
-    <div class="roblox-folders-grid" id="roblox-folders-grid">
-      <div class="roblox-folder-empty">Entre com Roblox para criar sua primeira pasta.</div>
+    <div class="roblox-folders-panel roblox-folders-inline" id="roblox-folders-panel" aria-labelledby="roblox-folders-title">
+      <div class="roblox-folders-heading">
+        <div><h2 id="roblox-folders-title">📁 SUAS PASTAS</h2><p>Organize outros jogadores em arquivos .txt, tudo no mesmo espaço dos favoritos.</p></div>
+        <button type="button" class="roblox-folder-create" id="roblox-folder-create">＋ CRIAR PASTA</button>
+      </div>
+      <div class="roblox-folders-grid" id="roblox-folders-grid">
+        <div class="roblox-folder-empty">Entre com Roblox para criar sua primeira pasta.</div>
+      </div>
     </div>
   </section>
   <section class="roblox-profile-finder" id="roblox-profile-finder" aria-labelledby="roblox-profile-title">
